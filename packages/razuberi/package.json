@@ -3,5 +3,18 @@
   "name": "razuberi",
   "version": "0.0.1",
   "author": "Michael Buhler <michael@michaelbuhler.com>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "bin": "bin/razuberi",
+  "main": "dist/index",
+  "files": [
+    "bin",
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "typescript": "^4.0.2"
+  }
 }
