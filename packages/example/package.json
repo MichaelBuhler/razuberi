@@ -1,5 +1,12 @@
 {
   "private": true,
   "author": "Michael Buhler <michael@michaelbuhler.com>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "razuberi src/main.ts build/main.js"
+  },
+  "devDependencies": {
+    "razuberi": "../razuberi",
+    "typescript": "^4.0.2"
+  }
 }
