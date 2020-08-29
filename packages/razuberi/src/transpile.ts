@@ -1,12 +1,6 @@
 
-import { ModuleKind, ScriptTarget, transpileModule } from 'typescript'
+import { transpile as ts2js } from './typescript'
 
-export const transpile = (source: string) : string => {
-  const { outputText: output } = transpileModule(source, {
-    compilerOptions: {
-      target: ScriptTarget.ES3,
-      module: ModuleKind.AMD
-    }
-  })
-  return output
+export const transpile = (typescriptSource: string) : string => {
+  return ts2js(typescriptSource)
 }
