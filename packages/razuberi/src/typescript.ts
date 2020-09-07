@@ -2,11 +2,8 @@
 import * as ts from 'typescript'
 
 export const transpile = (source: string) => {
-  const { outputText } = ts.transpileModule(source, {
-    compilerOptions: {
+  return ts.transpile(source, {
       target: ts.ScriptTarget.ES3,
-      module: ts.ModuleKind.AMD
-    }
+      module: ts.ModuleKind.CommonJS
   })
-  return outputText
 }
