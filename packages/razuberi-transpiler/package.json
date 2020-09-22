@@ -1,10 +1,12 @@
 {
   "private": true,
-  "name": "razuberi",
+  "name": "@razuberi/transpiler",
   "version": "0.0.1",
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
-  "bin": "bin/razuberi",
+  "bin": {
+    "razuberi": "bin/razuberi"
+  },
   "main": "build/lib/index",
   "files": [
     "bin",

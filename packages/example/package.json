@@ -3,10 +3,10 @@
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "razuberi src/main.ts build/main.js"
+    "build": "razuberi src/main.ts build/main.c"
   },
   "devDependencies": {
-    "razuberi": "../razuberi",
+    "@razuberi/transpiler": "../razuberi-transpiler",
     "typescript": "^4.0.2"
   }
 }
