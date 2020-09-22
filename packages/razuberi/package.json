@@ -5,13 +5,13 @@
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
   "bin": "bin/razuberi",
-  "main": "build/index",
+  "main": "build/lib/index",
   "files": [
     "bin",
     "build"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc",
     "clean": "rimraf build",
     "postinstall": "patch-package",
     "prepack": "npm run build",

@@ -2,7 +2,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { transpile } from "../transpile"
+import { transpile } from '../lib'
 
 const inFile = path.join(process.cwd(), process.argv[2])
 

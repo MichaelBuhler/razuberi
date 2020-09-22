@@ -4,11 +4,11 @@ import * as path from 'path'
 
 import babelGenerate from '@babel/generator'
 
-import { transpile } from "../src/typescript"
+import { transpile } from "../src/lib/typescript"
 
-import { parse } from '../src/babel'
+import { parse } from '../src/lib/babel'
 
-import { generate } from '../src/generate'
+import { generate } from '../src/lib/generate'
 
 const basename = path.join(__dirname, 'helloworld')
 
