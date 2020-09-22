@@ -4,6 +4,11 @@
   "version": "0.0.1",
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelBuhler/razuberi.git",
+    "directory": "packages/razuberi-transpiler"
+  },
   "bin": {
     "razuberi": "bin/razuberi"
   },
@@ -15,10 +20,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf build",
-    "fix": "npm run lint:fix",
-    "lint": "eslint \"*.[jt]s\" \"**/*.[jt]s\"",
-    "lint:fix": "npm run lint -- --fix",
-    "lint:staged": "lint-staged",
+    "npm:install": "npm install",
     "postinstall": "patch-package",
     "prepack": "npm run build",
     "test": "ts-node test/test.ts"
@@ -34,18 +36,7 @@
     "@types/babel__generator": "^7.6.1",
     "@types/babel__parser": "^7.1.1",
     "@types/babel__traverse": "^7.0.13",
-    "@typescript-eslint/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/parser": "^4.2.0",
-    "eslint": "^7.9.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.4.0",
     "patch-package": "^6.2.2",
-    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0"
   }
 }

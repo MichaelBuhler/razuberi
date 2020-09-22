@@ -1,9 +1,35 @@
 {
   "private": true,
+  "name": "razuberi",
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelBuhler/razuberi.git"
+  },
+  "scripts": {
+    "build": "lerna run --scope @razuberi/transpiler build && lerna run --scope example build",
+    "clean": "lerna run clean",
+    "fix": "npm run lint:fix",
+    "lint": "eslint \"*.[jt]s\" \"**/*.[jt]s\"",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:staged": "lint-staged",
+    "postinstall": "lerna run npm:install",
+    "test": "lerna run test"
+  },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.9.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.3.0",
     "lerna": "^3.22.1",
-    "typescript": "^4.0.2"
+    "lint-staged": "^10.4.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.3"
   }
 }

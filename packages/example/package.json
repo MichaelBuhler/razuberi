@@ -1,9 +1,18 @@
 {
   "private": true,
+  "name": "example",
   "author": "Michael Buhler <michael@michaelbuhler.com>",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelBuhler/razuberi.git",
+    "directory": "packages/example"
+  },
   "scripts": {
-    "build": "razuberi src/main.ts build/main.c"
+    "build": "razuberi src/main.ts build/main.c",
+    "clean": "rimraf build/main.c",
+    "npm:install": "npm install",
+    "test": "echo There are no tests!"
   },
   "devDependencies": {
     "@razuberi/transpiler": "../razuberi-transpiler",
