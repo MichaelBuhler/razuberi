@@ -21,9 +21,9 @@ export const FunctionDeclaration: VisitNodeObject<unknown, t.FunctionDeclaration
     code += '\n}'
 
     let string = 'FunctionDeclaration\n'
-      + indent(`Name (${id ? id.razuberi.string : 'anonymous'})`) + '\n'
-      + indent(`Parameters (${params.map(x => x.razuberi.string).join(', ')})`) + '\n'
-      + indent('Body\n' + indent(body.razuberi.string))
+    string += indent(`Name (${id ? id.razuberi.string : 'anonymous'})`) + '\n'
+    string += indent(`Parameters (${params.map(x => x.razuberi.string).join(', ')})`) + '\n'
+    string += indent('Body\n' + indent(body.razuberi.string))
 
     node.razuberi = { code, string }
   }

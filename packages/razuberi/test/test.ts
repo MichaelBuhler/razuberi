@@ -4,7 +4,7 @@ import * as path from 'path'
 
 import babelGenerate from '@babel/generator'
 
-import { transpile } from "../src/lib/typescript"
+import { transpile } from '../src/lib/typescript'
 
 import { parse } from '../src/lib/babel'
 

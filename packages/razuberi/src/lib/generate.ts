@@ -10,7 +10,7 @@ class UnsupportedNodeTypeError extends Error {
   public name = 'UnsupportedNodeTypeError'
 
   public constructor (nodeType: Node['type']) {
-    super(`unsupported node type: ${nodeType}`);
+    super(`unsupported node type: ${nodeType}`)
   }
 }
 

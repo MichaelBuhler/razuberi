@@ -12,9 +12,9 @@ export const MemberExpression: VisitNodeObject<unknown, t.MemberExpression> = {
     const code = `object_getProperty(${object.razuberi.code}, ${property.razuberi.code})`
 
     let string = 'MemberExpression\n'
-    string += indent('Object') +'\n'
-    string += indent(indent(object.razuberi.string)) +'\n'
-    string += indent(`Property`) +'\n'
+    string += indent('Object') + '\n'
+    string += indent(indent(object.razuberi.string)) + '\n'
+    string += indent('Property') + '\n'
     string += indent(indent(property.razuberi.string))
 
     node.razuberi = { code, string }

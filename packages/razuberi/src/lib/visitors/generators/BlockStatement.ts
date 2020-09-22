@@ -13,7 +13,7 @@ export const BlockStatement: VisitNodeObject<unknown, t.BlockStatement> = {
     code += indent(body.map(x => x.razuberi.code).join('\n')) + '\n'
     code += '}'
 
-    let string = `BlockStatement\n`
+    let string = 'BlockStatement\n'
     string += indent(body.map(x => x.razuberi.string).join('\n'))
 
     node.razuberi = { code, string }

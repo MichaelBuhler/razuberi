@@ -2,7 +2,6 @@
 printHelloWorldBang()
 
 function printHelloWorldBang () {
-
   function printHello () {
     function consoleLog (str) {
       print(str)

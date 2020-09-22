@@ -8,4 +8,3 @@ export const parse = (javascript: string, sourceFilename?: string) : File => {
     sourceFilename
   })
 }
-
