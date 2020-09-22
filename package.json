@@ -8,7 +8,7 @@
     "url": "https://github.com/MichaelBuhler/razuberi.git"
   },
   "scripts": {
-    "build": "lerna run --scope @razuberi/transpiler build && lerna run --scope example build",
+    "build": "lerna run --scope @razuberi/transpiler build && lerna run --ignore @razuberi/transpiler build",
     "clean": "lerna run clean",
     "fix": "npm run lint:fix",
     "lint": "eslint \"*.[jt]s\" \"**/*.[jt]s\"",
