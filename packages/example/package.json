@@ -11,8 +11,8 @@
   "scripts": {
     "build": "razuberi src/main.ts build/main.c",
     "clean": "rimraf build/main.c",
-    "npm:install": "npm install",
-    "test": "echo There are no tests!"
+    "test": "echo There are no tests!",
+    "yarn:install": "yarn install"
   },
   "devDependencies": {
     "@razuberi/transpiler": "../razuberi-transpiler",

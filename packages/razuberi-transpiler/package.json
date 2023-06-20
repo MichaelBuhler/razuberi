@@ -20,10 +20,10 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf build",
-    "npm:install": "npm install",
     "postinstall": "patch-package",
     "prepack": "npm run build",
-    "test": "ts-node test/test.ts"
+    "test": "ts-node test/test.ts",
+    "yarn:install": "yarn install"
   },
   "dependencies": {
     "@babel/parser": "^7.11.4",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@babel/generator": "^7.11.6",
-    "@babel/types": "^7.11.0",
+    "@babel/types": "7.11.0",
     "@types/babel__generator": "^7.6.1",
     "@types/babel__parser": "^7.1.1",
     "@types/babel__traverse": "^7.0.13",

@@ -14,7 +14,9 @@ export const FunctionDeclaration: VisitNodeObject<unknown, t.FunctionDeclaration
     code += ' (Scope* callingScope, Object* arguments) {\n'
     let block = 'Return ret;\n'
     block += 'Scope* scope = new_Scope(callingScope);\n'
-    block += '// TODO destructure arguments\n' // TODO destructure arguments
+    params.forEach(param => {
+      block += `scope_setValue(scope, "${param.razuberi.code}", arguments_getValue(arguments, "${param.razuberi.code}"))\n`
+    })
     block += body.razuberi.code
     block += '\nret.value = new_undefined();\nreturn ret;'
     code += indent(block)

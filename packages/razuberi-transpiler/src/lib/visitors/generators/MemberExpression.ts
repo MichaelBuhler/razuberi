@@ -9,7 +9,7 @@ export const MemberExpression: VisitNodeObject<unknown, t.MemberExpression> = {
     const { node } = path
     const { object, property } = node
 
-    const code = `object_getProperty(${object.razuberi.code}, ${property.razuberi.code})`
+    const code = `object_getProperty(scope_getValue(scope, "${object.razuberi.code}"), "${property.razuberi.code}")`
 
     let string = 'MemberExpression\n'
     string += indent('Object') + '\n'

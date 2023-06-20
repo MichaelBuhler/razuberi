@@ -14,7 +14,7 @@
     "lint": "eslint \"*.[jt]s\" \"**/*.[jt]s\"",
     "lint:fix": "npm run lint -- --fix",
     "lint:staged": "lint-staged",
-    "postinstall": "lerna run npm:install",
+    "postinstall": "lerna run yarn:install",
     "test": "lerna run test"
   },
   "devDependencies": {
