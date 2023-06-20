@@ -12,6 +12,15 @@ Previous work was targetting the C programming language. This can be seen in the
 
 Working on the C++ lib to implement the js core features.
 
+## How to Test
+
+Funtionality supported by the C++ lib are covered by a simple `test.cpp`. Build and execute like so:
+
+```shell
+make test
+./test
+```
+
 ## Next Steps
 
 * Get end-to-end "Hello, World" example working.
