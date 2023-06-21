@@ -1,28 +1,33 @@
-test: out/test.o out/lib/builtin_objects.o out/lib/exception.o out/lib/global_scope.o out/lib/host_objects.o out/lib/scope.o out/lib/type_conversion.o out/lib/value.o
-	g++ -o test out/test.o out/lib/builtin_objects.o out/lib/exception.o out/lib/global_scope.o out/lib/host_objects.o out/lib/scope.o out/lib/type_conversion.o out/lib/value.o
+library_objects := out/lib/builtin_objects.o
+library_objects += out/lib/exception.o
+library_objects += out/lib/global_scope.o
+library_objects += out/lib/host_objects.o
+library_objects += out/lib/scope.o
+library_objects += out/lib/type_conversion.o
+library_objects += out/lib/value.o
 
-out/test.o: out test.cpp
-	g++ -c -o out/test.o $(CFLAGS) test.cpp
+.PHONY: all
+all: library test
 
-out/lib/builtin_objects.o: out/lib lib/builtin_objects.cpp lib/builtin_objects.h
-	g++ -c -o out/lib/builtin_objects.o lib/builtin_objects.cpp
-out/lib/exception.o: out/lib lib/exception.cpp lib/exception.h
-	g++ -c -o out/lib/exception.o lib/exception.cpp
-out/lib/global_scope.o: out/lib lib/global_scope.cpp lib/global_scope.h
-	g++ -c -o out/lib/global_scope.o lib/global_scope.cpp
-out/lib/host_objects.o: out/lib lib/host_objects.cpp lib/host_objects.h
-	g++ -c -o out/lib/host_objects.o lib/host_objects.cpp
-out/lib/scope.o: out/lib lib/scope.cpp lib/scope.h lib/scope.fwd.h lib/value.h lib/value.fwd.h
-	g++ -c -o out/lib/scope.o lib/scope.cpp
-out/lib/type_conversion.o: out/lib lib/type_conversion.cpp lib/type_conversion.h lib/exception.h lib/value.h
-	g++ -c -o out/lib/type_conversion.o lib/type_conversion.cpp
-out/lib/value.o: out/lib lib/value.cpp lib/value.h lib/value.fwd.h lib/type_conversion.h lib/exception.h lib/scope.h lib/scope.fwd.h
-	g++ -c -o out/lib/value.o lib/value.cpp
+.PHONY: library
+library: out/razuberi.a
+out/razuberi.a: out/razuberi.a(${library_objects}) | out
+	ranlib out/razuberi.a
+
+$(library_objects): out/lib/%.o: lib/%.cpp | out/lib
+	g++ -c $< -o $@
+
+test: out/razuberi.a test.cpp
+	g++ $^ -o test 
 
 out:
-	mkdir -p out
-out/lib: out
-	mkdir -p out/lib
+	mkdir out
+out/lib: | out
+	mkdir out/lib
 
+.PHONY: clean
 clean:
 	rm -frv out
+
+Makefile:
+	echo remaking....
