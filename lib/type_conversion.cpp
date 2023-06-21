@@ -13,8 +13,6 @@ shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value) {
       return static_pointer_cast<Primitive>(value);
     case OBJECT_VALUE_TYPE:
       throw NotImplementedException("cannot convert an object to a primitive");
-    default:
-      throw NotImplementedException("don't know how to convert this value to a primitive");
   }
 }
 
@@ -33,8 +31,6 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
       return make_shared<Boolean>(static_pointer_cast<String>(value)->value != "");
     case OBJECT_VALUE_TYPE:
       return make_shared<Boolean>(true); 
-    default:
-      throw NotImplementedException("don't know how to convert this value to a boolean");
   }
 }
 
@@ -56,8 +52,6 @@ shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
     case OBJECT_VALUE_TYPE:
       // TODO: ToPrimitive() should include a hint
       return ToNumber(ToPrimitive(value));
-    default:
-      throw NotImplementedException("don't know how to convert this value to a number");
   }
 }
 
@@ -76,8 +70,6 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
       return static_pointer_cast<String>(value);
     case OBJECT_VALUE_TYPE:
       throw NotImplementedException("cannot convert an object to a string");
-    default:
-      throw NotImplementedException("don't know how to convert this value to a string");
   }
 }
 
@@ -92,10 +84,8 @@ shared_ptr<Object> ToObject (shared_ptr<Value> value) {
     case NUMBER_VALUE_TYPE:
       throw NotImplementedException("cannot convert a number to an object");
     case STRING_VALUE_TYPE:
-      throw NotImplementedException("cannot convert a value to an object");
+      throw NotImplementedException("cannot convert a string to an object");
     case OBJECT_VALUE_TYPE:
       return static_pointer_cast<Object>(value);
-    default:
-      throw NotImplementedException("don't know how to convert this value to an object");
   }
 }
