@@ -66,8 +66,9 @@ class Object : public Value {
   };
   private: map<string, shared_ptr<Property> > properties;
   private: shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >);
-  public: Object ();
-  public: Object (shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >));
+  public: Object (shared_ptr<Object> prototype);
+  public: Object (shared_ptr<Object> prototype, shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >));
+  private: shared_ptr<Object> __Prototype__;
   public: shared_ptr<Value> __Get__ (string name);
   public: void __Put__ (string key, shared_ptr<Value> value);
   public: shared_ptr<Value> __Call__ (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params);

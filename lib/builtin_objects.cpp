@@ -9,6 +9,7 @@ shared_ptr<Value> _Boolean (shared_ptr<Scope> callingScope, vector<shared_ptr<Va
 }
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
-  shared_ptr<Object> Boolean = make_shared<Object>(_Boolean);
+  shared_ptr<Object> BooleanPrototype = make_shared<Object>(nullptr);
+  shared_ptr<Object> Boolean = make_shared<Object>(BooleanPrototype, _Boolean);
   globalScope->set("Boolean", Boolean);
 }

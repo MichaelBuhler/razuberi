@@ -25,6 +25,15 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(make_shared<String>("Hello, world!"));
     _invoke(scope->*"console"->*"log", scope, params);
   }
+  {
+    shared_ptr<Object> A = make_shared<Object>(nullptr);
+    A->__Put__("hello", make_shared<String>("world"));
+    shared_ptr<Object> B = make_shared<Object>(A);
+    shared_ptr<Object> C = make_shared<Object>(B);
+    vector<shared_ptr<Value> > params;
+    params.push_back(C->__Get__("hello"));
+    _invoke(scope->*"console"->*"log", scope, params);
+  }
 }
 
 int main () {

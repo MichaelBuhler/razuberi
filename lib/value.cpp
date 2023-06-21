@@ -48,13 +48,15 @@ String::String (string value) : Primitive() {
   this->value = value;
 }
 
-Object::Object () : Value() {
+Object::Object (shared_ptr<Object> prototype) : Value() {
   this->type = OBJECT_VALUE_TYPE;
+  this->__Prototype__ = prototype;
   this->fn = nullptr;
 };
 
-Object::Object (shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >)) : Value() {
+Object::Object (shared_ptr<Object> prototype, shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >)) : Value() {
   this->type = OBJECT_VALUE_TYPE;
+  this->__Prototype__ = prototype;
   this->fn = fn;
 };
 
@@ -62,7 +64,11 @@ shared_ptr<Value> Object::__Get__ (string name) {
   try {
     return this->properties.at(name)->value;
   } catch (out_of_range e) {
-    return make_shared<Undefined>();
+    if (this->__Prototype__ == nullptr) {
+      return make_shared<Undefined>();
+    } else {
+      return this->__Prototype__->__Get__(name);
+    }
   }
 }
 
