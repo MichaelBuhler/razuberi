@@ -78,10 +78,11 @@ void Object::__Put__ (string key, shared_ptr<Value> value) {
   this->properties[key] = property;
 }
 
-shared_ptr<Value> Object::__Call__ (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params) {
+shared_ptr<Value> Object::__Call__ (shared_ptr<Object> thisArg, shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params) {
   if (this->fn == nullptr) {
     throw TypeError("not a function");
   }
   shared_ptr<Scope> scope = make_shared<Scope>(callingScope);
-  return this->fn(callingScope, params);
+  scope->set("this", thisArg);
+  return this->fn(scope, params);
 }

@@ -4,26 +4,26 @@
 #include "value.h"
 #include "type_conversion.h"
 
-shared_ptr<Value> _Function (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   throw new NotImplementedException("Cannot use the Function function to create new functions at runtime.");
 }
 
-shared_ptr<Value> _Function_toString (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function_toString (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw new NotImplementedException("Function.prototype.toString()");
 }
 
-shared_ptr<Value> _Boolean (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0 ) return make_shared<Boolean>(false);
   return ToBoolean(arguments[0]);
 }
 
-shared_ptr<Value> _Boolean_toString (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_toString (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw new NotImplementedException("Boolean.prototype.toString()");
 }
 
-shared_ptr<Value> _Boolean_valueOf (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_valueOf (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw new NotImplementedException("Boolean.prototype.valueOf()");
 }

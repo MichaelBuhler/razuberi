@@ -5,7 +5,7 @@
 
 #include "type_conversion.h"
 
-shared_ptr<Value> _log (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _log (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
     cout << ToString(arguments[i])->value << endl;
   }

@@ -71,5 +71,5 @@ class Object : public Value {
   private: shared_ptr<Object> __Prototype__;
   public: shared_ptr<Value> __Get__ (string name);
   public: void __Put__ (string key, shared_ptr<Value> value);
-  public: shared_ptr<Value> __Call__ (shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params);
+  public: shared_ptr<Value> __Call__ (shared_ptr<Object> thisArg, shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params);
 };

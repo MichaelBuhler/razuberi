@@ -11,7 +11,8 @@
 using namespace std;
 
 shared_ptr<Value> inline _invoke (shared_ptr<Value> value, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
-  return ToObject(value)->__Call__(scope, params);
+  shared_ptr<Object> obj = ToObject(value);
+  return obj->__Call__(obj, scope, params);
 }
 
 void run (shared_ptr<Scope> scope) {
