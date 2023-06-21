@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "lib/exception.h"
-#include "lib/host_objects.h"
+#include "lib/global_scope.h"
 #include "lib/scope.h"
 #include "lib/type_conversion.h"
 #include "lib/value.h"
@@ -37,8 +37,7 @@ void run (shared_ptr<Scope> scope) {
 
 int main () {
   try {
-    shared_ptr<Scope> globalScope = make_shared<Scope>();
-    init_host_objects(globalScope);
+    shared_ptr<Scope> globalScope = init_global_scope();
     run(globalScope);
     return 0;
   } catch (NotImplementedException &e) {
