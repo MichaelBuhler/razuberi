@@ -12,7 +12,8 @@ using namespace std;
 
 class Scope {
   private: map<string, shared_ptr<Value> > locals;
-  public: Scope ();
+  private: shared_ptr<Scope> parentScope;
+  public: Scope (shared_ptr<Scope> parentScope);
   public: shared_ptr<Value> get (string name);
   public: void set (string key, shared_ptr<Value> value);
 };

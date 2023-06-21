@@ -82,5 +82,6 @@ shared_ptr<Value> Object::__Call__ (shared_ptr<Scope> callingScope, vector<share
   if (this->fn == nullptr) {
     throw TypeError("not a function");
   }
+  shared_ptr<Scope> scope = make_shared<Scope>(callingScope);
   return this->fn(callingScope, params);
 }
