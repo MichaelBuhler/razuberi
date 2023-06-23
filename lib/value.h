@@ -68,6 +68,7 @@ class Object : public Value {
   public: Object (std::shared_ptr<Object> prototype = nullptr, Call call = nullptr, Construct construct = nullptr);
 
   private: std::shared_ptr<Object> __Prototype__;
+  public: std::shared_ptr<Value> __Value__;
   public: std::shared_ptr<Value> __Get__ (std::string name);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
   public: Call __Call__;
