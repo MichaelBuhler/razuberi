@@ -55,19 +55,18 @@ class String : public Primitive {
 };
 
 class Object : public Value {
+  private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> thisArg, std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
   private: class Property {
     public: std::shared_ptr<Value> value;
     public: bool ReadOnly;
     public: bool DontEnum;
     public: bool DontDelete;
-    // public: bool Internal; // not sure how this is used
+    // public: bool Internal; // TODO: not sure how this is used
   };
   private: std::map<std::string, std::shared_ptr<Property> > properties;
-  private: std::shared_ptr<Value> (*fn)(std::shared_ptr<Scope>, std::vector<std::shared_ptr<Value> >);
-  public: Object (std::shared_ptr<Object> prototype);
-  public: Object (std::shared_ptr<Object> prototype, std::shared_ptr<Value> (*fn)(std::shared_ptr<Scope>, std::vector<std::shared_ptr<Value> >));
+  public: Object (std::shared_ptr<Object> prototype, Call call);
   private: std::shared_ptr<Object> __Prototype__;
   public: std::shared_ptr<Value> __Get__ (std::string name);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
-  public: std::shared_ptr<Value> __Call__ (std::shared_ptr<Object> thisArg, std::shared_ptr<Scope> callingScope, std::vector<std::shared_ptr<Value> > params);
+  public: Call __Call__;
 };

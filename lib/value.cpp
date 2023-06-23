@@ -50,16 +50,10 @@ String::String (string value) : Primitive() {
   this->value = value;
 }
 
-Object::Object (shared_ptr<Object> prototype) : Value() {
+Object::Object (shared_ptr<Object> prototype, Call call) : Value() {
   this->type = OBJECT_VALUE_TYPE;
   this->__Prototype__ = prototype;
-  this->fn = nullptr;
-};
-
-Object::Object (shared_ptr<Object> prototype, shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >)) : Value() {
-  this->type = OBJECT_VALUE_TYPE;
-  this->__Prototype__ = prototype;
-  this->fn = fn;
+  this->__Call__ = call;
 };
 
 shared_ptr<Value> Object::__Get__ (string name) {
@@ -78,13 +72,4 @@ void Object::__Put__ (string key, shared_ptr<Value> value) {
   shared_ptr<Property> property = make_shared<Property>();
   property->value = value;
   this->properties[key] = property;
-}
-
-shared_ptr<Value> Object::__Call__ (shared_ptr<Object> thisArg, shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params) {
-  if (this->fn == nullptr) {
-    throw TypeError("not a function");
-  }
-  shared_ptr<Scope> scope = make_shared<Scope>(callingScope);
-  scope->set("this", thisArg);
-  return this->fn(scope, params);
 }

@@ -14,15 +14,15 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(make_shared<Boolean>(false));
     params.push_back(make_shared<Number>(123.45));
     params.push_back(make_shared<String>("Hello, world!"));
-    _invoke(scope->*"console"->*"log", scope, params);
+    _call(scope->*"console"->*"log", scope, params);
   }
   {
-    shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"));
+    shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"), nullptr);
     A->__Put__("hello", make_shared<String>("world"));
-    shared_ptr<Object> B = make_shared<Object>(A);
-    shared_ptr<Object> C = make_shared<Object>(B);
+    shared_ptr<Object> B = make_shared<Object>(A, nullptr);
+    shared_ptr<Object> C = make_shared<Object>(B, nullptr);
     vector<shared_ptr<Value> > params;
     params.push_back(C->__Get__("hello"));
-    _invoke(scope->*"console"->*"log", scope, params);
+    _call(scope->*"console"->*"log", scope, params);
   }
 }
