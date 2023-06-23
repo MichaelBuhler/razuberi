@@ -25,4 +25,14 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(C->__Get__("hello"));
     _call(scope->*"console"->*"log", scope, params);
   }
+  {
+    vector<shared_ptr<Value> > params;
+    params.push_back(make_shared<Boolean>(true));
+    shared_ptr<Object> tmp = _new(scope->*"Boolean", params);
+    {
+      vector<shared_ptr<Value> > params;
+      params.push_back(tmp);
+      _call(scope->*"console"->*"log", scope, params);
+    }
+  }
 }
