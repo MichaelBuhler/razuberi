@@ -71,7 +71,8 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
     case STRING_VALUE_TYPE:
       return static_pointer_cast<String>(value);
     case OBJECT_VALUE_TYPE:
-      throw NotImplementedException("cannot convert an object to a string");
+      // TODO: ToPrimitive() should include a hint
+      return ToString(ToPrimitive(value));
   }
 }
 
