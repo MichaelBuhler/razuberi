@@ -32,7 +32,7 @@ shared_ptr<Value> _Boolean_valueOf (shared_ptr<Value> thisArg, shared_ptr<Scope>
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>();
-  shared_ptr<Object> Function = make_shared<Object>(FunctionPrototype, _Boolean);
+  shared_ptr<Object> Function = make_shared<Object>(FunctionPrototype, _Function);
   Function->__Put__("prototype", FunctionPrototype);
   Function->__Put__("length", make_shared<Number>(1));
   FunctionPrototype->__Put__("constructor", Function);
