@@ -56,6 +56,7 @@ class String : public Primitive {
 
 class Object : public Value {
   private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> thisArg, std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
+  private: typedef std::shared_ptr<Object> (*Construct)(std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
   private: class Property {
     public: std::shared_ptr<Value> value;
     public: bool ReadOnly;
@@ -64,9 +65,11 @@ class Object : public Value {
     // public: bool Internal; // TODO: not sure how this is used
   };
   private: std::map<std::string, std::shared_ptr<Property> > properties;
-  public: Object (std::shared_ptr<Object> prototype, Call call);
+  public: Object (std::shared_ptr<Object> prototype = nullptr, Call call = nullptr, Construct construct = nullptr);
+
   private: std::shared_ptr<Object> __Prototype__;
   public: std::shared_ptr<Value> __Get__ (std::string name);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
   public: Call __Call__;
+  public: Construct __Construct__;
 };

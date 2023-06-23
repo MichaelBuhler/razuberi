@@ -50,10 +50,11 @@ String::String (string value) : Primitive() {
   this->value = value;
 }
 
-Object::Object (shared_ptr<Object> prototype, Call call) : Value() {
+Object::Object (shared_ptr<Object> prototype, Call call, Construct construct) : Value() {
   this->type = OBJECT_VALUE_TYPE;
   this->__Prototype__ = prototype;
   this->__Call__ = call;
+  this->__Construct__ = construct;
 };
 
 shared_ptr<Value> Object::__Get__ (string name) {
