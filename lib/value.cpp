@@ -3,6 +3,8 @@
 #include "exception.h"
 #include "type_conversion.h"
 
+using namespace std;
+
 Value::Value () {}
 
 shared_ptr<Value> operator ->* (shared_ptr<Value> value, string name) {

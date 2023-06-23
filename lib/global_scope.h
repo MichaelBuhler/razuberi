@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "scope.h"
 
-shared_ptr<Scope> init_global_scope ();
+std::shared_ptr<Scope> init_global_scope ();

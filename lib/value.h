@@ -9,8 +9,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 enum ValueType {
   UNDEFINED_VALUE_TYPE,
   NULL_VALUE_TYPE,
@@ -25,9 +23,9 @@ class Value {
   public: Value ();
 };
 
-shared_ptr<Value> operator ->* (shared_ptr<Value> value, string name);
+std::shared_ptr<Value> operator ->* (std::shared_ptr<Value> value, std::string name);
 
-shared_ptr<Value> operator + (shared_ptr<Value> a, shared_ptr<Value> b);
+std::shared_ptr<Value> operator + (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
 
 class Primitive : public Value {
   public: Primitive ();
@@ -52,24 +50,24 @@ class Number : public Primitive {
 };
 
 class String : public Primitive {
-  public: string value;
-  public: String (string value);
+  public: std::string value;
+  public: String (std::string value);
 };
 
 class Object : public Value {
   private: class Property {
-    public: shared_ptr<Value> value;
+    public: std::shared_ptr<Value> value;
     public: bool ReadOnly;
     public: bool DontEnum;
     public: bool DontDelete;
     // public: bool Internal; // not sure how this is used
   };
-  private: map<string, shared_ptr<Property> > properties;
-  private: shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >);
-  public: Object (shared_ptr<Object> prototype);
-  public: Object (shared_ptr<Object> prototype, shared_ptr<Value> (*fn)(shared_ptr<Scope>, vector<shared_ptr<Value> >));
-  private: shared_ptr<Object> __Prototype__;
-  public: shared_ptr<Value> __Get__ (string name);
-  public: void __Put__ (string key, shared_ptr<Value> value);
-  public: shared_ptr<Value> __Call__ (shared_ptr<Object> thisArg, shared_ptr<Scope> callingScope, vector<shared_ptr<Value> > params);
+  private: std::map<std::string, std::shared_ptr<Property> > properties;
+  private: std::shared_ptr<Value> (*fn)(std::shared_ptr<Scope>, std::vector<std::shared_ptr<Value> >);
+  public: Object (std::shared_ptr<Object> prototype);
+  public: Object (std::shared_ptr<Object> prototype, std::shared_ptr<Value> (*fn)(std::shared_ptr<Scope>, std::vector<std::shared_ptr<Value> >));
+  private: std::shared_ptr<Object> __Prototype__;
+  public: std::shared_ptr<Value> __Get__ (std::string name);
+  public: void __Put__ (std::string key, std::shared_ptr<Value> value);
+  public: std::shared_ptr<Value> __Call__ (std::shared_ptr<Object> thisArg, std::shared_ptr<Scope> callingScope, std::vector<std::shared_ptr<Value> > params);
 };

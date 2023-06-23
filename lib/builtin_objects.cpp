@@ -4,6 +4,8 @@
 #include "value.h"
 #include "type_conversion.h"
 
+using namespace std;
+
 shared_ptr<Value> _Function (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   throw new NotImplementedException("Cannot use the Function function to create new functions at runtime.");
 }

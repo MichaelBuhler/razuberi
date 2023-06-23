@@ -2,6 +2,8 @@
 
 #include "exception.h"
 
+using namespace std;
+
 // TODO: ToPrimitive() should include a hint
 shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value) {
   switch (value->type) {

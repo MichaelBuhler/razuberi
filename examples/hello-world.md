@@ -17,7 +17,6 @@ console.log("Hello, world!")
 ### C++ Output
 
 ```c++
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -29,19 +28,5 @@ void run (shared_ptr<Scope> scope) {
   vector<shared_ptr<Value> > params;
   params.push_back(make_shared<String>("Hello, world!"));
   _invoke(scope->*"console"->*"log", scope, params);
-}
-
-int main () {
-  try {
-    shared_ptr<Scope> globalScope = make_shared<Scope>();
-    init_host_objects(globalScope);
-    run(globalScope);
-    return 0;
-  } catch (NotImplementedException &e) {
-    cout << e.toString() << endl;
-  } catch (RuntimeException &e) {
-    cout << "Uncaught " << e.toString() << endl;
-  }
-  return 1;
 }
 ```

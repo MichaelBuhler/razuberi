@@ -1,5 +1,7 @@
 #include "scope.h"
 
+using namespace std;
+
 Scope::Scope (shared_ptr<Scope> parentScope) {
   this->parentScope = parentScope;
 }

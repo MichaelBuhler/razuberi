@@ -1,5 +1,7 @@
 #include "exception.h"
 
+using namespace std;
+
 NotImplementedException::NotImplementedException () {}
 
 NotImplementedException::NotImplementedException (string message) {

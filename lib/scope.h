@@ -8,16 +8,16 @@
 #include <memory>
 #include <string>
 
-using namespace std;
-
 class Scope {
-  private: map<string, shared_ptr<Value> > locals;
-  private: shared_ptr<Scope> parentScope;
-  public: Scope (shared_ptr<Scope> parentScope);
-  public: shared_ptr<Value> get (string name);
-  public: void set (string key, shared_ptr<Value> value);
+  private: std::map<std::string, std::shared_ptr<Value> > locals;
+  private: std::shared_ptr<Scope> parentScope;
+  public: Scope (std::shared_ptr<Scope> parentScope);
+  public: std::shared_ptr<Value> get (std::string name);
+  public: void set (std::string key, std::shared_ptr<Value> value);
 };
 
-shared_ptr<Value> inline operator ->* (shared_ptr<Scope> scope, string name) {
+std::shared_ptr<Value> inline operator ->* (std::shared_ptr<Scope> scope, std::string name) {
   return scope->get(name);
 }
+
+

@@ -1,19 +1,9 @@
-#include <iostream>
 #include <string>
 #include <vector>
 
-#include "lib/exception.h"
-#include "lib/global_scope.h"
-#include "lib/scope.h"
-#include "lib/type_conversion.h"
-#include "lib/value.h"
+#include "razuberi.h"
 
 using namespace std;
-
-shared_ptr<Value> inline _invoke (shared_ptr<Value> value, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
-  shared_ptr<Object> obj = ToObject(value);
-  return obj->__Call__(obj, scope, params);
-}
 
 void run (shared_ptr<Scope> scope) {
   {
@@ -27,7 +17,7 @@ void run (shared_ptr<Scope> scope) {
     _invoke(scope->*"console"->*"log", scope, params);
   }
   {
-    shared_ptr<Object> A = make_shared<Object>(nullptr);
+    shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"));
     A->__Put__("hello", make_shared<String>("world"));
     shared_ptr<Object> B = make_shared<Object>(A);
     shared_ptr<Object> C = make_shared<Object>(B);
@@ -35,17 +25,4 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(C->__Get__("hello"));
     _invoke(scope->*"console"->*"log", scope, params);
   }
-}
-
-int main () {
-  try {
-    shared_ptr<Scope> globalScope = init_global_scope();
-    run(globalScope);
-    return 0;
-  } catch (NotImplementedException &e) {
-    cout << e.toString() << endl;
-  } catch (RuntimeException &e) {
-    cout << "Uncaught " << e.toString() << endl;
-  }
-  return 1;
 }
