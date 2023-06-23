@@ -15,7 +15,7 @@ out/lib/librazuberi.a: out/lib/librazuberi.a($(library_objects)) | out/lib
 out/lib/librazuberi.a($(library_objects)): | out/lib
 
 $(library_objects): out/tmp/%.o: lib/%.cpp | out/tmp
-	g++ -c $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
 .PHONY: headers
 headers: ${library_headers}
@@ -23,10 +23,10 @@ $(library_headers): out/include/%: lib/% | out/include
 	cp $< $@
 
 out/tmp/test.o: test.cpp ${library_headers} | out/tmp
-	g++ -Iout/include -c test.cpp -o out/tmp/test.o
+	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -Iout/include test.cpp -o out/tmp/test.o
 
 test: out/tmp/test.o out/lib/librazuberi.a
-	g++ -Lout/lib -lrazuberi $< -o test
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -Lout/lib -lrazuberi $< -o test
 
 out:
 	mkdir out
