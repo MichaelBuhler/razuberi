@@ -69,8 +69,9 @@ class Object : public Value {
 
   private: std::shared_ptr<Object> __Prototype__;
   public: std::shared_ptr<Value> __Value__;
-  public: std::shared_ptr<Value> __Get__ (std::string name);
+  public: std::shared_ptr<Value> __Get__ (std::string key);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
-  public: Call __Call__;
+  public: bool __HasProperty__ (std::string key);
   public: Construct __Construct__;
+  public: Call __Call__;
 };

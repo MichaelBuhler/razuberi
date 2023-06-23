@@ -57,14 +57,14 @@ Object::Object (shared_ptr<Object> prototype, Call call, Construct construct) : 
   this->__Construct__ = construct;
 };
 
-shared_ptr<Value> Object::__Get__ (string name) {
+shared_ptr<Value> Object::__Get__ (string key) {
   try {
-    return this->properties.at(name)->value;
+    return this->properties.at(key)->value;
   } catch (out_of_range e) {
     if (this->__Prototype__ == nullptr) {
       return make_shared<Undefined>();
     } else {
-      return this->__Prototype__->__Get__(name);
+      return this->__Prototype__->__Get__(key);
     }
   }
 }
@@ -73,4 +73,17 @@ void Object::__Put__ (string key, shared_ptr<Value> value) {
   shared_ptr<Property> property = make_shared<Property>();
   property->value = value;
   this->properties[key] = property;
+}
+
+bool Object::__HasProperty__ (string key) {
+  try {
+    shared_ptr<Property> p = this->properties.at(key);
+    return true;
+  } catch (out_of_range e) {
+    if (this->__Prototype__ == nullptr) {
+      return false;
+    } else {
+      return this->__Prototype__->__HasProperty__(key);
+    }
+  }
 }
