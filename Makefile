@@ -1,22 +1,8 @@
-library_headers := out/include/builtin_objects.h
-library_headers += out/include/exception.h
-library_headers += out/include/global_scope.h
-library_headers += out/include/host_objects.h
-library_headers += out/include/razuberi.h
-library_headers += out/include/scope.fwd.h
-library_headers += out/include/scope.h
-library_headers += out/include/type_conversion.h
-library_headers += out/include/value.fwd.h
-library_headers += out/include/value.h
+source_headers := $(shell find -s lib -name "*.h")
+library_headers := $(source_headers:lib/%=out/include/%)
 
-library_objects := out/tmp/builtin_objects.o
-library_objects += out/tmp/exception.o
-library_objects += out/tmp/global_scope.o
-library_objects += out/tmp/host_objects.o
-library_objects += out/tmp/razuberi.o
-library_objects += out/tmp/scope.o
-library_objects += out/tmp/type_conversion.o
-library_objects += out/tmp/value.o
+source_files := $(shell find -s lib -name "*.cpp")
+library_objects := $(source_files:lib/%.cpp=out/tmp/%.o)
 
 .PHONY: all
 all: library headers test
