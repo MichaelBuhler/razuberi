@@ -1,17 +1,12 @@
-#include "razuberi.h"
+#include "main.h"
 
 #include <iostream>
+#include <memory>
 
-#include "global_scope.h"
 #include "exception.h"
-#include "type_conversion.h"
+#include "global_scope.h"
 
 using namespace std;
-
-shared_ptr<Value> _invoke (shared_ptr<Value> value, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
-  shared_ptr<Object> obj = ToObject(value);
-  return obj->__Call__(obj, scope, params);
-}
 
 int main () {
   try {
