@@ -7,7 +7,11 @@
 using namespace std;
 
 shared_ptr<Value> _Function__Call__ (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  throw new NotImplementedException("Cannot use the Function function to create new functions at runtime.");
+  throw new NotImplementedException("Cannot call `Function` to create new functions at runtime.");
+}
+
+shared_ptr<Object> _Function__Construct__ (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+   throw new NotImplementedException("Cannot use `Function` as a constructor to create new functions at runtime.");
 }
 
 shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
@@ -32,7 +36,7 @@ shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> thisArg, shared_
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>();
-  shared_ptr<Object> Function = make_shared<Object>(FunctionPrototype, _Function__Call__);
+  shared_ptr<Object> Function = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
   Function->__Put__("prototype", FunctionPrototype);
   Function->__Put__("length", make_shared<Number>(1));
   FunctionPrototype->__Put__("constructor", Function);
