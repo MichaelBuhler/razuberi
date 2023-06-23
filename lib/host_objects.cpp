@@ -9,8 +9,11 @@ using namespace std;
 
 shared_ptr<Value> _log (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
-    cout << ToString(arguments[i])->value << endl;
+    if (i != 0) cout << " ";
+    shared_ptr<Value> arg = arguments[i];
+    cout << ToString(arguments[i])->value;
   }
+  cout << endl;
   return make_shared<Undefined>();
 }
 
