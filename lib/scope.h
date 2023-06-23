@@ -11,7 +11,7 @@
 class Scope {
   private: std::map<std::string, std::shared_ptr<Value> > locals;
   private: std::shared_ptr<Scope> parentScope;
-  public: Scope (std::shared_ptr<Scope> parentScope);
+  public: Scope (std::shared_ptr<Scope> parentScope = nullptr);
   public: std::shared_ptr<Value> get (std::string name);
   public: void set (std::string key, std::shared_ptr<Value> value);
 };

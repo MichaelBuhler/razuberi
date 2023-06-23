@@ -29,7 +29,7 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
   if (obj->__Construct__ == nullptr) {
     throw TypeError("object is not a constructor");
   }
-  shared_ptr<Scope> constructorScope = make_shared<Scope>(nullptr);
+  shared_ptr<Scope> constructorScope = make_shared<Scope>();
   constructorScope->set("this", make_shared<Object>());
   shared_ptr<Value> result = obj->__Construct__(constructorScope, params);
   if (result->type != OBJECT_VALUE_TYPE) {

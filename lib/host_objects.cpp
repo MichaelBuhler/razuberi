@@ -17,7 +17,7 @@ shared_ptr<Value> _log (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vect
       shared_ptr<Object> obj = static_pointer_cast<Object>(arg);
       if (obj->__HasProperty__("toString")) {
         vector<shared_ptr<Value> > params;
-        str = ToString(_call(obj->*"toString", make_shared<Scope>(nullptr), params));
+        str = ToString(_call(obj->*"toString", make_shared<Scope>(), params));
       }
     }
     if (str == nullptr) {
