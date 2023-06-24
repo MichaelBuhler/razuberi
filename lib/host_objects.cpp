@@ -31,6 +31,7 @@ shared_ptr<Value> _log (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vect
 
 void init_host_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> console = make_shared<Object>();
+  console->__Class__ = "Console";
   globalScope->set("console", console);
 
   shared_ptr<Object> log = make_shared<Object>(nullptr, _log);
