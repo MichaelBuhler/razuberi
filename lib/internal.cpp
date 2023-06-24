@@ -8,7 +8,10 @@
 
 using namespace std;
 
-shared_ptr<Value> _call (shared_ptr<Value> callee, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
+// TODO: base+propertyName are mocking the Refernce type
+shared_ptr<Value> _call (shared_ptr<Value> base, string propertyName, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
+  // TODO: dangerous to cast `base` to Object here
+  shared_ptr<Value> callee = static_pointer_cast<Object>(base)->__Get__(propertyName);
   if (callee->type != OBJECT_VALUE_TYPE) {
     throw TypeError("callee is not an object");
   }
@@ -18,7 +21,7 @@ shared_ptr<Value> _call (shared_ptr<Value> callee, shared_ptr<Scope> scope, vect
   }
   shared_ptr<Scope> functionScope = make_shared<Scope>(scope);
   functionScope->set("this", callee);
-  return obj->__Call__(obj, functionScope, params);
+  return obj->__Call__(base, functionScope, params);
 }
 
 shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value> > params) {

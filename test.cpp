@@ -14,7 +14,7 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(make_shared<Boolean>(false));
     params.push_back(make_shared<Number>(123.45));
     params.push_back(make_shared<String>("Hello, world!"));
-    _call(scope->*"console"->*"log", scope, params);
+    _call(scope->*"console", "log", scope, params);
   }
   {
     shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"), nullptr);
@@ -23,7 +23,7 @@ void run (shared_ptr<Scope> scope) {
     shared_ptr<Object> C = make_shared<Object>(B, nullptr);
     vector<shared_ptr<Value> > params;
     params.push_back(C->__Get__("hello"));
-    _call(scope->*"console"->*"log", scope, params);
+    _call(scope->*"console", "log", scope, params);
   }
   {
     vector<shared_ptr<Value> > params;
@@ -32,7 +32,7 @@ void run (shared_ptr<Scope> scope) {
     {
       vector<shared_ptr<Value> > params;
       params.push_back(tmp);
-      _call(scope->*"console"->*"log", scope, params);
+      _call(scope->*"console", "log", scope, params);
     }
   }
 }
