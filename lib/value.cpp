@@ -43,6 +43,13 @@ Boolean::Boolean (bool value) : Primitive() {
 Number::Number (double value) : Primitive() {
   this->type = NUMBER_VALUE_TYPE;
   this->value = value;
+  this->isNaN = false;
+}
+
+shared_ptr<Number> Number::makeNaN () {
+  shared_ptr<Number> num = make_shared<Number>();
+  num->isNaN = true;
+  return num;
 }
 
 String::String (string value) : Primitive() {

@@ -13,6 +13,7 @@ void run (shared_ptr<Scope> scope) {
     params.push_back(make_shared<Boolean>(true));
     params.push_back(make_shared<Boolean>(false));
     params.push_back(make_shared<Number>(123.45));
+    params.push_back(scope->*"NaN");
     params.push_back(make_shared<String>("Hello, world!"));
     _call(scope->*"console", "log", scope, params);
   }

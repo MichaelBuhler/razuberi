@@ -39,8 +39,7 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
 shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
-      // TODO: should be NaN
-      return make_shared<Number>(0);
+      return Number::makeNaN();
     case NULL_VALUE_TYPE:
       // TODO: should be +0
       return make_shared<Number>(0);
@@ -65,9 +64,14 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
       return make_shared<String>("null");
     case BOOLEAN_VALUE_TYPE:
       return static_pointer_cast<Boolean>(value)->value ? make_shared<String>("true") : make_shared<String>("false");
-    case NUMBER_VALUE_TYPE:
+    case NUMBER_VALUE_TYPE: {
+      shared_ptr<Number> num = static_pointer_cast<Number>(value);
+      if (num->isNaN) {
+        return make_shared<String>("NaN");
+      }
       // TOOD: needs to be much more robust here
-      return make_shared<String>(to_string(static_pointer_cast<Number>(value)->value));
+      return make_shared<String>(to_string(num->value));
+    }
     case STRING_VALUE_TYPE:
       return static_pointer_cast<String>(value);
     case OBJECT_VALUE_TYPE:

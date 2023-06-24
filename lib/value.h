@@ -46,7 +46,9 @@ class Boolean : public Primitive {
 
 class Number : public Primitive {
   public: double value;
-  public: Number (double value);
+  public: bool isNaN;
+  public: Number (double value = 0);
+  public: static std::shared_ptr<Number> makeNaN();
 };
 
 class String : public Primitive {
