@@ -40,15 +40,23 @@ Boolean::Boolean (bool value) : Primitive() {
   this->value = value;
 }
 
-Number::Number (double value) : Primitive() {
+Number::Number (double value, bool isNegative) : Primitive() {
   this->type = NUMBER_VALUE_TYPE;
   this->value = value;
   this->isNaN = false;
+  this->isInfinity = false;
+  this->isNegative = isNegative;
 }
 
 shared_ptr<Number> Number::makeNaN () {
   shared_ptr<Number> num = make_shared<Number>();
   num->isNaN = true;
+  return num;
+}
+
+shared_ptr<Number> Number::makeInfinity (bool isNegative) {
+  shared_ptr<Number> num = make_shared<Number>(0, isNegative);
+  num->isInfinity = true;
   return num;
 }
 

@@ -47,8 +47,11 @@ class Boolean : public Primitive {
 class Number : public Primitive {
   public: double value;
   public: bool isNaN;
-  public: Number (double value = 0);
+  public: bool isInfinity;
+  public: bool isNegative;
+  public: Number (double value = 0, bool isNegative = false);
   public: static std::shared_ptr<Number> makeNaN();
+  public: static std::shared_ptr<Number> makeInfinity(bool isNegative = false);
 };
 
 class String : public Primitive {

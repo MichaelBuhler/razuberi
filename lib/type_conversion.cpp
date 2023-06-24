@@ -69,7 +69,13 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
       if (num->isNaN) {
         return make_shared<String>("NaN");
       }
-      // TOOD: needs to be much more robust here
+      if (num->isInfinity) {
+        return make_shared<String>(num->isNegative ? "-Infinity" : "Infinity");
+      }
+      if (num->value == 0) {
+        return make_shared<String>("0");
+      }
+      // TOOD: needs to be much more robust here, including scientific notation
       return make_shared<String>(to_string(num->value));
     }
     case STRING_VALUE_TYPE:
