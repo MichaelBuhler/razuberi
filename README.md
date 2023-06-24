@@ -17,8 +17,8 @@ Working on the C++ lib to implement the js core features.
 Funtionality supported by the C++ lib are covered by a simple `test.cpp`. Build and execute like so:
 
 ```shell
+make
 make test
-./test
 ```
 
 ## Next Steps
