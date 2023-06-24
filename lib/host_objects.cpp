@@ -8,7 +8,7 @@
 
 using namespace std;
 
-shared_ptr<Value> _log (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _log (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
     if (i != 0) cout << " ";
     shared_ptr<Value> arg = arguments[i];

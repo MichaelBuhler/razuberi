@@ -6,7 +6,7 @@
 
 using namespace std;
 
-shared_ptr<Value> _Function__Call__ (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   throw NotImplementedException("Cannot call `Function` to create new functions at runtime.");
 }
 
@@ -14,12 +14,12 @@ shared_ptr<Object> _Function__Construct__ (shared_ptr<Scope> scope, vector<share
    throw NotImplementedException("Cannot use `Function` as a constructor to create new functions at runtime.");
 }
 
-shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw NotImplementedException("Function.prototype.toString()");
 }
 
-shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0) return make_shared<Boolean>(false);
   return ToBoolean(arguments[0]);
 }
@@ -31,12 +31,12 @@ shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Scope> scope, vector<shared
   return _this;
 }
 
-shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw NotImplementedException("Boolean.prototype.toString()");
 }
 
-shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> thisArg, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   // TODO: needs the context of a `this` arg
   throw NotImplementedException("Boolean.prototype.valueOf()");
 }
