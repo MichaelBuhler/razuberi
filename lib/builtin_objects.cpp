@@ -32,13 +32,28 @@ shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Scope> scope, vector<shared
 }
 
 shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  // TODO: needs the context of a `this` arg
-  throw NotImplementedException("Boolean.prototype.toString()");
+  if (_this->type == OBJECT_VALUE_TYPE) {
+    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+    if (obj->__Class__ == "Boolean") { // TODO: enum this
+      shared_ptr<Boolean> val = static_pointer_cast<Boolean>(obj->__Value__);
+      if (val->value) {
+        return make_shared<String>("true");
+      } else {
+        return make_shared<String>("false");
+      }
+    }
+  }
+  throw TypeError("Boolean.prototype.toString requires that 'this' be a Boolean");
 }
 
 shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  // TODO: needs the context of a `this` arg
-  throw NotImplementedException("Boolean.prototype.valueOf()");
+  if (_this->type == OBJECT_VALUE_TYPE) {
+    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+    if (obj->__Class__ == "Boolean") { // TODO: enum this
+      return obj->__Value__;
+    }
+  }
+  throw TypeError("Boolean.prototype.toString requires that 'this' be a Boolean");
 }
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
@@ -51,6 +66,7 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   FunctionPrototype->__Put__("toString", make_shared<Object>(nullptr, _Function_prototype_toString));
   globalScope->set("Function", Function);
 
+  // TODO: Boolean.prototype should be 'a Boolean object whose value is false'.
   shared_ptr<Object> BooleanPrototype = make_shared<Object>();
   shared_ptr<Object> Boolean = make_shared<Object>(BooleanPrototype, _Boolean__Call__, _Boolean__Construct__);
   Boolean->__Class__ = "Boolean"; // TODO: enum this
