@@ -6,6 +6,69 @@
 
 using namespace std;
 
+shared_ptr<Value> _Object__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  if (arguments.size() == 0) {
+    shared_ptr<Object> obj = make_shared<Object>();
+    obj->__Class__ = "Object";
+    return obj;
+  }
+  shared_ptr<Value> arg = arguments[0];
+  switch (arg->type) {
+    case UNDEFINED_VALUE_TYPE:
+    case NULL_VALUE_TYPE: {
+      shared_ptr<Object> obj = make_shared<Object>();
+      obj->__Class__ = "Object";
+      return obj;
+    }
+    case BOOLEAN_VALUE_TYPE:
+    case NUMBER_VALUE_TYPE:
+    case STRING_VALUE_TYPE:
+    case OBJECT_VALUE_TYPE:
+      return ToObject(arg);
+  }
+}
+
+shared_ptr<Object> _Object__Construct__ (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  shared_ptr<Object> _this = static_pointer_cast<Object>(scope->*"this");
+  _this->__Class__ = "Object"; // TODO: enum this
+  if (arguments.size() == 0) return _this;
+  shared_ptr<Value> arg = arguments[0];
+  switch (arg->type) {
+    case UNDEFINED_VALUE_TYPE:
+    case NULL_VALUE_TYPE:
+      return _this;
+    case BOOLEAN_VALUE_TYPE:
+    case NUMBER_VALUE_TYPE:
+    case STRING_VALUE_TYPE:
+      return ToObject(arg);
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(arg);
+  }
+}
+
+shared_ptr<Value> _Object_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  switch (_this->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return make_shared<String>("[object Undefined]");
+    case NULL_VALUE_TYPE:
+      return make_shared<String>("[object Null]");
+    case BOOLEAN_VALUE_TYPE:
+      return make_shared<String>("[object Boolean]");
+    case NUMBER_VALUE_TYPE:
+      return make_shared<String>("[object Number]");
+    case STRING_VALUE_TYPE:
+      return make_shared<String>("[object String]");
+    case OBJECT_VALUE_TYPE: {
+      shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+      return make_shared<String>("[object "+obj->__Class__+"]");
+    }
+  }
+}
+
+shared_ptr<Value> _Object_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  return ToObject(_this);
+}
+
 shared_ptr<Value> _Function__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   throw NotImplementedException("Cannot call `Function` to create new functions at runtime.");
 }
@@ -15,7 +78,6 @@ shared_ptr<Object> _Function__Construct__ (shared_ptr<Scope> scope, vector<share
 }
 
 shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  // TODO: needs the context of a `this` arg
   throw NotImplementedException("Function.prototype.toString()");
 }
 
@@ -58,6 +120,15 @@ shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_pt
 }
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
+  shared_ptr<Object> ObjectPrototype = make_shared<Object>();
+  shared_ptr<Object> ObjectObject = make_shared<Object>(ObjectPrototype, _Object__Call__, _Object__Construct__);
+  ObjectObject->__Put__("prototype", ObjectPrototype);
+  ObjectObject->__Put__("length", make_shared<Number>(1));
+  ObjectPrototype->__Put__("constructor", ObjectObject);
+  ObjectPrototype->__Put__("toString", make_shared<Object>(nullptr, _Object_prototype_toString));
+  ObjectPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _Object_prototype_valueOf));
+  globalScope->set("Object", ObjectObject);
+
   shared_ptr<Object> FunctionPrototype = make_shared<Object>();
   shared_ptr<Object> Function = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
   Function->__Put__("prototype", FunctionPrototype);
