@@ -54,4 +54,12 @@ void run (shared_ptr<Scope> scope) {
       }
     }
   }
+  {
+    vector<shared_ptr<Value> > params;
+    params.push_back(static_pointer_cast<Value>(make_shared<Number>(123)) + static_pointer_cast<Value>(make_shared<Number>(123)));
+    params.push_back(static_pointer_cast<Value>(make_shared<Number>(123)) + static_pointer_cast<Value>(Number::makeNaN()));
+    params.push_back(static_pointer_cast<Value>(Number::makeInfinity()) + static_pointer_cast<Value>(make_shared<Number>(123)));
+    params.push_back(static_pointer_cast<Value>(Number::makeInfinity()) + static_pointer_cast<Value>(Number::makeInfinity(true)));
+    _call(scope->*"console", "log", scope, params);
+  }
 }

@@ -58,6 +58,7 @@ class Number : public Primitive {
   public: Number (double value = 0, bool isNegative = false);
   public: static std::shared_ptr<Number> makeNaN();
   public: static std::shared_ptr<Number> makeInfinity(bool isNegative = false);
+  public: std::shared_ptr<Number> plus (std::shared_ptr<Number> b);
 };
 
 class String : public Primitive {
