@@ -130,19 +130,27 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
     case NULL_VALUE_TYPE:
       return make_shared<String>("null");
     case BOOLEAN_VALUE_TYPE:
-      return static_pointer_cast<Boolean>(value)->value ? make_shared<String>("true") : make_shared<String>("false");
+      if (static_pointer_cast<Boolean>(value)->value) {
+        return make_shared<String>("true");
+      } else {
+        return make_shared<String>("false");
+      }
     case NUMBER_VALUE_TYPE: {
       shared_ptr<Number> num = static_pointer_cast<Number>(value);
       if (num->isNaN) {
         return make_shared<String>("NaN");
       }
       if (num->isInfinity) {
-        return make_shared<String>(num->isNegative ? "-Infinity" : "Infinity");
+        if (num->isNegative) {
+          return make_shared<String>("-Infinity");
+        } else {
+          return make_shared<String>("Infinity");
+        }
       }
       if (num->value == 0) {
         return make_shared<String>("0");
       }
-      // TOOD: needs to be much more robust here, including scientific notation
+      // TODO: needs to be much more robust here, including scientific notation
       return make_shared<String>(to_string(num->value));
     }
     case STRING_VALUE_TYPE:
@@ -161,6 +169,7 @@ shared_ptr<Object> ToObject (shared_ptr<Value> value) {
     case BOOLEAN_VALUE_TYPE:
       throw NotImplementedException("cannot convert a boolean to an object");
     case NUMBER_VALUE_TYPE:
+      // TODO: implement this after the `Number` type
       throw NotImplementedException("cannot convert a number to an object");
     case STRING_VALUE_TYPE:
       throw NotImplementedException("cannot convert a string to an object");
