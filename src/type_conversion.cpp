@@ -1,5 +1,7 @@
 #include "type_conversion.h"
 
+#include <math.h>
+
 #include "exception.h"
 
 using namespace std;
@@ -54,6 +56,19 @@ shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
       // TODO: ToPrimitive() should include a hint
       return ToNumber(ToPrimitive(value));
   }
+}
+
+shared_ptr<Number> ToInteger (shared_ptr<Value> value) {
+  shared_ptr<Number> num = ToNumber(value);
+  if (num->isNaN) {
+    return make_shared<Number>(0, false);
+  }
+  if (num->value == 0 || num->isInfinity) {
+    return num;
+  }
+  double sign = num->value > 0 ? 1 : -1;
+  double magnitude = floor(abs(num->value));
+  return make_shared<Number>(sign * magnitude);
 }
 
 shared_ptr<String> ToString (shared_ptr<Value> value) {
