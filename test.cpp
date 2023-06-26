@@ -37,4 +37,19 @@ void run (shared_ptr<Scope> scope) {
       _call(scope->*"console", "log", scope, params);
     }
   }
+  {
+    vector<shared_ptr<Value> > params;
+    params.push_back(make_shared<String>("Hello, world!"));
+    shared_ptr<Object> str = _new(scope->*"String", params);
+    {
+      vector<shared_ptr<Value> > params;
+      params.push_back(make_shared<Number>(1));
+      shared_ptr<Value> c = _call(str, "charAt", scope, params);
+      {
+        vector<shared_ptr<Value> > params;
+        params.push_back(c);
+        _call(scope->*"console", "log", scope, params);
+      }
+    }
+  }
 }

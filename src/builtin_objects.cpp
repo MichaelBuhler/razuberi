@@ -133,6 +133,18 @@ shared_ptr<Value> _String_fromCharCode (shared_ptr<Value> _this, shared_ptr<Scop
   throw NotImplementedException("String.fromCharCode()");
 }
 
+shared_ptr<Value> _String_prototype_charAt (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  shared_ptr<String> str = ToString(_this);
+  shared_ptr<Value> arg;
+  if (arguments.size() == 0) arg = make_shared<Undefined>();
+  else arg = arguments[0];
+  unsigned long index = ToInteger(arguments[0])->value;
+  if (index < 0 || index >= str->value.length()) {
+    return make_shared<String>("");
+  }
+  return make_shared<String>(str->value.substr(index, 1));
+}
+
 shared_ptr<Value> _String_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
@@ -187,6 +199,7 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   StringObject->__Put__("fromCharCode", make_shared<Object>(nullptr, _String_fromCharCode));
   StringObject->__Put__("prototype", StringPrototype);
   StringObject->__Put__("length", make_shared<Number>(1));
+  StringPrototype->__Put__("charAt", make_shared<Object>(nullptr, _String_prototype_charAt));
   StringPrototype->__Put__("constructor", StringObject);
   StringPrototype->__Put__("toString", make_shared<Object>(nullptr, _String_prototype_toString));
   StringPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _String_prototype_valueOf));
