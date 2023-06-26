@@ -34,11 +34,19 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
       return make_shared<Boolean>(false);
     case BOOLEAN_VALUE_TYPE:
       return static_pointer_cast<Boolean>(value);
-    case NUMBER_VALUE_TYPE:
-      // TODO: should more carefully check +0, -0, and NaN
-      return make_shared<Boolean>(static_pointer_cast<Number>(value)->value != 0);
+    case NUMBER_VALUE_TYPE: {
+      shared_ptr<Number> num = static_pointer_cast<Number>(value);
+      if (num->isNaN) return make_shared<Boolean>(false);
+      if (num->isInfinity) return make_shared<Boolean>(true);
+      if (num->value == 0) return make_shared<Boolean>(false);
+      return make_shared<Boolean>(true);
+    }
     case STRING_VALUE_TYPE:
-      return make_shared<Boolean>(static_pointer_cast<String>(value)->value != "");
+      if (static_pointer_cast<String>(value)->value == "") {
+        return make_shared<Boolean>(false);
+      } else {
+        return make_shared<Boolean>(true);
+      }
     case OBJECT_VALUE_TYPE:
       return make_shared<Boolean>(true); 
   }
@@ -49,14 +57,17 @@ shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
     case UNDEFINED_VALUE_TYPE:
       return Number::makeNaN();
     case NULL_VALUE_TYPE:
-      // TODO: should be +0
-      return make_shared<Number>(0);
+      return make_shared<Number>(0, false);
     case BOOLEAN_VALUE_TYPE:
-      // TODO: false should be +0
-      return static_pointer_cast<Boolean>(value)->value ? make_shared<Number>(1) : make_shared<Number>(0);
+      if (static_pointer_cast<Boolean>(value)->value) {
+        return make_shared<Number>(1);
+      } else {
+        return make_shared<Number>(0, false);
+      }
     case NUMBER_VALUE_TYPE:
       return static_pointer_cast<Number>(value);
     case STRING_VALUE_TYPE:
+      // TODO: need to parse a floating point number from this string
       throw NotImplementedException("cannot convert a string to a number");
     case OBJECT_VALUE_TYPE:
       return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
@@ -68,12 +79,48 @@ shared_ptr<Number> ToInteger (shared_ptr<Value> value) {
   if (num->isNaN) {
     return make_shared<Number>(0, false);
   }
-  if (num->value == 0 || num->isInfinity) {
+  if (num->isInfinity || num->value == 0) {
     return num;
   }
   double sign = num->value > 0 ? 1 : -1;
   double magnitude = floor(abs(num->value));
   return make_shared<Number>(sign * magnitude);
+}
+
+std::shared_ptr<Number> ToInt32 (std::shared_ptr<Value> value) {
+  shared_ptr<Number> num = ToNumber(value);
+  if (num->isNaN || num->isInfinity || num->value == 0) {
+    return make_shared<Number>(0, false);
+  }
+  double sign = num->value > 0 ? 1 : -1;
+  double magnitude = floor(abs(num->value));
+  int32_t x = (uint64_t)(sign * magnitude) % (1<<31); // 1<<31 == 2^32
+  if (x >= (1<<30)) { // 1<<30 == 2^31
+    return make_shared<Number>(x - (1<<31)); // 1<<31 == 2^32
+  }
+  return make_shared<Number>(x);
+}
+
+std::shared_ptr<Number> ToUint32 (std::shared_ptr<Value> value) {
+  shared_ptr<Number> num = ToNumber(value);
+  if (num->isNaN || num->isInfinity || num->value == 0) {
+    return make_shared<Number>(0, false);
+  }
+  double sign = num->value > 0 ? 1 : -1;
+  double magnitude = floor(abs(num->value));
+  uint32_t x = (uint64_t)(sign * magnitude) % (1<<31); // 1<<31 == 2^32
+  return make_shared<Number>(x);
+}
+
+std::shared_ptr<Number> ToUint16 (std::shared_ptr<Value> value) {
+  shared_ptr<Number> num = ToNumber(value);
+  if (num->isNaN || num->isInfinity || num->value == 0) {
+    return make_shared<Number>(0, false);
+  }
+  double sign = num->value > 0 ? 1 : -1;
+  double magnitude = floor(abs(num->value));
+  uint16_t x = (uint64_t)(sign * magnitude) % (1<<15); // 1<<15 == 2^16
+  return make_shared<Number>(x);
 }
 
 shared_ptr<String> ToString (shared_ptr<Value> value) {
