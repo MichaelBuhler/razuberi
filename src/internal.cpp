@@ -19,8 +19,7 @@ shared_ptr<Value> _call (shared_ptr<Value> base, string propertyName, shared_ptr
   if (obj->__Call__ == nullptr) {
     throw TypeError("object is not a function");
   }
-  shared_ptr<Scope> functionScope = make_shared<Scope>(scope);
-  functionScope->set("this", callee);
+  shared_ptr<Scope> functionScope = make_shared<Scope>();
   return obj->__Call__(base, functionScope, params);
 }
 
@@ -42,7 +41,7 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
       prototype = make_shared<Object>();
     }
   } else {
-    // TODO: not really a TypeError, but rather an implmentation error
+    // TODO: not really a TypeError, but rather an implementation error
     throw TypeError("constructor has no prototype");
   }
   shared_ptr<Object> newObject = make_shared<Object>(prototype);
