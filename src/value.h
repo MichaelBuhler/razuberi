@@ -61,7 +61,7 @@ class String : public Primitive {
 
 class Object : public Value {
   private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> _this, std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
-  private: typedef std::shared_ptr<Object> (*Construct)(std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
+  private: typedef std::shared_ptr<Object> (*Construct)(std::shared_ptr<Object> _this, std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
   private: class Property {
     public: std::shared_ptr<Value> value;
     public: bool ReadOnly;

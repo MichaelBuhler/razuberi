@@ -28,8 +28,7 @@ shared_ptr<Value> _Object__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> sc
   }
 }
 
-shared_ptr<Object> _Object__Construct__ (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  shared_ptr<Object> _this = static_pointer_cast<Object>(scope->*"this");
+shared_ptr<Object> _Object__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "Object"; // TODO: enum this
   if (arguments.size() == 0) return _this;
   shared_ptr<Value> arg = arguments[0];
@@ -73,7 +72,7 @@ shared_ptr<Value> _Function__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> 
   throw NotImplementedException("Cannot call `Function` to create new functions at runtime.");
 }
 
-shared_ptr<Object> _Function__Construct__ (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Object> _Function__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
    throw NotImplementedException("Cannot use `Function` as a constructor to create new functions at runtime.");
 }
 
@@ -86,8 +85,7 @@ shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> s
   return ToBoolean(arguments[0]);
 }
 
-shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  shared_ptr<Object> _this = static_pointer_cast<Object>(scope->*"this");
+shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "Boolean"; // TODO: enum this
   if (arguments.size() == 0) _this->__Value__ = make_shared<Boolean>(false);
   else _this->__Value__ = ToBoolean(arguments[0]);

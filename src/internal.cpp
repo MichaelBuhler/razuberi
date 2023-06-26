@@ -45,9 +45,9 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
     // TODO: not really a TypeError, but rather an implmentation error
     throw TypeError("constructor has no prototype");
   }
+  shared_ptr<Object> newObject = make_shared<Object>(prototype);
   shared_ptr<Scope> constructorScope = make_shared<Scope>();
-  constructorScope->set("this", make_shared<Object>(prototype));
-  shared_ptr<Value> result = obj->__Construct__(constructorScope, params);
+  shared_ptr<Value> result = obj->__Construct__(newObject, constructorScope, params);
   if (result->type != OBJECT_VALUE_TYPE) {
     throw TypeError("constructor returned a non-object");
   }
