@@ -33,6 +33,8 @@ std::shared_ptr<Value> operator ->* (std::shared_ptr<Value> value, std::string n
 
 std::shared_ptr<Value> operator + (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
 
+std::shared_ptr<Value> operator - (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
+
 class Primitive : public Value {
   public: Primitive ();
 };
@@ -59,6 +61,7 @@ class Number : public Primitive {
   public: static std::shared_ptr<Number> makeNaN();
   public: static std::shared_ptr<Number> makeInfinity(bool isNegative = false);
   public: std::shared_ptr<Number> plus (std::shared_ptr<Number> b);
+  public: std::shared_ptr<Number> minus (std::shared_ptr<Number> b);
 };
 
 class String : public Primitive {

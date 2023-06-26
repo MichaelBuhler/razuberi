@@ -25,6 +25,12 @@ shared_ptr<Value> operator + (shared_ptr<Value> valueA, shared_ptr<Value> valueB
   }
 }
 
+shared_ptr<Value> operator - (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
+  shared_ptr<Number> a = ToNumber(valueA);
+  shared_ptr<Number> b = ToNumber(valueB);
+  return a->minus(b);
+}
+
 Primitive::Primitive () : Value() {}
 
 Undefined::Undefined () : Primitive() {
@@ -86,6 +92,24 @@ shared_ptr<Number> Number::plus (shared_ptr<Number> b) {
     }
   }
   return make_shared<Number>(a->value + b->value);
+}
+
+shared_ptr<Number> Number::minus (shared_ptr<Number> b) {
+  Number* a = this;
+  shared_ptr<Number> negativeB;
+  if (b->isNaN) {
+    negativeB = Number::makeNaN();
+  }
+  else if (b->isInfinity) {
+    negativeB = Number::makeInfinity(!b->isNegative);
+  }
+  else if (b->value == 0) {
+    negativeB = make_shared<Number>(b->value, !b->isNegative);
+  }
+  else {
+    negativeB = make_shared<Number>(-b->value);
+  }
+  return a->plus(negativeB);
 }
 
 String::String (string value) : Primitive() {
