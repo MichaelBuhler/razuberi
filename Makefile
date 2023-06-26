@@ -1,37 +1,36 @@
-source_headers := $(shell find -s lib -name "*.h")
-library_headers := $(source_headers:lib/%=out/include/%)
+source_headers := $(shell find -s src -name "*.h")
+razuberi_headers := $(source_headers:src/%=out/include/%)
 
-source_files := $(shell find -s lib -name "*.cpp")
-library_objects := $(source_files:lib/%.cpp=out/tmp/%.o)
+source_files := $(shell find -s src -name "*.cpp")
+razuberi_objects := $(source_files:src/%.cpp=out/obj/%.o)
 
 .PHONY: all
-all: library headers out/test
+all: headers lib out/test
 
-.PHONY: library
-library: out/lib/librazuberi.a
-out/lib/librazuberi.a: out/lib/librazuberi.a($(library_objects)) | out/lib
+.PHONY: lib
+lib: out/lib/librazuberi.a
+out/lib/librazuberi.a: out/lib/librazuberi.a($(razuberi_objects)) | out/lib
 	ranlib out/lib/librazuberi.a
 
-out/lib/librazuberi.a($(library_objects)): | out/lib
+out/lib/librazuberi.a($(razuberi_objects)): | out/lib
 
-$(library_objects): out/tmp/%.o: lib/%.cpp | out/tmp
+$(razuberi_objects): out/obj/%.o: src/%.cpp | out/obj
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
 .PHONY: headers
-headers: ${library_headers}
-$(library_headers): out/include/%: lib/% | out/include
+headers: ${razuberi_headers}
+$(razuberi_headers): out/include/%: src/% | out/include
 	cp $< $@
-
-out/tmp/test.o: test.cpp ${library_headers} | out/tmp
-	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -Iout/include test.cpp -o out/tmp/test.o
 
 .PHONY: test
 test: out/test
 	@echo Running out/test...
 	@echo
 	@out/test
-out/test: out/tmp/test.o out/lib/librazuberi.a
+out/test: out/obj/test.o out/lib/librazuberi.a
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -Lout/lib -lrazuberi $< -o out/test
+out/obj/test.o: test.cpp ${razuberi_headers} | out/obj
+	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -Iout/include test.cpp -o out/obj/test.o
 
 .PHONY: clean
 clean:
@@ -43,6 +42,6 @@ out/include: | out
 	mkdir out/include
 out/lib: | out
 	mkdir out/lib
-out/tmp: | out
-	mkdir out/tmp
+out/obj: | out
+	mkdir out/obj
 
