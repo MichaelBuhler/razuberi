@@ -6,8 +6,7 @@
 
 using namespace std;
 
-// TODO: ToPrimitive() should include a hint
-shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value) {
+shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value, HintValueType hint) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
     case NULL_VALUE_TYPE:
@@ -53,8 +52,7 @@ shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
     case STRING_VALUE_TYPE:
       throw NotImplementedException("cannot convert a string to a number");
     case OBJECT_VALUE_TYPE:
-      // TODO: ToPrimitive() should include a hint
-      return ToNumber(ToPrimitive(value));
+      return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
   }
 }
 
@@ -96,8 +94,7 @@ shared_ptr<String> ToString (shared_ptr<Value> value) {
     case STRING_VALUE_TYPE:
       return static_pointer_cast<String>(value);
     case OBJECT_VALUE_TYPE:
-      // TODO: ToPrimitive() should include a hint
-      return ToString(ToPrimitive(value));
+      return ToString(ToPrimitive(value, STRING_HINT_VALUE_TYPE));
   }
 }
 

@@ -18,6 +18,12 @@ enum ValueType {
   OBJECT_VALUE_TYPE
 };
 
+enum HintValueType {
+  NONE_HINT_VALUE_TYPE,
+  STRING_HINT_VALUE_TYPE,
+  NUMBER_HINT_VALUE_TYPE
+};
+
 class Value {
   public: ValueType type;
   public: Value ();

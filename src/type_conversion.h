@@ -4,8 +4,7 @@
 
 #include "value.h"
 
-// TODO: ToPrimitive() should include a hint
-std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Value> value);
+std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Value> value, HintValueType hint);
 
 std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Value> value);
 
