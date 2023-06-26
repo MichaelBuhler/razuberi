@@ -124,8 +124,11 @@ shared_ptr<Value> _String__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> sc
 
 shared_ptr<Object> _String__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "String"; // TODO: enum this
-  if (arguments.size() == 0) _this->__Value__ = make_shared<String>("");
-  else _this->__Value__ = ToString(arguments[0]);
+  shared_ptr<String> str;
+  if (arguments.size() == 0) str = make_shared<String>("");
+  else str = ToString(arguments[0]);
+  _this->__Value__ = str;
+  _this->__Put__("length", make_shared<Number>(str->value.length()));
   return _this;
 }
 

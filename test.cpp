@@ -47,6 +47,8 @@ void run (shared_ptr<Scope> scope) {
       shared_ptr<Value> c = _call(str, "charAt", scope, params);
       {
         vector<shared_ptr<Value> > params;
+        params.push_back(str);
+        params.push_back(str->*"length");
         params.push_back(c);
         _call(scope->*"console", "log", scope, params);
       }
