@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "exception.h"
+#include "internal.h"
 
 using namespace std;
 
@@ -15,7 +16,13 @@ shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value, HintValueType hint) 
     case STRING_VALUE_TYPE:
       return static_pointer_cast<Primitive>(value);
     case OBJECT_VALUE_TYPE:
-      throw NotImplementedException("cannot convert an object to a primitive");
+      shared_ptr<Object> obj = static_pointer_cast<Object>(value);
+      shared_ptr<Value> result = __DefaultValue__(obj, hint);
+      // TODO: result may be a Reference value type?
+      if (result->type == OBJECT_VALUE_TYPE) {
+        throw TypeError("[[DefaultValue]] returned an object");
+      }
+      return static_pointer_cast<Primitive>(result);
   }
 }
 

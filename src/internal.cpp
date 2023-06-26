@@ -52,3 +52,62 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
   }
   return static_pointer_cast<Object>(result);
 }
+
+std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint) {
+  if (hint == NONE_HINT_VALUE_TYPE) {
+    if (_this->__Class__ == "Date") { // TODO: enum this
+      hint = STRING_HINT_VALUE_TYPE;
+    } else {
+      hint = NUMBER_HINT_VALUE_TYPE;
+    }
+  }
+  vector<shared_ptr<Value> > emptyParams;
+  switch (hint) {
+    case NONE_HINT_VALUE_TYPE:
+      // TODO: not really a TypeError, but rather an implementation error
+      throw TypeError("hint should not be None here");
+    case STRING_HINT_VALUE_TYPE: {
+      shared_ptr<Value> toString = _this->*"toString";
+      if (toString->type == OBJECT_VALUE_TYPE) {
+        shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
+        // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
+        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        if (result->type != OBJECT_VALUE_TYPE) {
+          return result;
+        }
+      }
+      shared_ptr<Value> valueOf = _this->*"valueOf";
+      if (valueOf->type == OBJECT_VALUE_TYPE) {
+        shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
+        // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
+        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        if (result->type != OBJECT_VALUE_TYPE) {
+          return result;
+        }
+      }
+      break;
+    }
+    case NUMBER_HINT_VALUE_TYPE:{
+      shared_ptr<Value> valueOf = _this->*"valueOf";
+      if (valueOf->type == OBJECT_VALUE_TYPE) {
+        shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
+        // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
+        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        if (result->type != OBJECT_VALUE_TYPE) {
+          return result;
+        }
+      }
+      shared_ptr<Value> toString = _this->*"toString";
+      if (toString->type == OBJECT_VALUE_TYPE) {
+        shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
+        // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
+        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        if (result->type != OBJECT_VALUE_TYPE) {
+          return result;
+        }
+      }
+      break;
+    }
+  }
+  throw TypeError("unable to convert object to primitive using [[DefaultValue]]");
+}
