@@ -117,6 +117,22 @@ shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_pt
   throw TypeError("Boolean.prototype.valueOf requires that 'this' be a Boolean");
 }
 
+shared_ptr<Value> _String__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  if (arguments.size() == 0) return make_shared<String>("");
+  return ToString(arguments[0]);
+}
+
+shared_ptr<Object> _String__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  _this->__Class__ = "String"; // TODO: enum this
+  if (arguments.size() == 0) _this->__Value__ = make_shared<String>("");
+  else _this->__Value__ = ToString(arguments[0]);
+  return _this;
+}
+
+shared_ptr<Value> _String_fromCharCode (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  throw NotImplementedException("String.fromCharCode()");
+}
+
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>(nullptr); // TODO: should actually be the Object prototype object
   shared_ptr<Object> FunctionObject = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
@@ -144,4 +160,13 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   BooleanPrototype->__Put__("toString", make_shared<Object>(nullptr, _Boolean_prototype_toString));
   BooleanPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _Boolean_prototype_valueOf));
   globalScope->set("Boolean", BooleanObject);
+
+  //TODO: The String prototype object is itself a String object (its [[Class]] is "String") whose value is an empty string.
+  shared_ptr<Object> StringPrototype = make_shared<Object>(ObjectPrototype);
+  shared_ptr<Object> StringObject = make_shared<Object>(FunctionPrototype, _String__Call__, _String__Construct__);
+  StringObject->__Put__("fromCharCode", make_shared<Object>(nullptr, _String_fromCharCode));
+  StringObject->__Put__("prototype", StringPrototype);
+  StringObject->__Put__("length", make_shared<Number>(1));
+  StringPrototype->__Put__("constructor", StringObject);
+  globalScope->set("String", StringObject);
 }
