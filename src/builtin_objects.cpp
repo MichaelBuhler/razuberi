@@ -133,6 +133,26 @@ shared_ptr<Value> _String_fromCharCode (shared_ptr<Value> _this, shared_ptr<Scop
   throw NotImplementedException("String.fromCharCode()");
 }
 
+shared_ptr<Value> _String_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  if (_this->type == OBJECT_VALUE_TYPE) {
+    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+    if (obj->__Class__ == "String") { // TODO: enum this
+      return obj->__Value__;
+    }
+  }
+  throw TypeError("String.prototype.toString requires that 'this' be a String");
+}
+
+shared_ptr<Value> _String_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+  if (_this->type == OBJECT_VALUE_TYPE) {
+    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+    if (obj->__Class__ == "String") { // TODO: enum this
+      return obj->__Value__;
+    }
+  }
+  throw TypeError("String.prototype.valueOf requires that 'this' be a String");
+}
+
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>(nullptr); // TODO: should actually be the Object prototype object
   shared_ptr<Object> FunctionObject = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
@@ -168,5 +188,7 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   StringObject->__Put__("prototype", StringPrototype);
   StringObject->__Put__("length", make_shared<Number>(1));
   StringPrototype->__Put__("constructor", StringObject);
+  StringPrototype->__Put__("toString", make_shared<Object>(nullptr, _String_prototype_toString));
+  StringPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _String_prototype_valueOf));
   globalScope->set("String", StringObject);
 }
