@@ -1,0 +1,47 @@
+{
+  "name": "@razuberi/transpiler",
+  "version": "0.0.1",
+  "description": "a JavaScript/TypeScript -> C++ transpiler",
+  "keywords":[
+    "razuberi",
+    "js",
+    "javascript",
+    "ts",
+    "typescript",
+    "c++",
+    "cpp",
+    "compiler",
+    "transpiler"
+  ],
+  "homepage": "https://github.com/MichaelBuhler/razuberi#readme",
+  "bugs": "https://github.com/MichaelBuhler/razuberi/issues",
+  "license": "UNLICENSED",
+  "author": {
+    "name" : "Michael Buhler",
+    "email" : "michael@michaelbuhler.com",
+    "url" : "http://michaelbuhler.com/"
+  },
+  "contributors": [],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "razuberi": "./bin/razuberi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MichaelBuhler/razuberi.git",
+    "directory": "ts"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.5"
+  },
+
+  "packageManager": "pnpm@8.6.5",
+  "type": "module",
+  "exports": "./dist/index.js"
+}
