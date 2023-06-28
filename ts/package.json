@@ -1,7 +1,7 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.1",
-  "description": "a JavaScript/TypeScript -> C++ transpiler",
+  "version": "0.0.2",
+  "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords":[
     "razuberi",
     "js",
@@ -23,11 +23,12 @@
   },
   "contributors": [],
   "files": [
+    "bin",
     "dist"
   ],
   "main": "dist/index.js",
   "bin": {
-    "razuberi": "./bin/razuberi"
+    "razuberi": "./bin/razuberi.mjs"
   },
   "repository": {
     "type": "git",
