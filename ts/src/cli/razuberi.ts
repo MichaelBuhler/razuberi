@@ -9,13 +9,13 @@ const argParser = new ArgumentParser({
 })
 
 argParser.add_argument('inputFilename', {
-  help: 'JavaScript/TypeScript file to transpile',
+  help: 'a JavaScript/TypeScript file to transpile. only one <input> file is supported at this time.',
   metavar: '<input>',
   type: (arg: string) => path.join(process.cwd(), arg),
 })
 
 argParser.add_argument('-o', '--out', {
-  default: path.join(process.cwd(), 'a.cpp'),
+  default: 'a.cpp',
   dest: 'outputFilename',
   help: 'write output C++ to <file>. defaults to `a.cpp`',
   metavar: '<file>',
