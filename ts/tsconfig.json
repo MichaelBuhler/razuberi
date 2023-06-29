@@ -3,9 +3,9 @@
     "src"
   ],
   "compilerOptions": {
-    "module": "ES6",
-    "moduleResolution": "Node",
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "outDir": "dist",
-    "target": "ES6"
+    "target": "ES2017"
   }
 }

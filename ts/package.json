@@ -28,7 +28,7 @@
   ],
   "main": "dist/index.js",
   "bin": {
-    "razuberi": "./bin/razuberi.mjs"
+    "razuberi": "./bin/razuberi.js"
   },
   "repository": {
     "type": "git",
@@ -40,13 +40,13 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "argparse": "^2.0.1"
+    "argparse": "^2.0.1",
+    "typescript": "^5.1.5"
   },
   "devDependencies": {
     "@types/argparse": "^2.0.10",
     "@types/node": "^20.3.2",
-    "rimraf": "^5.0.1",
-    "typescript": "^5.1.5"
+    "rimraf": "^5.0.1"
   },
   "packageManager": "pnpm@8.6.5",
   "type": "module",

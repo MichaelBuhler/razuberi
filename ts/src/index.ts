@@ -1,1 +1,2 @@
-export default {}
+
+export { transpile } from './lib/transpile.js'

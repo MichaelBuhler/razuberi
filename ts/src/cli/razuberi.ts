@@ -22,6 +22,19 @@ argParser.add_argument('-o', '--out', {
   type: (arg: string) => path.join(process.cwd(), arg),
 })
 
-const args = argParser.parse_args()
+const {
+  inputFilename,
+  outputFilename,
+} = argParser.parse_args()
 
-console.log(args)
+const { readFile } = await import('node:fs/promises')
+
+const inputFileContents = await readFile(inputFilename, 'utf-8')
+
+const { transpile } = await import('../lib/transpile.js')
+
+const outputFileContents = transpile(inputFileContents)
+
+const { writeFile } = await import('node:fs/promises')
+
+await writeFile(outputFilename, outputFileContents)
