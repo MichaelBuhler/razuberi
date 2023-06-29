@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",
@@ -37,9 +37,11 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "bin/razuberi.js test/helloworld.ts -o test/helloworld.cpp"
   },
   "dependencies": {
+    "@babel/parser": "^7.22.5",
     "argparse": "^2.0.1",
     "typescript": "^5.1.5"
   },
