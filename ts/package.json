@@ -38,7 +38,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
-    "test": "bin/razuberi.js test/helloworld.ts -o test/helloworld.cpp"
+    "test": "test/helloworld.sh"
   },
   "dependencies": {
     "@babel/parser": "^7.22.5",
