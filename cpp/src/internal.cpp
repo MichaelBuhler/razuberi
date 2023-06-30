@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// TODO: base+propertyName are mocking the Refernce type
+// TODO: base+propertyName are mocking the Reference type
 shared_ptr<Value> _call (shared_ptr<Value> base, string propertyName, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
   // TODO: dangerous to cast `base` to Object here
   shared_ptr<Value> callee = static_pointer_cast<Object>(base)->__Get__(propertyName);

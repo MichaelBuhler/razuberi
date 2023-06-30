@@ -7,50 +7,50 @@ using namespace std;
 
 void run (shared_ptr<Scope> scope) {
   {
-    vector<shared_ptr<Value> > params;
-    params.push_back(make_shared<Undefined>());
-    params.push_back(make_shared<Null>());
-    params.push_back(make_shared<Boolean>(true));
-    params.push_back(make_shared<Boolean>(false));
-    params.push_back(make_shared<Number>(123.45));
-    params.push_back(scope->*"NaN");
-    params.push_back(Number::makeInfinity(true));
-    params.push_back(make_shared<String>("Hello, world!"));
-    _call(scope->*"console", "log", scope, params);
+    vector<shared_ptr<Value> > args;
+    args.push_back(make_shared<Undefined>());
+    args.push_back(make_shared<Null>());
+    args.push_back(make_shared<Boolean>(true));
+    args.push_back(make_shared<Boolean>(false));
+    args.push_back(make_shared<Number>(123.45));
+    args.push_back(scope->*"NaN");
+    args.push_back(Number::makeInfinity(true));
+    args.push_back(make_shared<String>("Hello, world!"));
+    _call(scope->*"console", "log", scope, args);
   }
   {
     shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"), nullptr);
     A->__Put__("hello", make_shared<String>("world"));
     shared_ptr<Object> B = make_shared<Object>(A, nullptr);
     shared_ptr<Object> C = make_shared<Object>(B, nullptr);
-    vector<shared_ptr<Value> > params;
-    params.push_back(C->__Get__("hello"));
-    _call(scope->*"console", "log", scope, params);
+    vector<shared_ptr<Value> > args;
+    args.push_back(C->__Get__("hello"));
+    _call(scope->*"console", "log", scope, args);
   }
   {
-    vector<shared_ptr<Value> > params;
-    params.push_back(make_shared<Boolean>(true));
-    shared_ptr<Object> tmp = _new(scope->*"Boolean", params);
+    vector<shared_ptr<Value> > args;
+    args.push_back(make_shared<Boolean>(true));
+    shared_ptr<Object> tmp = _new(scope->*"Boolean", args);
     {
-      vector<shared_ptr<Value> > params;
-      params.push_back(tmp);
-      _call(scope->*"console", "log", scope, params);
+      vector<shared_ptr<Value> > args;
+      args.push_back(tmp);
+      _call(scope->*"console", "log", scope, args);
     }
   }
   {
-    vector<shared_ptr<Value> > params;
-    params.push_back(make_shared<String>("Hello, world!"));
-    shared_ptr<Object> str = _new(scope->*"String", params);
+    vector<shared_ptr<Value> > args;
+    args.push_back(make_shared<String>("Hello, world!"));
+    shared_ptr<Object> str = _new(scope->*"String", args);
     {
-      vector<shared_ptr<Value> > params;
-      params.push_back(make_shared<Number>(1));
-      shared_ptr<Value> c = _call(str, "charAt", scope, params);
+      vector<shared_ptr<Value> > args;
+      args.push_back(make_shared<Number>(1));
+      shared_ptr<Value> c = _call(str, "charAt", scope, args);
       {
-        vector<shared_ptr<Value> > params;
-        params.push_back(str);
-        params.push_back(str->*"length");
-        params.push_back(c);
-        _call(scope->*"console", "log", scope, params);
+        vector<shared_ptr<Value> > args;
+        args.push_back(str);
+        args.push_back(str->*"length");
+        args.push_back(c);
+        _call(scope->*"console", "log", scope, args);
       }
     }
   }
@@ -59,13 +59,13 @@ void run (shared_ptr<Scope> scope) {
     shared_ptr<Value> NaN = Number::makeNaN();
     shared_ptr<Value> Infinity = Number::makeInfinity();
     shared_ptr<Value> NegativeInfinity = Number::makeInfinity(true);
-    vector<shared_ptr<Value> > params;
-    params.push_back(oneTwoThree + oneTwoThree);
-    params.push_back(oneTwoThree - oneTwoThree);
-    params.push_back(oneTwoThree + NaN);
-    params.push_back(Infinity + oneTwoThree);
-    params.push_back(Infinity + NegativeInfinity);
-    params.push_back(oneTwoThree - Infinity);
-    _call(scope->*"console", "log", scope, params);
+    vector<shared_ptr<Value> > args;
+    args.push_back(oneTwoThree + oneTwoThree);
+    args.push_back(oneTwoThree - oneTwoThree);
+    args.push_back(oneTwoThree + NaN);
+    args.push_back(Infinity + oneTwoThree);
+    args.push_back(Infinity + NegativeInfinity);
+    args.push_back(oneTwoThree - Infinity);
+    _call(scope->*"console", "log", scope, args);
   }
 }

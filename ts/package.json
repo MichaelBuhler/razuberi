@@ -46,6 +46,7 @@
     "typescript": "^5.1.5"
   },
   "devDependencies": {
+    "@babel/types": "^7.22.5",
     "@types/argparse": "^2.0.10",
     "@types/node": "^20.3.2",
     "rimraf": "^5.0.1"

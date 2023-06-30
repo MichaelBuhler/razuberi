@@ -4,16 +4,20 @@ const { transpile: ts2js, ScriptTarget } = typescript
 
 const { parse: js2ast } = await import('@babel/parser')
 
+const { generate: ast2cpp } = await import('./generate.js')
+
 export const transpile = (typescriptSource: string) : string => {
-  const javascriptSource = ts2js(typescriptSource, {
+  const javascriptCode = ts2js(typescriptSource, {
     target: ScriptTarget.ES3,
   })
 
-  const ast = js2ast(javascriptSource, {
+  const ast = js2ast(javascriptCode, {
     annexB: false,
     errorRecovery: true,
     sourceType: 'script',
   })
 
-  return JSON.stringify(ast, null, 2)
+  const cppCode = ast2cpp(ast)
+
+  return cppCode
 }

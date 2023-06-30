@@ -25,8 +25,8 @@ console.log("Hello, world!")
 using namespace std;
 
 void run (shared_ptr<Scope> scope) {
-  vector<shared_ptr<Value> > params;
-  params.push_back(make_shared<String>("Hello, world!"));
-  _invoke(scope->*"console"->*"log", scope, params);
+  vector<shared_ptr<Value> > args;
+  args.push_back(make_shared<String>("Hello, world!"));
+  _call_(scope->*"console", "log", scope, args);
 }
 ```
