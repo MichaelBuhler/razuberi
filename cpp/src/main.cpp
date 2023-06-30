@@ -13,9 +13,9 @@ int main () {
     shared_ptr<Scope> globalScope = init_global_scope();
     run(globalScope);
     return 0;
-  } catch (NotImplementedException &e) {
+  } catch (RazuberiException &e) {
     cout << e.toString() << endl;
-  } catch (RuntimeException &e) {
+  } catch (EcmaScriptRuntimeError &e) {
     cout << "Uncaught " << e.toString() << endl;
   }
   return 1;

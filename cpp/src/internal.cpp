@@ -41,8 +41,7 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
       prototype = make_shared<Object>();
     }
   } else {
-    // TODO: not really a TypeError, but rather an implementation error
-    throw TypeError("constructor has no prototype");
+    throw ImplementationException("constructor has no prototype");
   }
   shared_ptr<Object> newObject = make_shared<Object>(prototype);
   shared_ptr<Scope> constructorScope = make_shared<Scope>();
@@ -63,9 +62,6 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
   }
   vector<shared_ptr<Value> > emptyParams;
   switch (hint) {
-    case NONE_HINT_VALUE_TYPE:
-      // TODO: not really a TypeError, but rather an implementation error
-      throw TypeError("hint should not be None here");
     case STRING_HINT_VALUE_TYPE: {
       shared_ptr<Value> toString = _this->*"toString";
       if (toString->type == OBJECT_VALUE_TYPE) {
@@ -108,6 +104,8 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       }
       break;
     }
+    case NONE_HINT_VALUE_TYPE:
+      throw ImplementationException("hint should never be None here");
   }
   throw TypeError("unable to convert object to primitive using [[DefaultValue]]");
 }

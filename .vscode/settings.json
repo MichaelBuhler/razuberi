@@ -78,5 +78,10 @@
     "unordered_map": "cpp",
     "utility": "cpp",
     "vector": "cpp",
+    "charconv": "cpp",
+    "iomanip": "cpp",
+    "span": "cpp",
+    "variant": "cpp",
+    "format": "cpp"
   }
 }

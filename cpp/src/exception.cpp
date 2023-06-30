@@ -2,20 +2,38 @@
 
 using namespace std;
 
-NotImplementedException::NotImplementedException () {}
+RazuberiException::RazuberiException () {}
 
-NotImplementedException::NotImplementedException (string message) {
+ImplementationException::ImplementationException (string message) : RazuberiException() {
+  this->message = message;
+}
+
+string ImplementationException::toString () {
+  return "ImplementationException: " + this->message;
+}
+
+NotImplementedException::NotImplementedException (string message) : RazuberiException() {
   this->message = message;
 }
 
 string NotImplementedException::toString () {
-  return "NotImplementedException: " +  this->message;
+  return "NotImplementedException: " + this->message;
 }
 
-TypeError::TypeError (string message) : RuntimeException() {
+EcmaScriptRuntimeError::EcmaScriptRuntimeError () {}
+
+TypeError::TypeError (string message) : EcmaScriptRuntimeError() {
   this->message = message;
 }
 
 string TypeError::toString () {
   return "TypeError: " + this->message;
+}
+
+ReferenceError::ReferenceError (string message) : EcmaScriptRuntimeError() {
+  this->message = message;
+}
+
+string ReferenceError::toString () {
+  return "ReferenceError: " + this->message;
 }
