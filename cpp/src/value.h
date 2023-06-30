@@ -15,7 +15,8 @@ enum ValueType {
   BOOLEAN_VALUE_TYPE,
   STRING_VALUE_TYPE,
   NUMBER_VALUE_TYPE,
-  OBJECT_VALUE_TYPE
+  OBJECT_VALUE_TYPE,
+  REFERENCE_VALUE_TYPE
 };
 
 enum HintValueType {
@@ -90,4 +91,14 @@ class Object : public Value {
   public: bool __HasProperty__ (std::string key);
   public: Construct __Construct__;
   public: Call __Call__;
+};
+
+class Internal : public Value {
+  public: Internal ();
+};
+
+class Reference : public Internal {
+  public: std::shared_ptr<Value> baseObject;
+  public: std::shared_ptr<String> propertyName;
+  public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
 };
