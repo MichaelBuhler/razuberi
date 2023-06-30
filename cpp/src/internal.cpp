@@ -3,15 +3,14 @@
 #include <memory>
 
 #include "exception.h"
+#include "reference.h"
 #include "scope.h"
 #include "value.h"
 
 using namespace std;
 
-// TODO: base+propertyName are mocking the Reference type
-shared_ptr<Value> _call (shared_ptr<Value> base, string propertyName, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
-  // TODO: dangerous to cast `base` to Object here
-  shared_ptr<Value> callee = static_pointer_cast<Object>(base)->__Get__(propertyName);
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
+  shared_ptr<Value> callee = GetValue(maybeRef);
   if (callee->type != OBJECT_VALUE_TYPE) {
     throw TypeError("callee is not an object");
   }
@@ -19,11 +18,20 @@ shared_ptr<Value> _call (shared_ptr<Value> base, string propertyName, shared_ptr
   if (obj->__Call__ == nullptr) {
     throw TypeError("object is not a function");
   }
+  shared_ptr<Value> thisArg;
+  if (maybeRef->type == REFERENCE_VALUE_TYPE) {
+    thisArg = GetBase(maybeRef);
+  } else {
+    thisArg = make_shared<Null>();
+  }
+  // TODO: functionScope is mis-implemented here.
+  // The scope will need to reference where the function is _declared_.
   shared_ptr<Scope> functionScope = make_shared<Scope>();
-  return obj->__Call__(base, functionScope, params);
+  return obj->__Call__(thisArg, functionScope, params);
 }
 
-shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value> > params) {
+shared_ptr<Object> _new (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > params) {
+  shared_ptr<Value> constructor = GetValue(maybeRef);
   if (constructor->type != OBJECT_VALUE_TYPE) {
     throw TypeError("constructor is not an object");
   }
@@ -63,7 +71,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
   vector<shared_ptr<Value> > emptyParams;
   switch (hint) {
     case STRING_HINT_VALUE_TYPE: {
-      shared_ptr<Value> toString = _this->*"toString";
+      shared_ptr<Value> toString = _this->__Get__("toString");
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
@@ -72,7 +80,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
           return result;
         }
       }
-      shared_ptr<Value> valueOf = _this->*"valueOf";
+      shared_ptr<Value> valueOf = _this->__Get__("valueOf");
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
@@ -84,7 +92,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       break;
     }
     case NUMBER_HINT_VALUE_TYPE:{
-      shared_ptr<Value> valueOf = _this->*"valueOf";
+      shared_ptr<Value> valueOf = _this->__Get__("valueOf");
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
@@ -93,7 +101,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
           return result;
         }
       }
-      shared_ptr<Value> toString = _this->*"toString";
+      shared_ptr<Value> toString = _this->__Get__("toString");
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.

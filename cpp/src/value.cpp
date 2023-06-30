@@ -1,14 +1,15 @@
 #include "value.h"
 
 #include "exception.h"
+#include "reference.h"
 #include "type_conversion.h"
 
 using namespace std;
 
 Value::Value () {}
 
-shared_ptr<Value> operator ->* (shared_ptr<Value> value, string name) {
-  return ToObject(value)->__Get__(name);
+shared_ptr<Value> operator ->* (shared_ptr<Value> maybeRef, string name) {
+  return make_shared<Reference>(ToObject(GetValue(maybeRef)), make_shared<String>(name));
 }
 
 shared_ptr<Value> operator + (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {

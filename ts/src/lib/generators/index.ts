@@ -6,6 +6,8 @@ import type { Generator } from './types.js'
 import { CallExpressionGenerator } from './CallExpression.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
 import { FileGenerator } from './File.js'
+import { IdentifierGenerator } from './Identifier.js'
+import { MemberExpressionGenerator } from './MemberExpression.js'
 import { ProgramGenerator } from './Program.js'
 import { StringLiteralGenerator } from './StringLiteral.js'
 
@@ -15,6 +17,8 @@ const generators: Partial<{
   CallExpression: CallExpressionGenerator,
   ExpressionStatement: ExpressionStatementGenerator,
   File: FileGenerator,
+  Identifier: IdentifierGenerator,
+  MemberExpression: MemberExpressionGenerator,
   Program: ProgramGenerator,
   StringLiteral: StringLiteralGenerator,
 }

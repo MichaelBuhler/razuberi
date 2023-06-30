@@ -16,7 +16,7 @@ void run (shared_ptr<Scope> scope) {
     args.push_back(scope->*"NaN");
     args.push_back(Number::makeInfinity(true));
     args.push_back(make_shared<String>("Hello, world!"));
-    _call(scope->*"console", "log", scope, args);
+    _call(scope->*"console"->*"log", scope, args);
   }
   {
     shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"), nullptr);
@@ -25,7 +25,7 @@ void run (shared_ptr<Scope> scope) {
     shared_ptr<Object> C = make_shared<Object>(B, nullptr);
     vector<shared_ptr<Value> > args;
     args.push_back(C->__Get__("hello"));
-    _call(scope->*"console", "log", scope, args);
+    _call(scope->*"console"->*"log", scope, args);
   }
   {
     vector<shared_ptr<Value> > args;
@@ -34,7 +34,7 @@ void run (shared_ptr<Scope> scope) {
     {
       vector<shared_ptr<Value> > args;
       args.push_back(tmp);
-      _call(scope->*"console", "log", scope, args);
+      _call(scope->*"console"->*"log", scope, args);
     }
   }
   {
@@ -44,13 +44,13 @@ void run (shared_ptr<Scope> scope) {
     {
       vector<shared_ptr<Value> > args;
       args.push_back(make_shared<Number>(1));
-      shared_ptr<Value> c = _call(str, "charAt", scope, args);
+      shared_ptr<Value> c = _call(str->*"charAt", scope, args);
       {
         vector<shared_ptr<Value> > args;
         args.push_back(str);
         args.push_back(str->*"length");
         args.push_back(c);
-        _call(scope->*"console", "log", scope, args);
+        _call(scope->*"console"->*"log", scope, args);
       }
     }
   }
@@ -66,6 +66,6 @@ void run (shared_ptr<Scope> scope) {
     args.push_back(Infinity + oneTwoThree);
     args.push_back(Infinity + NegativeInfinity);
     args.push_back(oneTwoThree - Infinity);
-    _call(scope->*"console", "log", scope, args);
+    _call(scope->*"console"->*"log", scope, args);
   }
 }

@@ -4,20 +4,22 @@
 #include <memory>
 
 #include "razuberi.h"
+#include "reference.h"
 #include "type_conversion.h"
+#include "value.h"
 
 using namespace std;
 
 shared_ptr<Value> _log (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
     if (i != 0) cout << " ";
-    shared_ptr<Value> arg = arguments[i];
+    shared_ptr<Value> arg = GetValue(arguments[i]);
     shared_ptr<String> str = nullptr;
     if (arg->type == OBJECT_VALUE_TYPE) {
       shared_ptr<Object> obj = static_pointer_cast<Object>(arg);
       if (obj->__HasProperty__("toString")) {
         vector<shared_ptr<Value> > params;
-        str = ToString(_call(obj, "toString", make_shared<Scope>(), params));
+        str = ToString(_call(make_shared<Reference>(obj, make_shared<String>("toString")), make_shared<Scope>(), params));
       }
     }
     if (str == nullptr) {
