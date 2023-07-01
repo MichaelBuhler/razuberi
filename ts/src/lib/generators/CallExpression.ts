@@ -12,9 +12,9 @@ export const CallExpressionGenerator: Generator<CallExpression> = ({ callee, arg
 
   const args = _arguments.map(arg => generate(arg))
 
-  return `
+  return `{
     vector<shared_ptr<Value> > args;
     ${args.map(arg => `args.push_back(${arg});`).join('')}
-    _call(${generate(callee)}, scope, args)
-  `
+    _call(${generate(callee)}, scope, args);
+  }`
 }
