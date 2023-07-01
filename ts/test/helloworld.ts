@@ -1,1 +1,1 @@
-console.log('Hello,' + " world! " + 123.456)
+console.log(new String("Hello, world!"))
