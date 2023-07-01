@@ -1,1 +1,1 @@
-console.log(new String("Hello, world!"))
+console.log("new Boolean(true):", Boolean(true))
