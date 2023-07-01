@@ -77,7 +77,7 @@ shared_ptr<Object> _Function__Construct__ (shared_ptr<Object> _this, shared_ptr<
 }
 
 shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
-  throw NotImplementedException("Function.prototype.toString()");
+  return make_shared<String>("function () { /* Function.prototype.toString() is not fully implemented yet */ }");
 }
 
 shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
