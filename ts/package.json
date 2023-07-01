@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",
@@ -38,6 +38,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
+    "prepack": "npm run clean && npm run build && npm test",
     "test": "test/helloworld.sh"
   },
   "dependencies": {
