@@ -1,1 +1,1 @@
-console.log("new Boolean(true):", Boolean(true))
+console.log("Hello World", null)
