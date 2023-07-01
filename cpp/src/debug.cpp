@@ -1,11 +1,16 @@
 #include "debug.h"
 
 #include <iostream>
+#include <string>
 
 #include "type_conversion.h"
 #include "value.h"
 
 using namespace std;
+
+static const string yellow = "\033[33m";
+static const string bold = "\033[1m";
+static const string reset = "\033[0m";
 
 string stringify (shared_ptr<Value> value) {
   if (value == nullptr) {
@@ -33,14 +38,14 @@ string stringify (shared_ptr<Value> value) {
   }
 }
 
-void debug (std::string str) {
-  cout << endl << "debug: " << str << endl << endl;
+void debug (string str) {
+  cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << str << reset << endl;
 }
 
 void debug (shared_ptr<Value> value) {
-  cout << endl << "debug: " << stringify(value) << endl << endl;
+  cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << stringify(value) << reset << endl;
 }
 
-void debug (std::string str, std::shared_ptr<Value> value) {
-  cout << endl << "debug: " << str << ": " << stringify(value) << endl << endl;
+void debug (string str, shared_ptr<Value> value) {
+  cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << str << ": " << stringify(value) << reset << endl;
 }
