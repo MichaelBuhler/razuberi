@@ -36,6 +36,6 @@ void init_host_objects (shared_ptr<Scope> globalScope) {
   console->__Class__ = "Console";
   globalScope->set("console", console);
 
-  shared_ptr<Object> log = make_shared<Object>(nullptr, _log);
+  shared_ptr<Object> log = make_shared<Object>(static_pointer_cast<Object>(GetValue(globalScope->*"Function"->*"prototype")), _log);
   console->__Put__("log", log);
 }
