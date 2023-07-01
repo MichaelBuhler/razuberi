@@ -140,15 +140,31 @@ Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyN
   this->propertyName = propertyName;
 }
 
-shared_ptr<Reference> operator ->* (shared_ptr<Value> maybeRef, string name) {
-  return make_shared<Reference>(ToObject(GetValue(maybeRef)), make_shared<String>(name));
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Operator overloads
 
 ////////////////////////////////////////////////////////////////////////////////
-// Additive operater overloads for every combination of additive operands
+// Pointer-to-member operator overloads for member expressions
+
+// Accessing a property by `Identifier`
+shared_ptr<Reference> operator ->* (shared_ptr<Reference> ref, string name) {
+  return GetValue(ref)->*name;
+}
+shared_ptr<Reference> operator ->* (shared_ptr<Value> value, string name) {
+  return make_shared<Reference>(ToObject(value), make_shared<String>(name));
+}
+shared_ptr<Reference> operator ->* (shared_ptr<Object> obj, string name) {
+  return make_shared<Reference>(obj, make_shared<String>(name));
+}
+
+// End pointer-to-member operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Addition operator overloads for every combination of addition operands
 
 ////////////////////////////////////////
-// `Reference` type left operands
+// Left operands of type `Reference`
 shared_ptr<Value> operator + (shared_ptr<Reference> a, shared_ptr<Reference> b) {
   return ToPrimitive(GetValue(a)) + ToPrimitive(GetValue(b));
 }
@@ -178,7 +194,7 @@ shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Value` type left operands
+// Left operands of type `Value`
 shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Reference> r) {
   return ToPrimitive(v) + ToPrimitive(GetValue(r));
 }
@@ -208,7 +224,7 @@ shared_ptr<String> operator + (shared_ptr<Value> v, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Object` type left operands
+// Left operands of type `Object`
 shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Reference> r) {
   return ToPrimitive(o) + ToPrimitive(GetValue(r));
 }
@@ -238,7 +254,7 @@ shared_ptr<String> operator + (shared_ptr<Object> o, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Primitive` type left operands
+// Left operands of type `Primitive`
 shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Reference> r) {
   return p + ToPrimitive(GetValue(r));
 }
@@ -298,7 +314,7 @@ shared_ptr<String> operator + (shared_ptr<Primitive> p, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Undefined` type left operands
+// Left operands of type `Undefined`
 shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Reference> r) {
   return u + ToPrimitive(GetValue(r));
 }
@@ -332,7 +348,7 @@ shared_ptr<String> operator + (shared_ptr<Undefined> u, shared_ptr<String> s)  {
 }
 
 ////////////////////////////////////////
-// `Null` type left operands
+// Left operands of type `Null`
 shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Reference> r) {
   return n + ToPrimitive(GetValue(r));
 }
@@ -366,7 +382,7 @@ shared_ptr<String> operator + (shared_ptr<Null> n, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Boolean` type left operands
+// Left operands of type `Boolean`
 shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Reference> r) {
   return b + ToPrimitive(GetValue(r));
 }
@@ -400,7 +416,7 @@ shared_ptr<String> operator + (shared_ptr<Boolean> b, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `Number` type left operands
+// Left operands of type `Number`
 shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Reference> r) {
   return n + ToPrimitive(GetValue(r));
 }
@@ -435,7 +451,7 @@ shared_ptr<String> operator + (shared_ptr<Number> n, shared_ptr<String> s) {
 }
 
 ////////////////////////////////////////
-// `String` type left operands
+// Left operands of type `String`
 shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Reference> r) {
   return s + ToString(ToPrimitive(GetValue(r)));
 }
@@ -464,11 +480,20 @@ shared_ptr<String> operator + (shared_ptr<String> a, shared_ptr<String> b) {
   return make_shared<String>(a->value + b->value);
 }
 
-// End additive operator overloads
+// End addition operator overloads
 ////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Subtraction operator overloads for every combination of subtraction operands
 
 shared_ptr<Value> operator - (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
   shared_ptr<Number> a = ToNumber(valueA);
   shared_ptr<Number> b = ToNumber(valueB);
   return a->minus(b);
 }
+
+// End subtraction operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+// End operator overloads
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
