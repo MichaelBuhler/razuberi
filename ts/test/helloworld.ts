@@ -1,1 +1,1 @@
-console.log("Hello World", null)
+console.log("Hello World", undefined, 123)
