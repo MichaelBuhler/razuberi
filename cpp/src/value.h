@@ -51,6 +51,8 @@ class Null : public Primitive {
 class Boolean : public Primitive {
   public: bool value;
   public: Boolean (bool value);
+  // TODO: #3: can we overload the bool() operator to cast this?
+  // public: operator bool ();
 };
 
 class Number : public Primitive {
@@ -69,6 +71,14 @@ class String : public Primitive {
   public: std::string value;
   public: String (std::string value);
 };
+
+// TODO: #4: can we cast a `string` where a `shared_ptr<String>` is expected??? big if true.
+// template <class _CharT,
+//           class _Traits = std::char_traits<_CharT>,
+//           class _Allocator = std::allocator<_CharT> >
+//     class _LIBCPP_TEMPLATE_VIS basic_string {
+//   public: operator std::shared_ptr<String> ();
+// };
 
 class Object : public Value {
   private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> _this, std::shared_ptr<Scope> scope, std::vector<std::shared_ptr<Value> > params);
