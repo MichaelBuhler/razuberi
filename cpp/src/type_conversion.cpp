@@ -16,14 +16,17 @@ shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value, HintValueType hint) 
     case STRING_VALUE_TYPE:
       return static_pointer_cast<Primitive>(value);
     case OBJECT_VALUE_TYPE:
-      shared_ptr<Object> obj = static_pointer_cast<Object>(value);
-      shared_ptr<Value> result = __DefaultValue__(obj, hint);
-      // TODO: result may be a Reference value type?
-      if (result->type == OBJECT_VALUE_TYPE) {
-        throw TypeError("[[DefaultValue]] returned an object");
-      }
-      return static_pointer_cast<Primitive>(result);
+      return ToPrimitive(static_pointer_cast<Object>(value), hint);
   }
+}
+
+shared_ptr<Primitive> ToPrimitive (shared_ptr<Object> obj, HintValueType hint) {
+  shared_ptr<Value> result = __DefaultValue__(obj, hint);
+  // TODO: result may be a Reference value type?
+  if (result->type == OBJECT_VALUE_TYPE) {
+    throw TypeError("[[DefaultValue]] returned an object");
+  }
+  return static_pointer_cast<Primitive>(result);
 }
 
 shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
@@ -55,22 +58,35 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
 shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
+    case NULL_VALUE_TYPE:
+    case BOOLEAN_VALUE_TYPE:
+    case NUMBER_VALUE_TYPE:
+    case STRING_VALUE_TYPE:
+      return ToNumber(static_pointer_cast<Primitive>(value));
+    case OBJECT_VALUE_TYPE:
+      return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
+  }
+}
+std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive> primitive) {
+  switch (primitive->type) {
+    case UNDEFINED_VALUE_TYPE:
       return Number::makeNaN();
     case NULL_VALUE_TYPE:
       return make_shared<Number>(0, false);
     case BOOLEAN_VALUE_TYPE:
-      if (static_pointer_cast<Boolean>(value)->value) {
-        return make_shared<Number>(1);
-      } else {
-        return make_shared<Number>(0, false);
-      }
+      return ToNumber(static_pointer_cast<Boolean>(primitive));
     case NUMBER_VALUE_TYPE:
-      return static_pointer_cast<Number>(value);
+      return static_pointer_cast<Number>(primitive);
     case STRING_VALUE_TYPE:
       // TODO: need to parse a floating point number from this string
       throw NotImplementedException("cannot convert a string to a number");
-    case OBJECT_VALUE_TYPE:
-      return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
+  }
+}
+std::shared_ptr<Number> ToNumber (std::shared_ptr<Boolean> boolean) {
+  if (boolean->value) {
+    return make_shared<Number>(1);
+  } else {
+    return make_shared<Number>(0, false);
   }
 }
 
@@ -126,38 +142,53 @@ std::shared_ptr<Number> ToUint16 (std::shared_ptr<Value> value) {
 shared_ptr<String> ToString (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
+    case NULL_VALUE_TYPE:
+    case BOOLEAN_VALUE_TYPE:
+    case NUMBER_VALUE_TYPE:
+    case STRING_VALUE_TYPE:
+      return ToString(static_pointer_cast<Primitive>(value));
+    case OBJECT_VALUE_TYPE:
+      return ToString(ToPrimitive(value, STRING_HINT_VALUE_TYPE));
+  }
+}
+
+shared_ptr<String> ToString (shared_ptr<Primitive> primitive) {
+  switch (primitive->type) {
+    case UNDEFINED_VALUE_TYPE:
       return make_shared<String>("undefined");
     case NULL_VALUE_TYPE:
       return make_shared<String>("null");
     case BOOLEAN_VALUE_TYPE:
-      if (static_pointer_cast<Boolean>(value)->value) {
-        return make_shared<String>("true");
-      } else {
-        return make_shared<String>("false");
-      }
-    case NUMBER_VALUE_TYPE: {
-      shared_ptr<Number> num = static_pointer_cast<Number>(value);
-      if (num->isNaN) {
-        return make_shared<String>("NaN");
-      }
-      if (num->isInfinity) {
-        if (num->isNegative) {
-          return make_shared<String>("-Infinity");
-        } else {
-          return make_shared<String>("Infinity");
-        }
-      }
-      if (num->value == 0) {
-        return make_shared<String>("0");
-      }
-      // TODO: needs to be much more robust here, including scientific notation
-      return make_shared<String>(to_string(num->value));
-    }
+      return ToString(static_pointer_cast<Boolean>(primitive));
+    case NUMBER_VALUE_TYPE:
+      return ToString(static_pointer_cast<Number>(primitive));
     case STRING_VALUE_TYPE:
-      return static_pointer_cast<String>(value);
-    case OBJECT_VALUE_TYPE:
-      return ToString(ToPrimitive(value, STRING_HINT_VALUE_TYPE));
+      return static_pointer_cast<String>(primitive);
   }
+}
+shared_ptr<String> ToString (shared_ptr<Boolean> boolean) {
+  if (boolean->value) {
+    return make_shared<String>("true");
+  } else {
+    return make_shared<String>("false");
+  }
+}
+shared_ptr<String> ToString (shared_ptr<Number> num) {
+  if (num->isNaN) {
+    return make_shared<String>("NaN");
+  }
+  if (num->isInfinity) {
+    if (num->isNegative) {
+      return make_shared<String>("-Infinity");
+    } else {
+      return make_shared<String>("Infinity");
+    }
+  }
+  if (num->value == 0) {
+    return make_shared<String>("0");
+  }
+  // TODO: needs to be much more robust here, including scientific notation
+  return make_shared<String>(to_string(num->value));
 }
 
 shared_ptr<Object> ToObject (shared_ptr<Value> value) {
@@ -167,11 +198,13 @@ shared_ptr<Object> ToObject (shared_ptr<Value> value) {
     case NULL_VALUE_TYPE:
       throw TypeError("cannot convert null to object");
     case BOOLEAN_VALUE_TYPE:
+      // TODO: implement this after the `Boolean` type
       throw NotImplementedException("cannot convert a boolean to an object");
     case NUMBER_VALUE_TYPE:
       // TODO: implement this after the `Number` type
       throw NotImplementedException("cannot convert a number to an object");
     case STRING_VALUE_TYPE:
+      // TODO: implement this after the `String` type
       throw NotImplementedException("cannot convert a string to an object");
     case OBJECT_VALUE_TYPE:
       return static_pointer_cast<Object>(value);
