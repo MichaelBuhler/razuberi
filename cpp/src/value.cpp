@@ -8,10 +8,6 @@ using namespace std;
 
 Value::Value () {}
 
-shared_ptr<Value> operator ->* (shared_ptr<Value> maybeRef, string name) {
-  return make_shared<Reference>(ToObject(GetValue(maybeRef)), make_shared<String>(name));
-}
-
 shared_ptr<Value> operator + (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
   shared_ptr<Primitive> primitiveA = ToPrimitive(valueA, NONE_HINT_VALUE_TYPE);
   shared_ptr<Primitive> primitiveB = ToPrimitive(valueB, NONE_HINT_VALUE_TYPE);
@@ -123,7 +119,7 @@ Object::Object (shared_ptr<Object> prototype, Call call, Construct construct) : 
   this->__Prototype__ = prototype;
   this->__Call__ = call;
   this->__Construct__ = construct;
-};
+}
 
 shared_ptr<Value> Object::__Get__ (string key) {
   try {
@@ -162,4 +158,8 @@ Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyN
   this->type = REFERENCE_VALUE_TYPE;
   this->baseObject = baseObject;
   this->propertyName = propertyName;
+}
+
+shared_ptr<Reference> operator ->* (shared_ptr<Value> maybeRef, string name) {
+  return make_shared<Reference>(ToObject(GetValue(maybeRef)), make_shared<String>(name));
 }

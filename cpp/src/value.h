@@ -30,8 +30,6 @@ class Value {
   public: Value ();
 };
 
-std::shared_ptr<Value> operator ->* (std::shared_ptr<Value> value, std::string name);
-
 std::shared_ptr<Value> operator + (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
 
 std::shared_ptr<Value> operator - (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
@@ -112,3 +110,5 @@ class Reference : public Internal {
   public: std::shared_ptr<String> propertyName;
   public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
 };
+
+std::shared_ptr<Reference> operator ->* (std::shared_ptr<Value> value, std::string name);
