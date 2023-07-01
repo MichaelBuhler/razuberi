@@ -9,17 +9,17 @@
 
 using namespace std;
 
-shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope) {
-  return _call(maybeRef, scope, vector<shared_ptr<Value> >());
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef) {
+  return _call(maybeRef, vector<shared_ptr<Value> >());
 }
 
-shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, shared_ptr<Value> value) {
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Value> value) {
   vector<shared_ptr<Value> > params;
   params.push_back(value);
-  return _call(maybeRef, scope, params);
+  return _call(maybeRef, params);
 }
 
-shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > params) {
   shared_ptr<Value> callee = GetValue(maybeRef);
   if (callee->type != OBJECT_VALUE_TYPE) {
     throw TypeError("callee is not an object");
@@ -34,10 +34,7 @@ shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, ve
   } else {
     thisArg = make_shared<Null>();
   }
-  // TODO: functionScope is mis-implemented here.
-  // The scope will need to reference where the function is _declared_.
-  shared_ptr<Scope> functionScope = make_shared<Scope>();
-  return obj->__Call__(thisArg, functionScope, params);
+  return obj->__Call__(thisArg, params);
 }
 
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef) {
@@ -72,8 +69,7 @@ shared_ptr<Object> _new (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > 
     throw ImplementationException("constructor has no prototype");
   }
   shared_ptr<Object> newObject = make_shared<Object>(prototype);
-  shared_ptr<Scope> constructorScope = make_shared<Scope>();
-  shared_ptr<Value> result = obj->__Construct__(newObject, constructorScope, params);
+  shared_ptr<Value> result = obj->__Construct__(newObject, params);
   if (result->type != OBJECT_VALUE_TYPE) {
     throw TypeError("constructor returned a non-object");
   }
@@ -95,7 +91,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        shared_ptr<Value> result = obj->__Call__(_this, emptyParams);
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -104,7 +100,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        shared_ptr<Value> result = obj->__Call__(_this, emptyParams);
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -116,7 +112,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        shared_ptr<Value> result = obj->__Call__(_this, emptyParams);
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -125,7 +121,7 @@ std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(_this, make_shared<Scope>(), emptyParams);
+        shared_ptr<Value> result = obj->__Call__(_this, emptyParams);
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-shared_ptr<Value> _log (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
     if (i != 0) cout << " ";
     shared_ptr<Value> arg = GetValue(arguments[i]);
@@ -19,7 +19,7 @@ shared_ptr<Value> _log (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector
       shared_ptr<Object> obj = static_pointer_cast<Object>(arg);
       if (obj->__HasProperty__("toString")) {
         vector<shared_ptr<Value> > params;
-        str = ToString(_call(make_shared<Reference>(obj, make_shared<String>("toString")), make_shared<Scope>(), params));
+        str = ToString(_call(make_shared<Reference>(obj, make_shared<String>("toString")), params));
       }
     }
     if (str == nullptr) {

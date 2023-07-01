@@ -6,7 +6,7 @@
 
 using namespace std;
 
-shared_ptr<Value> _Object__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Object__Call__ (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0) {
     shared_ptr<Object> obj = make_shared<Object>();
     obj->__Class__ = "Object";
@@ -28,7 +28,7 @@ shared_ptr<Value> _Object__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> sc
   }
 }
 
-shared_ptr<Object> _Object__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Object> _Object__Construct__ (shared_ptr<Object> _this, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "Object"; // TODO: enum this
   if (arguments.size() == 0) return _this;
   shared_ptr<Value> arg = arguments[0];
@@ -45,7 +45,7 @@ shared_ptr<Object> _Object__Construct__ (shared_ptr<Object> _this, shared_ptr<Sc
   }
 }
 
-shared_ptr<Value> _Object_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Object_prototype_toString (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   switch (_this->type) {
     case UNDEFINED_VALUE_TYPE:
       return make_shared<String>("[object Undefined]");
@@ -64,35 +64,35 @@ shared_ptr<Value> _Object_prototype_toString (shared_ptr<Value> _this, shared_pt
   }
 }
 
-shared_ptr<Value> _Object_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Object_prototype_valueOf (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   return ToObject(_this);
 }
 
-shared_ptr<Value> _Function__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function__Call__ (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   throw NotImplementedException("Cannot call `Function` to create new functions at runtime.");
 }
 
-shared_ptr<Object> _Function__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Object> _Function__Construct__ (shared_ptr<Object> _this, vector<shared_ptr<Value> > arguments) {
    throw NotImplementedException("Cannot use `Function` as a constructor to create new functions at runtime.");
 }
 
-shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Function_prototype_toString (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   return make_shared<String>("function () { /* Function.prototype.toString() is not fully implemented yet */ }");
 }
 
-shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean__Call__ (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0) return make_shared<Boolean>(false);
   return ToBoolean(arguments[0]);
 }
 
-shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Object> _Boolean__Construct__ (shared_ptr<Object> _this, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "Boolean"; // TODO: enum this
   if (arguments.size() == 0) _this->__Value__ = make_shared<Boolean>(false);
   else _this->__Value__ = ToBoolean(arguments[0]);
   return _this;
 }
 
-shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "Boolean") { // TODO: enum this
@@ -107,7 +107,7 @@ shared_ptr<Value> _Boolean_prototype_toString (shared_ptr<Value> _this, shared_p
   throw TypeError("Boolean.prototype.toString requires that 'this' be a Boolean");
 }
 
-shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "Boolean") { // TODO: enum this
@@ -117,12 +117,12 @@ shared_ptr<Value> _Boolean_prototype_valueOf (shared_ptr<Value> _this, shared_pt
   throw TypeError("Boolean.prototype.valueOf requires that 'this' be a Boolean");
 }
 
-shared_ptr<Value> _String__Call__ (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _String__Call__ (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0) return make_shared<String>("");
   return ToString(arguments[0]);
 }
 
-shared_ptr<Object> _String__Construct__ (shared_ptr<Object> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Object> _String__Construct__ (shared_ptr<Object> _this, vector<shared_ptr<Value> > arguments) {
   _this->__Class__ = "String"; // TODO: enum this
   shared_ptr<String> str;
   if (arguments.size() == 0) str = make_shared<String>("");
@@ -132,11 +132,11 @@ shared_ptr<Object> _String__Construct__ (shared_ptr<Object> _this, shared_ptr<Sc
   return _this;
 }
 
-shared_ptr<Value> _String_fromCharCode (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _String_fromCharCode (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   throw NotImplementedException("String.fromCharCode()");
 }
 
-shared_ptr<Value> _String_prototype_charAt (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _String_prototype_charAt (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   shared_ptr<String> str = ToString(_this);
   shared_ptr<Value> arg;
   if (arguments.size() == 0) arg = make_shared<Undefined>();
@@ -148,7 +148,7 @@ shared_ptr<Value> _String_prototype_charAt (shared_ptr<Value> _this, shared_ptr<
   return make_shared<String>(str->value.substr(index, 1));
 }
 
-shared_ptr<Value> _String_prototype_toString (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _String_prototype_toString (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "String") { // TODO: enum this
@@ -158,7 +158,7 @@ shared_ptr<Value> _String_prototype_toString (shared_ptr<Value> _this, shared_pt
   throw TypeError("String.prototype.toString requires that 'this' be a String");
 }
 
-shared_ptr<Value> _String_prototype_valueOf (shared_ptr<Value> _this, shared_ptr<Scope> scope, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> _String_prototype_valueOf (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "String") { // TODO: enum this

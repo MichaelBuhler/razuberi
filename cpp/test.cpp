@@ -6,7 +6,7 @@
 using namespace std;
 
 void run (shared_ptr<Scope> scope) {
-  _call(scope->*"console"->*"log", scope, (
+  _call(scope->*"console"->*"log", (
     make_shared<Undefined>(),
     make_shared<Null>(),
     make_shared<Boolean>(true),
@@ -21,13 +21,13 @@ void run (shared_ptr<Scope> scope) {
     A->__Put__("hello", make_shared<String>("world"));
     shared_ptr<Object> B = make_shared<Object>(A, nullptr);
     shared_ptr<Object> C = make_shared<Object>(B, nullptr);
-    _call(scope->*"console"->*"log", scope, C->*"hello");
+    _call(scope->*"console"->*"log", C->*"hello");
   }
-  _call(scope->*"console"->*"log", scope, _new(scope->*"Boolean", make_shared<Boolean>(true)));
+  _call(scope->*"console"->*"log", _new(scope->*"Boolean", make_shared<Boolean>(true)));
   {
     shared_ptr<Object> str = _new(scope->*"String", make_shared<String>("Hello, world!"));
-    shared_ptr<Value> c = _call(str->*"charAt", scope, make_shared<Number>(1));
-    _call(scope->*"console"->*"log", scope, (
+    shared_ptr<Value> c = _call(str->*"charAt", make_shared<Number>(1));
+    _call(scope->*"console"->*"log", (
       str,
       str->*"length",
       c
@@ -38,7 +38,7 @@ void run (shared_ptr<Scope> scope) {
     shared_ptr<Value> NaN = Number::makeNaN();
     shared_ptr<Value> Infinity = Number::makeInfinity();
     shared_ptr<Value> NegativeInfinity = Number::makeInfinity(true);
-    _call(scope->*"console"->*"log", scope, (
+    _call(scope->*"console"->*"log", (
       oneTwoThree + oneTwoThree,
       oneTwoThree - oneTwoThree,
       oneTwoThree + NaN,
@@ -47,7 +47,7 @@ void run (shared_ptr<Scope> scope) {
       oneTwoThree - Infinity
     ));
   }
-  _call(scope->*"console"->*"log", scope, (
+  _call(scope->*"console"->*"log", (
     make_shared<String>("Hello,") + make_shared<String>("world!") + make_shared<Number>(123.456)
   ));
 }
