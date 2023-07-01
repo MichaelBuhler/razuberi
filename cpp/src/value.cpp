@@ -163,13 +163,6 @@ shared_ptr<Reference> operator ->* (shared_ptr<Object> obj, string name) {
 ////////////////////////////////////////////////////////////////////////////////
 // Comma operator overloads for arguments lists
 
-// shim to create a `vector`/`List` with one argument
-vector<shared_ptr<Value> > operator , (int zero, shared_ptr<Value> a) {
-  vector<shared_ptr<Value> > v;
-  v.push_back(a);
-  return v;
-}
-
 // create a `vector`/`List` from two arguments
 vector<shared_ptr<Value> > operator , (shared_ptr<Value> a, shared_ptr<Value> b) {
   vector<shared_ptr<Value> > v;

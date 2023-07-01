@@ -9,6 +9,16 @@
 
 using namespace std;
 
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope) {
+  return _call(maybeRef, scope, vector<shared_ptr<Value> >());
+}
+
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, shared_ptr<Value> value) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(value);
+  return _call(maybeRef, scope, params);
+}
+
 shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, vector<shared_ptr<Value> > params) {
   shared_ptr<Value> callee = GetValue(maybeRef);
   if (callee->type != OBJECT_VALUE_TYPE) {
@@ -28,6 +38,16 @@ shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Scope> scope, ve
   // The scope will need to reference where the function is _declared_.
   shared_ptr<Scope> functionScope = make_shared<Scope>();
   return obj->__Call__(thisArg, functionScope, params);
+}
+
+shared_ptr<Object> _new (shared_ptr<Value> maybeRef) {
+  return _new(maybeRef, vector<shared_ptr<Value> >());
+}
+
+shared_ptr<Object> _new (shared_ptr<Value> maybeRef, shared_ptr<Value> value) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(value);
+  return _new(maybeRef, params);
 }
 
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > params) {

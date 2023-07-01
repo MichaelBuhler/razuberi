@@ -6,7 +6,7 @@
 using namespace std;
 
 void run (shared_ptr<Scope> scope) {
-  _call(scope->*"console"->*"log", scope, (0,
+  _call(scope->*"console"->*"log", scope, (
     make_shared<Undefined>(),
     make_shared<Null>(),
     make_shared<Boolean>(true),
@@ -21,15 +21,13 @@ void run (shared_ptr<Scope> scope) {
     A->__Put__("hello", make_shared<String>("world"));
     shared_ptr<Object> B = make_shared<Object>(A, nullptr);
     shared_ptr<Object> C = make_shared<Object>(B, nullptr);
-    _call(scope->*"console"->*"log", scope, (0, C->*"hello"));
+    _call(scope->*"console"->*"log", scope, C->*"hello");
   }
-  _call(scope->*"console"->*"log", scope, (0,
-    _new(scope->*"Boolean", (0, make_shared<Boolean>(true)))
-  ));
+  _call(scope->*"console"->*"log", scope, _new(scope->*"Boolean", make_shared<Boolean>(true)));
   {
-    shared_ptr<Object> str = _new(scope->*"String", (0, make_shared<String>("Hello, world!")));
-    shared_ptr<Value> c = _call(str->*"charAt", scope, (0, make_shared<Number>(1)));
-    _call(scope->*"console"->*"log", scope, (0,
+    shared_ptr<Object> str = _new(scope->*"String", make_shared<String>("Hello, world!"));
+    shared_ptr<Value> c = _call(str->*"charAt", scope, make_shared<Number>(1));
+    _call(scope->*"console"->*"log", scope, (
       str,
       str->*"length",
       c
@@ -49,7 +47,7 @@ void run (shared_ptr<Scope> scope) {
       oneTwoThree - Infinity
     ));
   }
-  _call(scope->*"console"->*"log", scope, (0,
+  _call(scope->*"console"->*"log", scope, (
     make_shared<String>("Hello,") + make_shared<String>("world!") + make_shared<Number>(123.456)
   ));
 }

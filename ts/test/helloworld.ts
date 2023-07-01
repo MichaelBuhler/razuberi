@@ -1,1 +1,3 @@
-console.log("Hello World", undefined, 123)
+console.log(Boolean())
+console.log(Boolean(true))
+console.log(Boolean(true, false))
