@@ -30,10 +30,6 @@ class Value {
   public: Value ();
 };
 
-std::shared_ptr<Value> operator + (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
-
-std::shared_ptr<Value> operator - (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
-
 class Primitive : public Value {
   public: Primitive ();
 };
@@ -112,3 +108,120 @@ class Reference : public Internal {
 };
 
 std::shared_ptr<Reference> operator ->* (std::shared_ptr<Value> value, std::string name);
+
+////////////////////////////////////////////////////////////////////////////////
+// Additive operater overloads for every combination of additive operands
+
+////////////////////////////////////////
+// `Reference` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Primitive>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Undefined>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Null>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Boolean>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Number>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Value` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Primitive>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Undefined>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Null>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Boolean>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Value>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Object` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Primitive>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Undefined>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Null>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Boolean>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Object>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Primitive` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Primitive>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Undefined>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Null>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Boolean>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Primitive>, std::shared_ptr<String>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Object>);
+
+////////////////////////////////////////
+// `Undefined` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Primitive>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Undefined>, std::shared_ptr<Undefined>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Undefined>, std::shared_ptr<Null>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Undefined>, std::shared_ptr<Boolean>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Undefined>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Undefined>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Null` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Primitive>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Null>, std::shared_ptr<Undefined>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Null>, std::shared_ptr<Null>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Null>, std::shared_ptr<Boolean>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Null>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Null>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Boolean` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Primitive>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Boolean>, std::shared_ptr<Undefined>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Boolean>, std::shared_ptr<Null>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Boolean>, std::shared_ptr<Boolean>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Boolean>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Boolean>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `Number` type left operands
+std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Reference>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Value>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Object>);
+std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Primitive>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Number>, std::shared_ptr<Undefined>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Number>, std::shared_ptr<Null>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Number>, std::shared_ptr<Boolean>);
+std::shared_ptr<Number> operator + (std::shared_ptr<Number>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<Number>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// `String` type left operands
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Reference>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Value>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Object>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Primitive>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Undefined>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Null>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Boolean>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Number>);
+std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<String>);
+
+// End additive operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+std::shared_ptr<Value> operator - (std::shared_ptr<Value>, std::shared_ptr<Value>);

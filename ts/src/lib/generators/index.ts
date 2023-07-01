@@ -3,6 +3,7 @@ import type { Node } from '@babel/types'
 
 import type { Generator } from './types.js'
 
+import { BinaryExpressionGenerator } from './BinaryExpression.js'
 import { CallExpressionGenerator } from './CallExpression.js'
 import { EmptyStatementGenerator } from './EmptyStatement.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
@@ -16,6 +17,7 @@ import { StringLiteralGenerator } from './StringLiteral.js'
 const generators: Partial<{
   [nodeType in Node['type']]: Generator<Node>
 }> = {
+  BinaryExpression: BinaryExpressionGenerator,
   CallExpression: CallExpressionGenerator,
   EmptyStatement: EmptyStatementGenerator,
   ExpressionStatement: ExpressionStatementGenerator,

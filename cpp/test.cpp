@@ -68,4 +68,9 @@ void run (shared_ptr<Scope> scope) {
     args.push_back(oneTwoThree - Infinity);
     _call(scope->*"console"->*"log", scope, args);
   }
+  {
+    vector<shared_ptr<Value> > args;
+    args.push_back(make_shared<String>("Hello,") + make_shared<String>("world!") + make_shared<Number>(123.456));
+    _call(scope->*"console"->*"log", scope, args);
+  }
 }

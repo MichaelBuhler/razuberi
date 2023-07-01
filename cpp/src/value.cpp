@@ -8,26 +8,6 @@ using namespace std;
 
 Value::Value () {}
 
-shared_ptr<Value> operator + (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
-  shared_ptr<Primitive> primitiveA = ToPrimitive(valueA);
-  shared_ptr<Primitive> primitiveB = ToPrimitive(valueB);
-  if ( primitiveA->type == STRING_VALUE_TYPE || primitiveB->type == STRING_VALUE_TYPE ) {
-    shared_ptr<String> stringA = static_pointer_cast<String>(primitiveA);
-    shared_ptr<String> stringB = static_pointer_cast<String>(primitiveB);
-    return make_shared<String>(stringA->value + stringB->value);
-  } else {
-    shared_ptr<Number> numberA = ToNumber(primitiveA);
-    shared_ptr<Number> numberB = ToNumber(primitiveB);
-    return numberA->plus(numberB);
-  }
-}
-
-shared_ptr<Value> operator - (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
-  shared_ptr<Number> a = ToNumber(valueA);
-  shared_ptr<Number> b = ToNumber(valueB);
-  return a->minus(b);
-}
-
 Primitive::Primitive () : Value() {}
 
 Undefined::Undefined () : Primitive() {
@@ -162,4 +142,333 @@ Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyN
 
 shared_ptr<Reference> operator ->* (shared_ptr<Value> maybeRef, string name) {
   return make_shared<Reference>(ToObject(GetValue(maybeRef)), make_shared<String>(name));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Additive operater overloads for every combination of additive operands
+
+////////////////////////////////////////
+// `Reference` type left operands
+shared_ptr<Value> operator + (shared_ptr<Reference> a, shared_ptr<Reference> b) {
+  return ToPrimitive(GetValue(a)) + ToPrimitive(GetValue(b));
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Value> v) {
+  return ToPrimitive(GetValue(r)) + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Object> o) {
+  return ToPrimitive(GetValue(r)) + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Primitive> p) {
+  return ToPrimitive(GetValue(r)) + p;
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Undefined> u) {
+  return ToPrimitive(GetValue(r)) + u;
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Null> n) {
+  return ToPrimitive(GetValue(r)) + n;
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Boolean> b) {
+  return ToPrimitive(GetValue(r)) + b;
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Number> n) {
+  return ToPrimitive(GetValue(r)) + n;
+}
+shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<String> s) {
+  return ToPrimitive(GetValue(r)) + s;
+}
+
+////////////////////////////////////////
+// `Value` type left operands
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Reference> r) {
+  return ToPrimitive(v) + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Value> a, shared_ptr<Value> b) {
+  return ToPrimitive(a) + ToPrimitive(b);
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Object> o) {
+  return ToPrimitive(v) + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Primitive> p) {
+  return ToPrimitive(v) + p;
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Undefined> u) {
+  return ToPrimitive(v) + u;
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Null> n) {
+  return ToPrimitive(v) + n;
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Boolean> b) {
+  return ToPrimitive(v) + b;
+}
+shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Number> n) {
+  return ToPrimitive(v) + n;
+}
+shared_ptr<String> operator + (shared_ptr<Value> v, shared_ptr<String> s) {
+  return ToPrimitive(v) + s;
+}
+
+////////////////////////////////////////
+// `Object` type left operands
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Reference> r) {
+  return ToPrimitive(o) + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Value> v) {
+  return ToPrimitive(o) + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Object> a, shared_ptr<Object> b) {
+  return ToPrimitive(a) + ToPrimitive(b);
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Primitive> p) {
+  return ToPrimitive(o) + p;
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Undefined> u) {
+  return ToPrimitive(o) + u;
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Null> n) {
+  return ToPrimitive(o) + n;
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Boolean> b) {
+  return ToPrimitive(o) + b;
+}
+shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Number> n) {
+  return ToPrimitive(o) + n;
+}
+shared_ptr<String> operator + (shared_ptr<Object> o, shared_ptr<String> s) {
+  return ToPrimitive(o) + s;
+}
+
+////////////////////////////////////////
+// `Primitive` type left operands
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Reference> r) {
+  return p + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Value> v) {
+  return p + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Object> o) {
+  return p + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> a, shared_ptr<Primitive> b) {
+  if (a->type == STRING_VALUE_TYPE) {
+    if (b->type == STRING_VALUE_TYPE) {
+      return static_pointer_cast<String>(a) + static_pointer_cast<String>(b);
+    } else {
+      return static_pointer_cast<String>(a) + ToString(b);
+    }
+  } else if (b->type == STRING_VALUE_TYPE) {
+    return ToString(a) + static_pointer_cast<String>(b);
+  } else {
+    return ToNumber(a) + ToNumber(b);
+  }
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Undefined> u) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return static_pointer_cast<String>(p) + make_shared<String>("undefined");
+  } else {
+    return Number::makeNaN();
+  }
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Null> n) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return static_pointer_cast<String>(p) + make_shared<String>("null");
+  } else {
+    return ToNumber(p);
+  }
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Boolean> b) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return static_pointer_cast<String>(p) + ToString(b);
+  } else {
+    return ToNumber(p) + ToNumber(b);
+  }
+}
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Number> n) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return static_pointer_cast<String>(p) + ToString(n);
+  } else {
+    return ToNumber(p) + n;
+  }
+}
+shared_ptr<String> operator + (shared_ptr<Primitive> p, shared_ptr<String> s) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return static_pointer_cast<String>(p) + s;
+  } else {
+    return ToString(p) + s;
+  }
+}
+
+////////////////////////////////////////
+// `Undefined` type left operands
+shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Reference> r) {
+  return u + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Value> v) {
+  return u + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Object> o) {
+  return u + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Primitive> p) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return make_shared<String>("undefined") + static_pointer_cast<String>(p);
+  } else {
+    return Number::makeNaN();
+  }
+}
+shared_ptr<Number> operator + (shared_ptr<Undefined> a, shared_ptr<Undefined> b) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Undefined> u, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Undefined> u, shared_ptr<Boolean> b) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Undefined> u, shared_ptr<Number> n)  {
+  return Number::makeNaN();
+}
+shared_ptr<String> operator + (shared_ptr<Undefined> u, shared_ptr<String> s)  {
+  return make_shared<String>("undefined") + s;
+}
+
+////////////////////////////////////////
+// `Null` type left operands
+shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Reference> r) {
+  return n + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Value> v) {
+  return n + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Object> o) {
+  return n + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Primitive> p) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return make_shared<String>("null") + static_pointer_cast<String>(p);
+  } else {
+    return ToNumber(p);
+  }
+}
+shared_ptr<Number> operator + (shared_ptr<Null> n, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Null> a, shared_ptr<Null> b) {
+  return make_shared<Number>(0, false);
+}
+shared_ptr<Number> operator + (shared_ptr<Null> n, shared_ptr<Boolean> b) {
+  return ToNumber(b);
+}
+shared_ptr<Number> operator + (shared_ptr<Null> n, shared_ptr<Number> x) {
+  return x;
+}
+shared_ptr<String> operator + (shared_ptr<Null> n, shared_ptr<String> s) {
+  return make_shared<String>("null") + s;
+}
+
+////////////////////////////////////////
+// `Boolean` type left operands
+shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Reference> r) {
+  return b + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Value> v) {
+  return b + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Object> o) {
+  return b + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Primitive> p) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return ToString(b) + static_pointer_cast<String>(p);
+  } else {
+    return ToNumber(p) + ToNumber(b);
+  }
+}
+shared_ptr<Number> operator + (shared_ptr<Boolean> b, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Boolean> b, shared_ptr<Null> n) {
+  return ToNumber(b);
+}
+shared_ptr<Number> operator + (shared_ptr<Boolean> a, shared_ptr<Boolean> b) {
+  return ToNumber(a) + ToNumber(b);
+}
+shared_ptr<Number> operator + (shared_ptr<Boolean> b, shared_ptr<Number> n) {
+  return ToNumber(b) + n;
+}
+shared_ptr<String> operator + (shared_ptr<Boolean> b, shared_ptr<String> s) {
+  return ToString(b) + s;
+}
+
+////////////////////////////////////////
+// `Number` type left operands
+shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Reference> r) {
+  return n + ToPrimitive(GetValue(r));
+}
+shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Value> v) {
+  return n + ToPrimitive(v);
+}
+shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Object> o) {
+  return n + ToPrimitive(o);
+}
+shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Primitive> p) {
+  if (p->type == STRING_VALUE_TYPE) {
+    return ToString(n) + static_pointer_cast<String>(p);
+  } else {
+    return n + ToNumber(p);
+  }
+}
+shared_ptr<Number> operator + (shared_ptr<Number> n, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator + (shared_ptr<Number> n, shared_ptr<Null> x) {
+  return n;
+}
+shared_ptr<Number> operator + (shared_ptr<Number> n, shared_ptr<Boolean> b) {
+  return n + ToNumber(b);
+}
+shared_ptr<Number> operator + (shared_ptr<Number> a, shared_ptr<Number> b) {
+  // TODO: inline Number::plus here?
+  return a->plus(b);
+};
+shared_ptr<String> operator + (shared_ptr<Number> n, shared_ptr<String> s) {
+  return ToString(n) + s;
+}
+
+////////////////////////////////////////
+// `String` type left operands
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Reference> r) {
+  return s + ToString(ToPrimitive(GetValue(r)));
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Value> v) {
+  return s + ToString(ToPrimitive(v));
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Object> o) {
+  return s + ToString(ToPrimitive(o));
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Primitive> p) {
+  return s + ToString(p);
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Undefined> u) {
+  return s + make_shared<String>("undefined");
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Null> n) {
+  return s + make_shared<String>("null");
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Boolean> b) {
+  return s + ToString(b);
+}
+shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Number> n) {
+  return s + ToString(n);
+}
+shared_ptr<String> operator + (shared_ptr<String> a, shared_ptr<String> b) {
+  return make_shared<String>(a->value + b->value);
+}
+
+// End additive operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+shared_ptr<Value> operator - (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
+  shared_ptr<Number> a = ToNumber(valueA);
+  shared_ptr<Number> b = ToNumber(valueB);
+  return a->minus(b);
 }
