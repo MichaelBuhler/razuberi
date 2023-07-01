@@ -9,8 +9,8 @@ using namespace std;
 Value::Value () {}
 
 shared_ptr<Value> operator + (shared_ptr<Value> valueA, shared_ptr<Value> valueB) {
-  shared_ptr<Primitive> primitiveA = ToPrimitive(valueA, NONE_HINT_VALUE_TYPE);
-  shared_ptr<Primitive> primitiveB = ToPrimitive(valueB, NONE_HINT_VALUE_TYPE);
+  shared_ptr<Primitive> primitiveA = ToPrimitive(valueA);
+  shared_ptr<Primitive> primitiveB = ToPrimitive(valueB);
   if ( primitiveA->type == STRING_VALUE_TYPE || primitiveB->type == STRING_VALUE_TYPE ) {
     shared_ptr<String> stringA = static_pointer_cast<String>(primitiveA);
     shared_ptr<String> stringB = static_pointer_cast<String>(primitiveB);

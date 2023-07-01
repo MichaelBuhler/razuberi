@@ -4,7 +4,7 @@
 
 #include "value.h"
 
-std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Value> value, HintValueType hint);
+std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Value> value, HintValueType hint = NONE_HINT_VALUE_TYPE);
 
 std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Value> value);
 
