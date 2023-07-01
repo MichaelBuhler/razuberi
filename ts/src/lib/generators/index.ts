@@ -9,6 +9,7 @@ import { ExpressionStatementGenerator } from './ExpressionStatement.js'
 import { FileGenerator } from './File.js'
 import { IdentifierGenerator } from './Identifier.js'
 import { MemberExpressionGenerator } from './MemberExpression.js'
+import { NumericLiteralGenerator } from './NumericLiteral.js'
 import { ProgramGenerator } from './Program.js'
 import { StringLiteralGenerator } from './StringLiteral.js'
 
@@ -21,6 +22,7 @@ const generators: Partial<{
   File: FileGenerator,
   Identifier: IdentifierGenerator,
   MemberExpression: MemberExpressionGenerator,
+  NumericLiteral: NumericLiteralGenerator,
   Program: ProgramGenerator,
   StringLiteral: StringLiteralGenerator,
 }
