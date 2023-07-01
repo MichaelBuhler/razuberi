@@ -121,6 +121,18 @@ std::shared_ptr<Reference> operator ->* (std::shared_ptr<Object> obj, std::strin
 // End pointer-to-member operator overloads
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+// Comma operator overloads for arguments lists
+
+// shim to create a `vector`/`List` with one argument
+std::vector<std::shared_ptr<Value> > operator , (int zero, std::shared_ptr<Value> a);
+// create a `vector`/`List` from two arguments
+std::vector<std::shared_ptr<Value> > operator , (std::shared_ptr<Value> a, std::shared_ptr<Value> b);
+// append another argument onto a `vector`/`List`
+std::vector<std::shared_ptr<Value> > operator , (std::vector<std::shared_ptr<Value> > v, std::shared_ptr<Value> a);
+
+// End comma operator overloads
+////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // Addition operator overloads for every combination of addition operands
