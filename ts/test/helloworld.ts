@@ -1,5 +1,3 @@
-console.log(Boolean())
-console.log()
-console.log(Boolean(true))
-console.log("123", 456)
-console.log(Boolean(true, false))
+console.log.hello = "world"
+console.log.other = console.log.hello
+console.log(console.log.other)

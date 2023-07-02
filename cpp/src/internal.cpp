@@ -9,6 +9,15 @@
 
 using namespace std;
 
+shared_ptr<Value> _assign(shared_ptr<Reference> ref, shared_ptr<Reference> otherRef) {
+  return _assign(ref, GetValue(otherRef));
+}
+
+shared_ptr<Value> _assign(shared_ptr<Reference> ref, shared_ptr<Value> value) {
+  PutValue(ref, value);
+  return value;
+}
+
 shared_ptr<Value> _call (shared_ptr<Value> maybeRef) {
   return _call(maybeRef, vector<shared_ptr<Value> >());
 }

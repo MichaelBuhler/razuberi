@@ -50,4 +50,6 @@ void run (shared_ptr<Scope> scope) {
   _call(scope->*"console"->*"log", (
     make_shared<String>("Hello,") + make_shared<String>("world!") + make_shared<Number>(123.456)
   ));
+  _assign(scope->*"console"->*"hello", make_shared<String>("world"));
+  _call(scope->*"console"->*"log", scope->*"console"->*"hello");
 }

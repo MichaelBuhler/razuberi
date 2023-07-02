@@ -41,9 +41,9 @@ shared_ptr<Value> GetValue (shared_ptr<Value> value) {
 
 void PutValue (shared_ptr<Value> reference, shared_ptr<Value> value) {
   if (reference->type != REFERENCE_VALUE_TYPE) {
-    throw ReferenceError("tried to GetPropertyName on a non-Reference type");
+    throw ReferenceError("tried to PutValue on a non-Reference type");
   }
-  shared_ptr<Reference> ref = static_pointer_cast<Reference>(value);
+  shared_ptr<Reference> ref = static_pointer_cast<Reference>(reference);
   shared_ptr<Value> base = GetBase(ref);
   if (base->type != NULL_VALUE_TYPE) {
     if (base->type != OBJECT_VALUE_TYPE) {
