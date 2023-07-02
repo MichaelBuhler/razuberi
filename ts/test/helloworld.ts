@@ -1,5 +1,3 @@
-console.log.test = true
-
-if (console.log.test) console.log('hello world'); else {
-  console.log('goodbye world')
-}
+true
+  ? console.log('hello world')
+  : console.log('goodbye world')

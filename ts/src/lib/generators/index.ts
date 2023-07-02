@@ -8,6 +8,7 @@ import { BinaryExpressionGenerator } from './BinaryExpression.js'
 import { BlockStatementGenerator } from './BlockStatement.js'
 import { BooleanLiteralGenerator } from './BooleanLiteral.js'
 import { CallExpressionGenerator } from './CallExpression.js'
+import { ConditionalExpressionGenerator } from './ConditionalExpression.js'
 import { EmptyStatementGenerator } from './EmptyStatement.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
 import { FileGenerator } from './File.js'
@@ -28,6 +29,7 @@ const generators: Partial<{
   BlockStatement: BlockStatementGenerator,
   BooleanLiteral:BooleanLiteralGenerator,
   CallExpression: CallExpressionGenerator,
+  ConditionalExpression: ConditionalExpressionGenerator,
   EmptyStatement: EmptyStatementGenerator,
   ExpressionStatement: ExpressionStatementGenerator,
   File: FileGenerator,
