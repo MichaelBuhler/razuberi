@@ -12,6 +12,7 @@ import { EmptyStatementGenerator } from './EmptyStatement.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
 import { FileGenerator } from './File.js'
 import { IdentifierGenerator } from './Identifier.js'
+import { IfStatementGenerator } from './IfStatement.js'
 import { MemberExpressionGenerator } from './MemberExpression.js'
 import { NewExpressionGenerator } from './NewExpression.js'
 import { NullLiteralGenerator } from './NullLiteral.js'
@@ -31,6 +32,7 @@ const generators: Partial<{
   ExpressionStatement: ExpressionStatementGenerator,
   File: FileGenerator,
   Identifier: IdentifierGenerator,
+  IfStatement: IfStatementGenerator,
   MemberExpression: MemberExpressionGenerator,
   NewExpression: NewExpressionGenerator,
   NullLiteral: NullLiteralGenerator,

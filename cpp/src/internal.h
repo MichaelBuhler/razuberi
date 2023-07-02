@@ -13,6 +13,8 @@ std::shared_ptr<Value> _call (std::shared_ptr<Value> maybeRef);
 std::shared_ptr<Value> _call (std::shared_ptr<Value> maybeRef, std::shared_ptr<Value> value);
 std::shared_ptr<Value> _call (std::shared_ptr<Value> maybeRef, std::vector<std::shared_ptr<Value> > params);
 
+bool _if (std::shared_ptr<Value> maybeRef);
+
 std::shared_ptr<Object> _new (std::shared_ptr<Value> maybeRef);
 std::shared_ptr<Object> _new (std::shared_ptr<Value> maybeRef, std::shared_ptr<Value> value);
 std::shared_ptr<Object> _new (std::shared_ptr<Value> maybeRef, std::vector<std::shared_ptr<Value> > params);

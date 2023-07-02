@@ -5,6 +5,7 @@
 #include "exception.h"
 #include "reference.h"
 #include "scope.h"
+#include "type_conversion.h"
 #include "value.h"
 
 using namespace std;
@@ -44,6 +45,10 @@ shared_ptr<Value> _call (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > 
     thisArg = make_shared<Null>();
   }
   return obj->__Call__(thisArg, params);
+}
+
+bool _if (shared_ptr<Value> maybeRef) {
+  return ToBoolean(GetValue(maybeRef))->value;
 }
 
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef) {
