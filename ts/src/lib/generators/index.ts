@@ -5,6 +5,7 @@ import type { Generator } from './types.js'
 
 import { AssignmentExpressionGenerator } from './AssignmentExpression.js'
 import { BinaryExpressionGenerator } from './BinaryExpression.js'
+import { BlockStatementGenerator } from './BlockStatement.js'
 import { BooleanLiteralGenerator } from './BooleanLiteral.js'
 import { CallExpressionGenerator } from './CallExpression.js'
 import { EmptyStatementGenerator } from './EmptyStatement.js'
@@ -23,6 +24,7 @@ const generators: Partial<{
 }> = {
   AssignmentExpression: AssignmentExpressionGenerator,
   BinaryExpression: BinaryExpressionGenerator,
+  BlockStatement: BlockStatementGenerator,
   BooleanLiteral:BooleanLiteralGenerator,
   CallExpression: CallExpressionGenerator,
   EmptyStatement: EmptyStatementGenerator,
