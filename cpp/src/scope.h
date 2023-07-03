@@ -6,7 +6,7 @@
 #include <string>
 
 class Scope {
-  public: Object object;
+  public: std::shared_ptr<Object> object;
   public: std::shared_ptr<Scope> parentScope;
   public: Scope (std::shared_ptr<Scope> parentScope = nullptr);
   public: Reference operator ->* (std::string name);

@@ -18,16 +18,16 @@ void run (Scope& scope) {
     make_shared<String>("Hello, world!")
   ));
   {
-    _assign(scope->*"A", make_shared<Object>());
-    _assign(scope->*"A"->*"hello", make_shared<String>("world"));
-    _assign(scope->*"B", make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"A"))));
-    _assign(scope->*"C", make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"B"))));
+    scope->*"A" = make_shared<Object>();
+    scope->*"A"->*"hello" = make_shared<String>("world");
+    scope->*"B" = make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"A")));
+    scope->*"C" = make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"B")));
     _call(scope->*"console"->*"log", scope->*"C"->*"hello");
   }
   _call(scope->*"console"->*"log", _new(scope->*"Boolean", make_shared<Boolean>(true)));
   {
-    _assign(scope->*"str", _new(scope->*"String", make_shared<String>("Hello, world!")));
-    _assign(scope->*"c", _call(scope->*"str"->*"charAt", make_shared<Number>(1)));
+    scope->*"str" = _new(scope->*"String", make_shared<String>("Hello, world!"));
+    scope->*"c" = _call(scope->*"str"->*"charAt", make_shared<Number>(1));
     _call(scope->*"console"->*"log", (
       scope->*"str",
       scope->*"str"->*"length",
@@ -53,6 +53,6 @@ void run (Scope& scope) {
     make_shared<String>("Hello,"),
     scope->*"NaN" + _call(_new(scope->*"Object")->*"toString")
   ));
-  _assign(scope->*"console"->*"hello", make_shared<String>("world"));
+  scope->*"console"->*"hello" = make_shared<String>("world");
   _call(scope->*"console"->*"log", scope->*"console"->*"hello");
 }

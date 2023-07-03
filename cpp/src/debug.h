@@ -5,6 +5,9 @@
 #include "scope.h"
 #include "value.h"
 
+void debugEnable();
+void debugDisable();
+
 void debug (std::string str = "");
 
 void debug (Scope scope);

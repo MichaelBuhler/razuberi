@@ -102,6 +102,8 @@ class Reference {
   public: std::shared_ptr<Value> baseObject;
   public: std::shared_ptr<String> propertyName;
   public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
+  public: Reference operator = (Reference rightHandSide);
+  public: Reference operator = (std::shared_ptr<Value> rightHandSide);
   public: Reference operator ->* (std::string identifier);
 };
 

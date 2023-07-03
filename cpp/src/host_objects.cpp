@@ -34,8 +34,7 @@ shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > argu
 void init_host_objects (Scope& globalScope) {
   shared_ptr<Object> console = make_shared<Object>();
   console->__Class__ = "Console";
-  _assign(globalScope->*"console", console);
+  globalScope->*"console" = console;
 
-  shared_ptr<Object> log = make_shared<Object>(static_pointer_cast<Object>(GetValue(globalScope->*"Function"->*"prototype")), _log);
-  console->__Put__("log", log);
+  console->*"log" = make_shared<Object>(static_pointer_cast<Object>(GetValue(globalScope->*"Function"->*"prototype")), _log);
 }

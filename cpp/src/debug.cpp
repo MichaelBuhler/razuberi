@@ -5,10 +5,13 @@
 #include <memory>
 #include <string>
 
+#include "reference.h"
 #include "type_conversion.h"
 #include "value.h"
 
 using namespace std;
+
+static bool enabled = false;
 
 static const string yellow = "\033[33m";
 static const string bold = "\033[1m";
@@ -19,8 +22,17 @@ string stringify (Scope& scope);
 string stringify (Reference ref);
 string stringify (shared_ptr<Value> value);
 
+void debugEnable () {
+  enabled = true;
+}
+void debugDisable () {
+  enabled = false;
+}
+
 void debug (string str) {
-  cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << str << reset << endl;
+  if (enabled) {
+    cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << str << reset << endl;
+  }
 }
 
 void debug (Scope scope) {
@@ -61,7 +73,7 @@ string indent (string str, int spaces) {
 
 string stringify (Scope& scope) {
   string str = "Scope {";
-  map<string, shared_ptr<Object::Property> > properties = scope.object.properties;
+  map<string, shared_ptr<Object::Property> > properties = scope.object->properties;
   if (properties.size() > 0) {
     for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
       str += "\n  " + it->first + ": " + indent(stringify(it->second->value));
@@ -76,7 +88,14 @@ string stringify (Scope& scope) {
 }
 
 string stringify (Reference ref) {
-  return "Reference {\n  baseObject:" + stringify(ref.baseObject) + "\n  propertyName: " + stringify(ref.propertyName) + "\n}";
+  string str = "Reference {\n  baseObject: " + indent(stringify(ref.baseObject));
+  str += "\n  propertyName: " + stringify(ref.propertyName);
+  if (ref.baseObject->type == NULL_VALUE_TYPE) {
+    str += "\n  currentValue: ReferenceError\n}";
+  } else {
+    str += "\n  currentValue: " + indent(stringify(GetValue(ref))) + "\n}";
+  }
+  return str;
 }
 
 string stringify (shared_ptr<Value> val) {
@@ -105,6 +124,12 @@ string stringify (shared_ptr<Value> val) {
       str += "] {\n  properties: {";
       map<string, shared_ptr<Object::Property> > properties = obj->properties;
       if (properties.size() > 0) {
+        // TODO: this version is seg faulting?
+        // for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
+        //   debug(it->second.get());
+        //   str += "\n  " + it->first + ": " + stringify(it->second->value);
+        // }
+        // str += "\n";
         for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
           str += " " + it->first + ",";
         }

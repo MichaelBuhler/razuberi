@@ -11,14 +11,6 @@
 
 using namespace std;
 
-shared_ptr<Value> _assign(Reference leftHandSide, Reference rightHandSide) {
-  return _assign(leftHandSide, GetValue(rightHandSide));
-}
-std::shared_ptr<Value> _assign(Reference leftHandSide, std::shared_ptr<Value> rightHandSide) {
-  PutValue(leftHandSide, rightHandSide);
-  return rightHandSide;
-}
-
 shared_ptr<Value> _call (Reference callee) {
   return _call(callee, vector<shared_ptr<Value> >());
 }

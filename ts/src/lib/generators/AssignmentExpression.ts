@@ -6,5 +6,8 @@ import type { Generator } from './types.js'
 import { generate } from '../generate.js'
 
 export const AssignmentExpressionGenerator: Generator<AssignmentExpression> = ({ left, right }) => {
-  return `_assign(${generate(left)}, ${generate(right)})`
+  if (left.type !== 'Identifier' && left.type !== 'MemberExpression') {
+    throw new Error(`Dangerous left hand side expression: ${left.type}`)
+  }
+  return generate(left) + ' = ' + generate(right);
 }
