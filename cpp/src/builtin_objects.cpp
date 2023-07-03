@@ -169,7 +169,7 @@ shared_ptr<Value> _String_prototype_valueOf (shared_ptr<Value> _this, vector<sha
   throw TypeError("String.prototype.valueOf requires that 'this' be a String");
 }
 
-void init_builtin_objects (Scope& globalScope) {
+void init_builtin_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>(nullptr); // TODO: should actually be the Object prototype object
   shared_ptr<Object> FunctionObject = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
   FunctionObject->__Put__("prototype", FunctionPrototype);

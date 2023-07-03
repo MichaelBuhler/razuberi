@@ -1,3 +1,4 @@
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -6,7 +7,7 @@
 
 using namespace std;
 
-void run (Scope& scope) {
+void run (shared_ptr<Scope> scope) {
   _call(scope->*"console"->*"log", (
     make_shared<Undefined>(),
     make_shared<Null>(),

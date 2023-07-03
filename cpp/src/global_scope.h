@@ -4,6 +4,6 @@
 
 #include "scope.h"
 
-extern Scope globalScope;
+extern std::shared_ptr<Scope> globalScope;
 
-Scope& init_global_scope ();
+std::shared_ptr<Scope> init_global_scope ();

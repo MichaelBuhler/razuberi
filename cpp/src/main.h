@@ -4,6 +4,6 @@
 
 #include "scope.h"
 
-void run (Scope& globalScope);
-
 int main();
+
+void run (std::shared_ptr<Scope> globalScope);

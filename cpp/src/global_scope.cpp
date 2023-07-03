@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Scope globalScope;
+shared_ptr<Scope> globalScope;
 
 shared_ptr<Value> _eval__Call__ (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   throw NotImplementedException("Cannot use global `eval()` to execute arbitrary code at runtime.");
@@ -41,8 +41,8 @@ shared_ptr<Value> _isFinite__Call__ (shared_ptr<Value> _this, vector<shared_ptr<
   return make_shared<Boolean>(true);
 }
 
-Scope& init_global_scope () {
-  globalScope = Scope();
+shared_ptr<Scope> init_global_scope () {
+  globalScope = make_shared<Scope>();
 
   globalScope->*"NaN" = Number::makeNaN();
   globalScope->*"isNaN" = make_shared<Object>(nullptr, _isNaN__Call__);

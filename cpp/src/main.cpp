@@ -10,7 +10,7 @@ using namespace std;
 
 int main () {
   try {
-    Scope& globalScope = init_global_scope();
+    shared_ptr<Scope> globalScope = init_global_scope();
     run(globalScope);
     return 0;
   } catch (RazuberiException& e) {

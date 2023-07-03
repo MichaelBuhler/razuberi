@@ -31,7 +31,7 @@ shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > argu
   return make_shared<Undefined>();
 }
 
-void init_host_objects (Scope& globalScope) {
+void init_host_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> console = make_shared<Object>();
   console->__Class__ = "Console";
   globalScope->*"console" = console;
