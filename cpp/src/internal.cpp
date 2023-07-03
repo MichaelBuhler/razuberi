@@ -10,25 +10,65 @@
 
 using namespace std;
 
+shared_ptr<Value> _assign(Reference ref, Reference otherRef) {
+  return _assign(ref, GetValue(otherRef));
+}
+shared_ptr<Value> _assign(Reference ref, shared_ptr<Reference> otherRef) {
+  return _assign(ref, GetValue(otherRef));
+}
+std::shared_ptr<Value> _assign(Reference ref, std::shared_ptr<Value> val) {
+  PutValue(ref, GetValue(val));
+  return val;
+}
 shared_ptr<Value> _assign(shared_ptr<Reference> ref, shared_ptr<Reference> otherRef) {
   return _assign(ref, GetValue(otherRef));
 }
-
+shared_ptr<Value> _assign(shared_ptr<Reference> ref, Reference otherRef) {
+  return _assign(ref, GetValue(otherRef));
+}
 shared_ptr<Value> _assign(shared_ptr<Reference> ref, shared_ptr<Value> value) {
-  PutValue(ref, value);
+  PutValue(ref, GetValue(value));
   return value;
 }
 
+shared_ptr<Value> _call (Reference ref) {
+  return _call(ref, vector<shared_ptr<Value> >());
+}
+shared_ptr<Value> _call (Reference ref, Reference val) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(val));
+  return _call(ref, params);
+}
+shared_ptr<Value> _call (Reference ref, shared_ptr<Value> value) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(value));
+  return _call(ref, params);
+}
+shared_ptr<Value> _call (Reference ref, vector<shared_ptr<Value> > params) {
+  shared_ptr<Value> callee = GetValue(ref);
+  if (callee->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("callee is not an object");
+  }
+  shared_ptr<Object> obj = static_pointer_cast<Object>(callee);
+  if (obj->__Call__ == nullptr) {
+    throw TypeError("object is not a function");
+  }
+  shared_ptr<Value> thisArg = GetBase(ref);
+  return obj->__Call__(thisArg, params);
+}
 shared_ptr<Value> _call (shared_ptr<Value> maybeRef) {
   return _call(maybeRef, vector<shared_ptr<Value> >());
 }
-
-shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Value> value) {
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, Reference val) {
   vector<shared_ptr<Value> > params;
-  params.push_back(value);
+  params.push_back(GetValue(val));
   return _call(maybeRef, params);
 }
-
+shared_ptr<Value> _call (shared_ptr<Value> maybeRef, shared_ptr<Value> value) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(value));
+  return _call(maybeRef, params);
+}
 shared_ptr<Value> _call (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > params) {
   shared_ptr<Value> callee = GetValue(maybeRef);
   if (callee->type != OBJECT_VALUE_TYPE) {
@@ -51,16 +91,50 @@ bool _if (shared_ptr<Value> maybeRef) {
   return ToBoolean(GetValue(maybeRef))->value;
 }
 
+std::shared_ptr<Object> _new (Reference ref) {
+  return _new(ref, vector<shared_ptr<Value> >());
+}
+std::shared_ptr<Object> _new (Reference ref, std::shared_ptr<Value> value) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(value);
+  return _new(ref, params);
+}
+std::shared_ptr<Object> _new (Reference ref, std::vector<std::shared_ptr<Value> > params) {
+  shared_ptr<Value> constructor = GetValue(ref);
+  if (constructor->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("constructor is not an object");
+  }
+  shared_ptr<Object> obj = static_pointer_cast<Object>(constructor);
+  if (obj->__Construct__ == nullptr) {
+    throw TypeError("object is not a constructor");
+  }
+  shared_ptr<Object> prototype = nullptr;
+  if (obj->__HasProperty__("prototype")) {
+    shared_ptr<Value> maybeObj = obj->__Get__("prototype");
+    if (maybeObj->type == OBJECT_VALUE_TYPE) {
+      prototype = static_pointer_cast<Object>(maybeObj);
+    } else {
+      // TODO: should actually fall back to Object.prototype
+      prototype = make_shared<Object>();
+    }
+  } else {
+    throw ImplementationException("constructor has no prototype");
+  }
+  shared_ptr<Object> newObject = make_shared<Object>(prototype);
+  shared_ptr<Value> result = obj->__Construct__(newObject, params);
+  if (result->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("constructor returned a non-object");
+  }
+  return static_pointer_cast<Object>(result);
+}
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef) {
   return _new(maybeRef, vector<shared_ptr<Value> >());
 }
-
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef, shared_ptr<Value> value) {
   vector<shared_ptr<Value> > params;
   params.push_back(value);
   return _new(maybeRef, params);
 }
-
 shared_ptr<Object> _new (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > params) {
   shared_ptr<Value> constructor = GetValue(maybeRef);
   if (constructor->type != OBJECT_VALUE_TYPE) {
@@ -90,7 +164,7 @@ shared_ptr<Object> _new (shared_ptr<Value> maybeRef, vector<shared_ptr<Value> > 
   return static_pointer_cast<Object>(result);
 }
 
-std::shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint) {
+shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint) {
   if (hint == NONE_HINT_VALUE_TYPE) {
     if (_this->__Class__ == "Date") { // TODO: enum this
       hint = STRING_HINT_VALUE_TYPE;

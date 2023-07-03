@@ -1,8 +1,4 @@
 #pragma once
-#include "value.fwd.h"
-
-#include "scope.fwd.h"
-#include "scope.h"
 
 #include <map>
 #include <memory>
@@ -77,14 +73,15 @@ class String : public Primitive {
 class Object : public Value {
   private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
   private: typedef std::shared_ptr<Object> (*Construct)(std::shared_ptr<Object> _this, std::vector<std::shared_ptr<Value> > params);
-  private: class Property {
+  public: class Property {
     public: std::shared_ptr<Value> value;
     public: bool ReadOnly;
     public: bool DontEnum;
     public: bool DontDelete;
     // public: bool Internal; // TODO: not sure how this is used
   };
-  private: std::map<std::string, std::shared_ptr<Property> > properties;
+  // TODO: map values can be Property instead of shared_ptr<Property>
+  public: std::map<std::string, std::shared_ptr<Property> > properties;
   public: Object (std::shared_ptr<Object> prototype = nullptr, Call call = nullptr, Construct construct = nullptr);
 
   private: std::shared_ptr<Object> __Prototype__;
@@ -105,6 +102,7 @@ class Reference : public Internal {
   public: std::shared_ptr<Value> baseObject;
   public: std::shared_ptr<String> propertyName;
   public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
+  public: Reference operator ->* (std::string identifier);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

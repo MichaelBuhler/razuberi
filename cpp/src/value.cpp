@@ -140,6 +140,10 @@ Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyN
   this->propertyName = propertyName;
 }
 
+Reference Reference::operator ->* (string identifier) {
+  return Reference(ToObject(GetValue(*this)), make_shared<String>(identifier));
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Operator overloads
 

@@ -1,6 +1,7 @@
 #include "builtin_objects.h"
 
 #include "exception.h"
+#include "internal.h"
 #include "value.h"
 #include "type_conversion.h"
 
@@ -168,14 +169,14 @@ shared_ptr<Value> _String_prototype_valueOf (shared_ptr<Value> _this, vector<sha
   throw TypeError("String.prototype.valueOf requires that 'this' be a String");
 }
 
-void init_builtin_objects (shared_ptr<Scope> globalScope) {
+void init_builtin_objects (Scope& globalScope) {
   shared_ptr<Object> FunctionPrototype = make_shared<Object>(nullptr); // TODO: should actually be the Object prototype object
   shared_ptr<Object> FunctionObject = make_shared<Object>(FunctionPrototype, _Function__Call__, _Function__Construct__);
   FunctionObject->__Put__("prototype", FunctionPrototype);
   FunctionObject->__Put__("length", make_shared<Number>(1));
   FunctionPrototype->__Put__("constructor", FunctionObject);
   FunctionPrototype->__Put__("toString", make_shared<Object>(nullptr, _Function_prototype_toString));
-  globalScope->set("Function", FunctionObject);
+  _assign(globalScope->*"Function", FunctionObject);
 
   shared_ptr<Object> ObjectPrototype = make_shared<Object>(nullptr); // The value of the internal [[Prototype]] property of the Object prototype object is null.
   shared_ptr<Object> ObjectObject = make_shared<Object>(FunctionPrototype, _Object__Call__, _Object__Construct__);
@@ -184,7 +185,7 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   ObjectPrototype->__Put__("constructor", ObjectObject);
   ObjectPrototype->__Put__("toString", make_shared<Object>(nullptr, _Object_prototype_toString));
   ObjectPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _Object_prototype_valueOf));
-  globalScope->set("Object", ObjectObject);
+  _assign(globalScope->*"Object", ObjectObject);
 
   // TODO: The Boolean prototype object is itself a Boolean object (its [[Class]] is "Boolean") whose value is false.
   shared_ptr<Object> BooleanPrototype = make_shared<Object>(ObjectPrototype);
@@ -194,7 +195,7 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   BooleanPrototype->__Put__("constructor", BooleanObject);
   BooleanPrototype->__Put__("toString", make_shared<Object>(nullptr, _Boolean_prototype_toString));
   BooleanPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _Boolean_prototype_valueOf));
-  globalScope->set("Boolean", BooleanObject);
+  _assign(globalScope->*"Boolean", BooleanObject);
 
   //TODO: The String prototype object is itself a String object (its [[Class]] is "String") whose value is an empty string.
   shared_ptr<Object> StringPrototype = make_shared<Object>(ObjectPrototype);
@@ -206,5 +207,5 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   StringPrototype->__Put__("constructor", StringObject);
   StringPrototype->__Put__("toString", make_shared<Object>(nullptr, _String_prototype_toString));
   StringPrototype->__Put__("valueOf", make_shared<Object>(nullptr, _String_prototype_valueOf));
-  globalScope->set("String", StringObject);
+  _assign(globalScope->*"String", StringObject);
 }

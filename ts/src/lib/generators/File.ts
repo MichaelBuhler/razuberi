@@ -10,7 +10,7 @@ export const FileGenerator: Generator<File> = ({ program }) => `
 
   using namespace std;
   
-  void run (shared_ptr<Scope> scope) {
+  void run (Scope& scope) {
     ${generate(program)}
   }
 `

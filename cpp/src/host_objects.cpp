@@ -3,7 +3,7 @@
 #include <iostream>
 #include <memory>
 
-#include "razuberi.h"
+#include "internal.h"
 #include "reference.h"
 #include "type_conversion.h"
 #include "value.h"
@@ -31,10 +31,10 @@ shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > argu
   return make_shared<Undefined>();
 }
 
-void init_host_objects (shared_ptr<Scope> globalScope) {
+void init_host_objects (Scope& globalScope) {
   shared_ptr<Object> console = make_shared<Object>();
   console->__Class__ = "Console";
-  globalScope->set("console", console);
+  _assign(globalScope->*"console", console);
 
   shared_ptr<Object> log = make_shared<Object>(static_pointer_cast<Object>(GetValue(globalScope->*"Function"->*"prototype")), _log);
   console->__Put__("log", log);

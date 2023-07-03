@@ -10,12 +10,12 @@ using namespace std;
 
 int main () {
   try {
-    shared_ptr<Scope> globalScope = init_global_scope();
+    Scope& globalScope = init_global_scope();
     run(globalScope);
     return 0;
-  } catch (RazuberiException &e) {
+  } catch (RazuberiException& e) {
     cout << e.toString() << endl;
-  } catch (EcmaScriptRuntimeError &e) {
+  } catch (EcmaScriptRuntimeError& e) {
     cout << "Uncaught " << e.toString() << endl;
   }
   return 1;

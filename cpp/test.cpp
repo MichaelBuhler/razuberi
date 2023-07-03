@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void run (shared_ptr<Scope> scope) {
+void run (Scope& scope) {
   _call(scope->*"console"->*"log", (
     make_shared<Undefined>(),
     make_shared<Null>(),
@@ -17,10 +17,10 @@ void run (shared_ptr<Scope> scope) {
     make_shared<String>("Hello, world!")
   ));
   {
-    shared_ptr<Object> A = make_shared<Object>(static_pointer_cast<Object>(scope->*"console"), nullptr);
+    shared_ptr<Object> A = make_shared<Object>();
     A->__Put__("hello", make_shared<String>("world"));
-    shared_ptr<Object> B = make_shared<Object>(A, nullptr);
-    shared_ptr<Object> C = make_shared<Object>(B, nullptr);
+    shared_ptr<Object> B = make_shared<Object>(A);
+    shared_ptr<Object> C = make_shared<Object>(B);
     _call(scope->*"console"->*"log", C->*"hello");
   }
   _call(scope->*"console"->*"log", _new(scope->*"Boolean", make_shared<Boolean>(true)));

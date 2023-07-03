@@ -4,4 +4,4 @@
 
 #include "scope.h"
 
-void init_host_objects (std::shared_ptr<Scope> globalScope);
+void init_host_objects (Scope& globalScope);
