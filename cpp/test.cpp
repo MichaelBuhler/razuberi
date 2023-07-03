@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "razuberi.h"
+#include "reference.h"
 
 using namespace std;
 
@@ -17,20 +18,20 @@ void run (Scope& scope) {
     make_shared<String>("Hello, world!")
   ));
   {
-    shared_ptr<Object> A = make_shared<Object>();
-    A->__Put__("hello", make_shared<String>("world"));
-    shared_ptr<Object> B = make_shared<Object>(A);
-    shared_ptr<Object> C = make_shared<Object>(B);
-    _call(scope->*"console"->*"log", C->*"hello");
+    _assign(scope->*"A", make_shared<Object>());
+    _assign(scope->*"A"->*"hello", make_shared<String>("world"));
+    _assign(scope->*"B", make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"A"))));
+    _assign(scope->*"C", make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"B"))));
+    _call(scope->*"console"->*"log", scope->*"C"->*"hello");
   }
   _call(scope->*"console"->*"log", _new(scope->*"Boolean", make_shared<Boolean>(true)));
   {
-    shared_ptr<Object> str = _new(scope->*"String", make_shared<String>("Hello, world!"));
-    shared_ptr<Value> c = _call(str->*"charAt", make_shared<Number>(1));
+    _assign(scope->*"str", _new(scope->*"String", make_shared<String>("Hello, world!")));
+    _assign(scope->*"c", _call(scope->*"str"->*"charAt", make_shared<Number>(1)));
     _call(scope->*"console"->*"log", (
-      str,
-      str->*"length",
-      c
+      scope->*"str",
+      scope->*"str"->*"length",
+      scope->*"c"
     ));
   }
   {
@@ -48,7 +49,9 @@ void run (Scope& scope) {
     ));
   }
   _call(scope->*"console"->*"log", (
-    make_shared<String>("Hello,") + make_shared<String>("world!") + make_shared<Number>(123.456)
+    scope->*"Boolean",
+    make_shared<String>("Hello,"),
+    scope->*"NaN" + _call(_new(scope->*"Object")->*"toString")
   ));
   _assign(scope->*"console"->*"hello", make_shared<String>("world"));
   _call(scope->*"console"->*"log", scope->*"console"->*"hello");

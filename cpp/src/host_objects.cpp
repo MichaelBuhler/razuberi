@@ -19,7 +19,7 @@ shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > argu
       shared_ptr<Object> obj = static_pointer_cast<Object>(arg);
       if (obj->__HasProperty__("toString")) {
         vector<shared_ptr<Value> > params;
-        str = ToString(_call(make_shared<Reference>(obj, make_shared<String>("toString")), params));
+        str = ToString(_call(Reference(obj, make_shared<String>("toString")), params));
       }
     }
     if (str == nullptr) {

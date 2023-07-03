@@ -115,9 +115,5 @@ string stringify (shared_ptr<Value> val) {
       str += "\n}";
       return str;
     }
-    case REFERENCE_VALUE_TYPE: {
-      shared_ptr<Reference> ref = static_pointer_cast<Reference>(val);
-      return "shared_ptr<Reference> {\n  baseObject:" + stringify(ref->baseObject) + "\n  propertyName: " + stringify(ref->propertyName) + "\n}";
-    }
   }
 }

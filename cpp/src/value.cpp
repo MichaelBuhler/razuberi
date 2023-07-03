@@ -134,8 +134,7 @@ bool Object::__HasProperty__ (string key) {
 
 Internal::Internal () : Value() {}
 
-Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) : Internal() {
-  this->type = REFERENCE_VALUE_TYPE;
+Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {
   this->baseObject = baseObject;
   this->propertyName = propertyName;
 }
@@ -151,14 +150,11 @@ Reference Reference::operator ->* (string identifier) {
 // Pointer-to-member operator overloads for member expressions
 
 // Accessing a property by `Identifier`
-shared_ptr<Reference> operator ->* (shared_ptr<Reference> ref, string name) {
-  return GetValue(ref)->*name;
+Reference operator ->* (shared_ptr<Value> val, string indentifier) {
+  return ToObject(val)->*indentifier;
 }
-shared_ptr<Reference> operator ->* (shared_ptr<Value> value, string name) {
-  return make_shared<Reference>(ToObject(value), make_shared<String>(name));
-}
-shared_ptr<Reference> operator ->* (shared_ptr<Object> obj, string name) {
-  return make_shared<Reference>(obj, make_shared<String>(name));
+Reference operator ->* (shared_ptr<Object> obj, string indentifier) {
+  return Reference(obj, make_shared<String>(indentifier));
 }
 
 // End pointer-to-member operator overloads
@@ -168,6 +164,24 @@ shared_ptr<Reference> operator ->* (shared_ptr<Object> obj, string name) {
 // Comma operator overloads for arguments lists
 
 // create a `vector`/`List` from two arguments
+vector<shared_ptr<Value> > operator , (Reference a, Reference b) {
+  vector<shared_ptr<Value> > v;
+  v.push_back(GetValue(a));
+  v.push_back(GetValue(b));
+  return v;
+}
+vector<shared_ptr<Value> > operator , (Reference ref, shared_ptr<Value> val) {
+  vector<shared_ptr<Value> > v;
+  v.push_back(GetValue(ref));
+  v.push_back(val);
+  return v;
+}
+vector<shared_ptr<Value> > operator , (shared_ptr<Value> val, Reference ref) {
+  vector<shared_ptr<Value> > v;
+  v.push_back(val);
+  v.push_back(GetValue(ref));
+  return v;
+}
 vector<shared_ptr<Value> > operator , (shared_ptr<Value> a, shared_ptr<Value> b) {
   vector<shared_ptr<Value> > v;
   v.push_back(a);
@@ -176,8 +190,12 @@ vector<shared_ptr<Value> > operator , (shared_ptr<Value> a, shared_ptr<Value> b)
 }
 
 // append another argument onto a `vector`/`List`
-vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, shared_ptr<Value> a) {
-  v.push_back(a);
+vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, Reference ref) {
+  v.push_back(GetValue(ref));
+  return v;
+}
+vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, shared_ptr<Value> val) {
+  v.push_back(val);
   return v;
 }
 
@@ -189,37 +207,37 @@ vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, shared_ptr<
 
 ////////////////////////////////////////
 // Left operands of type `Reference`
-shared_ptr<Value> operator + (shared_ptr<Reference> a, shared_ptr<Reference> b) {
+shared_ptr<Value> operator + (Reference a, Reference b) {
   return ToPrimitive(GetValue(a)) + ToPrimitive(GetValue(b));
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Value> v) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Value> v) {
   return ToPrimitive(GetValue(r)) + ToPrimitive(v);
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Object> o) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Object> o) {
   return ToPrimitive(GetValue(r)) + ToPrimitive(o);
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Primitive> p) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Primitive> p) {
   return ToPrimitive(GetValue(r)) + p;
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Undefined> u) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Undefined> u) {
   return ToPrimitive(GetValue(r)) + u;
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Null> n) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Null> n) {
   return ToPrimitive(GetValue(r)) + n;
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Boolean> b) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Boolean> b) {
   return ToPrimitive(GetValue(r)) + b;
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<Number> n) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<Number> n) {
   return ToPrimitive(GetValue(r)) + n;
 }
-shared_ptr<Value> operator + (shared_ptr<Reference> r, shared_ptr<String> s) {
+shared_ptr<Value> operator + (Reference r, shared_ptr<String> s) {
   return ToPrimitive(GetValue(r)) + s;
 }
 
 ////////////////////////////////////////
 // Left operands of type `Value`
-shared_ptr<Value> operator + (shared_ptr<Value> v, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Value> v, Reference r) {
   return ToPrimitive(v) + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Value> a, shared_ptr<Value> b) {
@@ -249,7 +267,7 @@ shared_ptr<String> operator + (shared_ptr<Value> v, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `Object`
-shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Object> o, Reference r) {
   return ToPrimitive(o) + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Object> o, shared_ptr<Value> v) {
@@ -279,7 +297,7 @@ shared_ptr<String> operator + (shared_ptr<Object> o, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `Primitive`
-shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Primitive> p, Reference r) {
   return p + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Primitive> p, shared_ptr<Value> v) {
@@ -339,7 +357,7 @@ shared_ptr<String> operator + (shared_ptr<Primitive> p, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `Undefined`
-shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Undefined> u, Reference r) {
   return u + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Undefined> u, shared_ptr<Value> v) {
@@ -373,7 +391,7 @@ shared_ptr<String> operator + (shared_ptr<Undefined> u, shared_ptr<String> s)  {
 
 ////////////////////////////////////////
 // Left operands of type `Null`
-shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Null> n, Reference r) {
   return n + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Null> n, shared_ptr<Value> v) {
@@ -407,7 +425,7 @@ shared_ptr<String> operator + (shared_ptr<Null> n, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `Boolean`
-shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Boolean> b, Reference r) {
   return b + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Value> v) {
@@ -441,7 +459,7 @@ shared_ptr<String> operator + (shared_ptr<Boolean> b, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `Number`
-shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Reference> r) {
+shared_ptr<Value> operator + (shared_ptr<Number> n, Reference r) {
   return n + ToPrimitive(GetValue(r));
 }
 shared_ptr<Value> operator + (shared_ptr<Number> n, shared_ptr<Value> v) {
@@ -476,7 +494,7 @@ shared_ptr<String> operator + (shared_ptr<Number> n, shared_ptr<String> s) {
 
 ////////////////////////////////////////
 // Left operands of type `String`
-shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Reference> r) {
+shared_ptr<String> operator + (shared_ptr<String>s , Reference r) {
   return s + ToString(ToPrimitive(GetValue(r)));
 }
 shared_ptr<String> operator + (shared_ptr<String>s , shared_ptr<Value> v) {
