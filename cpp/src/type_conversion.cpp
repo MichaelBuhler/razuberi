@@ -80,6 +80,8 @@ std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive> primitive) {
     case STRING_VALUE_TYPE:
       // TODO: need to parse a floating point number from this string
       throw NotImplementedException("cannot convert a string to a number");
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed into ToNumber(Primitive)");
   }
 }
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Boolean> boolean) {
@@ -164,6 +166,8 @@ shared_ptr<String> ToString (shared_ptr<Primitive> primitive) {
       return ToString(static_pointer_cast<Number>(primitive));
     case STRING_VALUE_TYPE:
       return static_pointer_cast<String>(primitive);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed into ToString(Primitive)");
   }
 }
 shared_ptr<String> ToString (shared_ptr<Boolean> boolean) {
