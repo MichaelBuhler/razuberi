@@ -13,7 +13,7 @@ using namespace std;
 shared_ptr<Value> _log (shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   for ( int i = 0 ; i < arguments.size() ; i++ ) {
     if (i != 0) cout << " ";
-    shared_ptr<Value> arg = GetValue(arguments[i]);
+    shared_ptr<Value> arg = arguments[i];
     shared_ptr<String> str = nullptr;
     if (arg->type == OBJECT_VALUE_TYPE) {
       shared_ptr<Object> obj = static_pointer_cast<Object>(arg);

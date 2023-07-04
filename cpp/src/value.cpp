@@ -175,28 +175,28 @@ Reference operator ->* (shared_ptr<Object> obj, string indentifier) {
 
 // create a `vector`/`List` from two arguments
 vector<shared_ptr<Value> > operator , (Reference a, Reference b) {
-  vector<shared_ptr<Value> > v;
-  v.push_back(GetValue(a));
-  v.push_back(GetValue(b));
-  return v;
+  vector<shared_ptr<Value> > vec;
+  vec.push_back(GetValue(a));
+  vec.push_back(GetValue(b));
+  return vec;
 }
-vector<shared_ptr<Value> > operator , (Reference ref, shared_ptr<Value> val) {
-  vector<shared_ptr<Value> > v;
-  v.push_back(GetValue(ref));
-  v.push_back(val);
-  return v;
+vector<shared_ptr<Value> > operator , (Reference r, shared_ptr<Value> v) {
+  vector<shared_ptr<Value> > vec;
+  vec.push_back(GetValue(r));
+  vec.push_back(v);
+  return vec;
 }
-vector<shared_ptr<Value> > operator , (shared_ptr<Value> val, Reference ref) {
-  vector<shared_ptr<Value> > v;
-  v.push_back(val);
-  v.push_back(GetValue(ref));
-  return v;
+vector<shared_ptr<Value> > operator , (shared_ptr<Value> v, Reference r) {
+  vector<shared_ptr<Value> > vec;
+  vec.push_back(v);
+  vec.push_back(GetValue(r));
+  return vec;
 }
 vector<shared_ptr<Value> > operator , (shared_ptr<Value> a, shared_ptr<Value> b) {
-  vector<shared_ptr<Value> > v;
-  v.push_back(a);
-  v.push_back(b);
-  return v;
+  vector<shared_ptr<Value> > vec;
+  vec.push_back(a);
+  vec.push_back(b);
+  return vec;
 }
 
 // append another argument onto a `vector`/`List`

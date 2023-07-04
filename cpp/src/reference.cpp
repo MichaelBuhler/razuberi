@@ -27,10 +27,6 @@ shared_ptr<Value> GetValue (Reference ref) {
   shared_ptr<Object> obj = static_pointer_cast<Object>(base);
   return obj->__Get__(ref.propertyName->value);
 }
-// TODO: can we ensure that this will never be needed, and remove this?
-shared_ptr<Value> GetValue (shared_ptr<Value> value) {
-    return value;
-}
 
 void PutValue (Reference ref, shared_ptr<Value> value) {
   shared_ptr<Value> base = GetBase(ref);

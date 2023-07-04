@@ -50,11 +50,10 @@ shared_ptr<Value> _call (shared_ptr<Value> callee, shared_ptr<Value> firstParam)
   return _call(callee, params);
 }
 shared_ptr<Value> _call (shared_ptr<Value> callee, vector<shared_ptr<Value> > params) {
-  shared_ptr<Value> val = GetValue(callee);
-  if (val->type != OBJECT_VALUE_TYPE) {
+  if (callee->type != OBJECT_VALUE_TYPE) {
     throw TypeError("callee is not an object");
   }
-  shared_ptr<Object> obj = static_pointer_cast<Object>(val);
+  shared_ptr<Object> obj = static_pointer_cast<Object>(callee);
   if (obj->__Call__ == nullptr) {
     throw TypeError("object is not a function");
   }
