@@ -82,6 +82,7 @@
     "iomanip": "cpp",
     "span": "cpp",
     "variant": "cpp",
-    "format": "cpp"
+    "format": "cpp",
+    "scope": "cpp"
   }
 }

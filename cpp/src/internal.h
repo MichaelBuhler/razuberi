@@ -6,14 +6,11 @@
 #include "scope.h"
 #include "value.h"
 
-std::shared_ptr<Value> _call (Reference callee);
-std::shared_ptr<Value> _call (Reference callee, Reference firstParam);
-std::shared_ptr<Value> _call (Reference callee, std::shared_ptr<Value> firstParam);
-std::shared_ptr<Value> _call (Reference callee, std::vector<std::shared_ptr<Value> > params);
-std::shared_ptr<Value> _call (std::shared_ptr<Value> callee);
-std::shared_ptr<Value> _call (std::shared_ptr<Value> callee, Reference firstParam);
-std::shared_ptr<Value> _call (std::shared_ptr<Value> callee, std::shared_ptr<Value> firstParam);
-std::shared_ptr<Value> _call (std::shared_ptr<Value> callee, std::vector<std::shared_ptr<Value> > params);
+// Used for constructing built-in and host function objects.
+std::shared_ptr<Object> _fn(Object::CallSignature __Call__, Object::CallSignature __Construct__ = nullptr);
+std::shared_ptr<Object> _fn(std::shared_ptr<Object> prototype, Object::CallSignature __Call__, Object::CallSignature __Construct__ = nullptr);
+// Used for constructing user-defined script functions , at runtime.
+std::shared_ptr<Object> _fn(std::shared_ptr<Scope> closure, Object::CallSignature __Construct_and_Call__);
 
 bool _if (Reference);
 bool _if (std::shared_ptr<Value>);

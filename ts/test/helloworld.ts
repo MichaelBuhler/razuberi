@@ -1,4 +1,2 @@
-hello = "world"
-true
-  ? console.log('hello world')
-  : console.log(hello)
+console.log('hello world')
+console.log(new Boolean(false).valueOf())

@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "scope.fwd.h"
+
 enum ValueType {
   UNDEFINED_VALUE_TYPE,
   NULL_VALUE_TYPE,
@@ -20,9 +22,15 @@ enum HintValueType {
   NUMBER_HINT_VALUE_TYPE,
 };
 
+class Reference;
+
 class Value {
   public: ValueType type;
   public: Value ();
+  public: std::shared_ptr<Value> call ();
+  public: std::shared_ptr<Value> call (Reference firstParam);
+  public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
+  public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
 };
 
 class Primitive : public Value {
@@ -70,8 +78,8 @@ class String : public Primitive {
 // };
 
 class Object : public Value {
-  private: typedef std::shared_ptr<Value> (*Call)(std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
-  private: typedef std::shared_ptr<Object> (*Construct)(std::shared_ptr<Object> _this, std::vector<std::shared_ptr<Value> > params);
+  public: typedef std::shared_ptr<Value> (*CallSignature)( std::shared_ptr<Scope> scope, std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
+  
   public: class Property {
     public: std::shared_ptr<Value> value;
     public: bool ReadOnly;
@@ -79,18 +87,31 @@ class Object : public Value {
     public: bool DontDelete;
     // public: bool Internal; // TODO: not sure how this is used
   };
+
+  // The original Object prototype object.
+  public: static std::shared_ptr<Object> Object_prototype;
+  // The original Function prototype object.
+  public: static std::shared_ptr<Object> Function_prototype;
+  // The original String prototype object.
+  public: static std::shared_ptr<Object> String_prototype;
+  // The original Boolean prototype object.
+  public: static std::shared_ptr<Object> Boolean_prototype;
+  
   // TODO: map values can be Property instead of shared_ptr<Property>
   public: std::map<std::string, std::shared_ptr<Property> > properties;
-  public: Object (std::shared_ptr<Object> prototype = nullptr, Call call = nullptr, Construct construct = nullptr);
+  // TODO: #8: `Object::closure` should be private
+  public: std::shared_ptr<Scope> closure;
 
-  private: std::shared_ptr<Object> __Prototype__;
+  public: Object (std::shared_ptr<Object> __Prototype__ = Object_prototype);
+
+  public: std::shared_ptr<Object> __Prototype__;
   public: std::string __Class__;
   public: std::shared_ptr<Value> __Value__;
   public: std::shared_ptr<Value> __Get__ (std::string key);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
   public: bool __HasProperty__ (std::string key);
-  public: Construct __Construct__;
-  public: Call __Call__;
+  public: CallSignature __Construct__;
+  public: CallSignature __Call__;
 };
 
 class Internal : public Value {
@@ -102,9 +123,18 @@ class Reference {
   public: std::shared_ptr<Value> baseObject;
   public: std::shared_ptr<String> propertyName;
   public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
+  public: std::shared_ptr<Value> call ();
+  public: std::shared_ptr<Value> call (Reference firstParam);
+  public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
+  public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
   public: Reference operator = (Reference rightHandSide);
   public: Reference operator = (std::shared_ptr<Value> rightHandSide);
   public: Reference operator ->* (std::string identifier);
+  // TODO: fun for later
+  // public: std::shared_ptr<Value> operator () ();
+  // public: std::shared_ptr<Value> operator () (Reference firstParam);
+  // public: std::shared_ptr<Value> operator () (std::shared_ptr<Value> firstParam);
+  // public: std::shared_ptr<Value> operator () (std::vector<std::shared_ptr<Value> > params);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

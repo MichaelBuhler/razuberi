@@ -8,6 +8,32 @@ using namespace std;
 
 Value::Value () {}
 
+shared_ptr<Value> Value::call () {
+  return this->call(vector<shared_ptr<Value> >());
+}
+shared_ptr<Value> Value::call (Reference firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(firstParam));
+  return this->call(params);
+}
+shared_ptr<Value> Value::call (shared_ptr<Value> firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(firstParam);
+  return this->call(params);
+}
+shared_ptr<Value> Value::call (vector<shared_ptr<Value> > params) {
+  if (this->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("callee is not an object");
+  }
+  Object* obj = (Object*)this;
+  if (obj->__Call__ == nullptr) {
+    throw TypeError("object is not a function");
+  }
+  shared_ptr<Scope> scope = obj->closure;
+  shared_ptr<Value> _this = make_shared<Null>();
+  return obj->__Call__(scope, _this, params);
+}
+
 Primitive::Primitive () : Value() {}
 
 Undefined::Undefined () : Primitive() {
@@ -94,12 +120,18 @@ String::String (string value) : Primitive() {
   this->value = value;
 }
 
-Object::Object (shared_ptr<Object> prototype, Call call, Construct construct) : Value() {
+Object::Object (shared_ptr<Object> __Prototype__) : Value() {
   this->type = OBJECT_VALUE_TYPE;
-  this->__Prototype__ = prototype;
-  this->__Call__ = call;
-  this->__Construct__ = construct;
+  this->__Prototype__ = __Prototype__;
+  this->__Class__ = "Object"; // TODO: enum this
+  this->__Construct__ = nullptr;
+  this->__Call__ = nullptr;
 }
+
+std::shared_ptr<Object> Object::Object_prototype;
+std::shared_ptr<Object> Object::Function_prototype;
+std::shared_ptr<Object> Object::String_prototype;
+std::shared_ptr<Object> Object::Boolean_prototype;
 
 shared_ptr<Value> Object::__Get__ (string key) {
   try {
@@ -139,6 +171,33 @@ Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyN
   this->propertyName = propertyName;
 }
 
+shared_ptr<Value> Reference::call () {
+  return this->call(vector<shared_ptr<Value> >());
+}
+shared_ptr<Value> Reference::call (Reference firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(firstParam));
+  return this->call(params);
+}
+shared_ptr<Value> Reference::call (shared_ptr<Value> firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(firstParam);
+  return this->call(params);
+}
+shared_ptr<Value> Reference::call (vector<shared_ptr<Value> > params) {
+  shared_ptr<Value> val = GetValue(*this);
+  if (val->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("callee is not an object");
+  }
+  shared_ptr<Object> obj = static_pointer_cast<Object>(val);
+  if (obj->__Call__ == nullptr) {
+    throw TypeError("object is not a function");
+  }
+  shared_ptr<Scope> scope = obj->closure;
+  shared_ptr<Value> _this = GetBase(*this);
+  return obj->__Call__(scope, _this, params);
+}
+
 Reference Reference::operator = (Reference rightHandSide) {
   PutValue(*this, GetValue(rightHandSide));
   return *this;
@@ -152,6 +211,34 @@ Reference Reference::operator = (shared_ptr<Value> rightHandSide) {
 Reference Reference::operator ->* (string identifier) {
   return Reference(ToObject(GetValue(*this)), make_shared<String>(identifier));
 }
+
+// TODO: fun for later
+// shared_ptr<Value> Reference::operator () () {
+//   return (*this)(vector<shared_ptr<Value> >());
+// }
+// shared_ptr<Value> Reference::operator () (Reference firstParam) {
+//   vector<shared_ptr<Value> > params;
+//   params.push_back(GetValue(firstParam));
+//   return (*this)(params);
+// }
+// shared_ptr<Value> Reference::operator () (shared_ptr<Value> firstParam) {
+//   vector<shared_ptr<Value> > params;
+//   params.push_back(firstParam);
+//   return (*this)(params);
+// }
+// shared_ptr<Value> Reference::operator () (vector<shared_ptr<Value> > params) {
+//   shared_ptr<Value> val = GetValue(*this);
+//   if (val->type != OBJECT_VALUE_TYPE) {
+//     throw TypeError("callee is not an object");
+//   }
+//   shared_ptr<Object> obj = static_pointer_cast<Object>(val);
+//   if (obj->__Call__ == nullptr) {
+//     throw TypeError("object is not a function");
+//   }
+//   shared_ptr<Scope> scope = obj->closure;
+//   shared_ptr<Value> _this = make_shared<Null>();
+//   return obj->__Call__(scope, _this, params);
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Operator overloads

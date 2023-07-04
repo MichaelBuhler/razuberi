@@ -8,7 +8,7 @@
 using namespace std;
 
 void run (shared_ptr<Scope> scope) {
-  _call(scope->*"console"->*"log", (
+  (scope->*"console"->*"log").call((
     make_shared<Undefined>(),
     make_shared<Null>(),
     make_shared<Boolean>(true),
@@ -23,13 +23,13 @@ void run (shared_ptr<Scope> scope) {
     scope->*"A"->*"hello" = make_shared<String>("world");
     scope->*"B" = make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"A")));
     scope->*"C" = make_shared<Object>(static_pointer_cast<Object>(GetValue(scope->*"B")));
-    _call(scope->*"console"->*"log", scope->*"C"->*"hello");
+    (scope->*"console"->*"log").call(scope->*"C"->*"hello");
   }
-  _call(scope->*"console"->*"log", _new(scope->*"Boolean", make_shared<Boolean>(true)));
+  (scope->*"console"->*"log").call(_new(scope->*"Boolean", make_shared<Boolean>(true)));
   {
     scope->*"str" = _new(scope->*"String", make_shared<String>("Hello, world!"));
-    scope->*"c" = _call(scope->*"str"->*"charAt", make_shared<Number>(1));
-    _call(scope->*"console"->*"log", (
+    scope->*"c" = (scope->*"str"->*"charAt").call(make_shared<Number>(1));
+    (scope->*"console"->*"log").call((
       scope->*"str",
       scope->*"str"->*"length",
       scope->*"c"
@@ -40,7 +40,7 @@ void run (shared_ptr<Scope> scope) {
     shared_ptr<Value> NaN = Number::makeNaN();
     shared_ptr<Value> Infinity = Number::makeInfinity();
     shared_ptr<Value> NegativeInfinity = Number::makeInfinity(true);
-    _call(scope->*"console"->*"log", (
+    (scope->*"console"->*"log").call((
       oneTwoThree + oneTwoThree,
       oneTwoThree - oneTwoThree,
       oneTwoThree + NaN,
@@ -49,11 +49,11 @@ void run (shared_ptr<Scope> scope) {
       oneTwoThree - Infinity
     ));
   }
-  _call(scope->*"console"->*"log", (
+  (scope->*"console"->*"log").call((
     scope->*"Boolean",
     make_shared<String>("Hello,"),
-    scope->*"NaN" + _call(_new(scope->*"Object")->*"toString")
+    scope->*"NaN" + (_new(scope->*"Object")->*"toString").call()
   ));
   scope->*"console"->*"hello" = make_shared<String>("world");
-  _call(scope->*"console"->*"log", scope->*"console"->*"hello");
+  (scope->*"console"->*"log").call(scope->*"console"->*"hello");
 }

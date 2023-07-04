@@ -1,9 +1,10 @@
 #pragma once
 
-#include "value.h"
-
 #include <memory>
 #include <string>
+
+#include "value.fwd.h"
+#include "reference.h"
 
 class Scope {
   public: std::shared_ptr<Object> object;
