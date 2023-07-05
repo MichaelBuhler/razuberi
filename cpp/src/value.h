@@ -112,10 +112,7 @@ class Object : public Value {
   public: bool __HasProperty__ (std::string key);
   public: CallSignature __Construct__;
   public: CallSignature __Call__;
-};
 
-class Internal : public Value {
-  public: Internal ();
 };
 
 // TODO: move this to "internal.h"?
@@ -144,9 +141,6 @@ class Reference {
 // Pointer-to-member operator overloads for member expressions
 
 // Accessing a property by `Identifier`
-// std::shared_ptr<Reference> operator ->* (std::shared_ptr<Reference> ref, std::string name);
-// std::shared_ptr<Reference> operator ->* (std::shared_ptr<Value> value, std::string name);
-// std::shared_ptr<Reference> operator ->* (std::shared_ptr<Object> obj, std::string name);
 Reference operator ->* (std::shared_ptr<Value> value, std::string name);
 Reference operator ->* (std::shared_ptr<Object> obj, std::string name);
 
@@ -174,15 +168,6 @@ std::vector<std::shared_ptr<Value> > operator , (std::vector<std::shared_ptr<Val
 
 ////////////////////////////////////////
 // Left operands of type `Reference`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Reference>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Value>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Object>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Primitive>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Undefined>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Null>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Boolean>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<Number>);
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Reference>, std::shared_ptr<String>);
 std::shared_ptr<Value>  operator + (Reference, Reference);
 std::shared_ptr<Value>  operator + (Reference, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (Reference, std::shared_ptr<Object>);

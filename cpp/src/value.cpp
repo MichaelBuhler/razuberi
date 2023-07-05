@@ -164,8 +164,6 @@ bool Object::__HasProperty__ (string key) {
   }
 }
 
-Internal::Internal () : Value() {}
-
 Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {
   this->baseObject = baseObject;
   this->propertyName = propertyName;

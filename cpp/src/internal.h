@@ -10,7 +10,7 @@
 std::shared_ptr<Object> _fn(Object::CallSignature __Call__, Object::CallSignature __Construct__ = nullptr);
 std::shared_ptr<Object> _fn(std::shared_ptr<Object> prototype, Object::CallSignature __Call__, Object::CallSignature __Construct__ = nullptr);
 // Used for constructing user-defined script functions , at runtime.
-std::shared_ptr<Object> _fn(std::shared_ptr<Scope> closure, Object::CallSignature __Construct_and_Call__);
+std::shared_ptr<Object> _fn(std::shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__);
 
 bool _if (Reference);
 bool _if (std::shared_ptr<Value>);

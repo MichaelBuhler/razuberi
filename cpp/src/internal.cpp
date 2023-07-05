@@ -21,8 +21,8 @@ shared_ptr<Object> _fn(shared_ptr<Object> prototype, Object::CallSignature __Cal
   //             internal [[Prototype]] property, except the Function prototype object itself.
   shared_ptr<Object> fn = make_shared<Object>(Object::Function_prototype);
   fn->__Class__ = "Function"; // TODO: enum this
-  fn->__Construct__ = __Construct__;
   fn->__Call__ = __Call__;
+  fn->__Construct__ = __Construct__;
   // TODO: #6: each function should have formal params and a `length` property.
   // TODO: ES1: 15.2.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
   // TODO: ES1: 15.3.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
@@ -35,14 +35,14 @@ shared_ptr<Object> _fn(shared_ptr<Object> prototype, Object::CallSignature __Cal
   return fn;
 }
 
-shared_ptr<Object> _fn(shared_ptr<Scope> closure, Object::CallSignature __Construct_and_Call__) {
+shared_ptr<Object> _fn(shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__) {
   // ES1: 15.3.2.1.16: The [[Prototype]] property of F is set to the original Function prototype
   //                   object, the one that is the initial value of `Function.prototype` (15.3.3.1)
   shared_ptr<Object> fn = make_shared<Object>(Object::Function_prototype);
   fn->__Class__ = "Function"; // TODO: enum this
   fn->closure = closure;
-  fn->__Construct__ = __Construct_and_Call__;
-  fn->__Call__ = __Construct_and_Call__;
+  fn->__Call__ = __Call_and_Construct__;
+  fn->__Construct__ = __Call_and_Construct__;
   // TODO: #6: each function should have formal params and a `length` property.
   // TODO: ES1: 15.3.2.1.23: This property is given attributes { DontEnum }.
   fn->*"prototype" = make_shared<Object>();
@@ -57,20 +57,20 @@ bool _if (shared_ptr<Value> val) {
   return ToBoolean(val)->value;
 }
 
-std::shared_ptr<Object> _new (Reference constructor) {
+shared_ptr<Object> _new (Reference constructor) {
   return _new(constructor, vector<shared_ptr<Value> >());
 }
-std::shared_ptr<Object> _new (Reference constructor, Reference firstParam) {
+shared_ptr<Object> _new (Reference constructor, Reference firstParam) {
   vector<shared_ptr<Value> > params;
   params.push_back(GetValue(firstParam));
   return _new(constructor, params);
 }
-std::shared_ptr<Object> _new (Reference constructor, std::shared_ptr<Value> firstParam) {
+shared_ptr<Object> _new (Reference constructor, shared_ptr<Value> firstParam) {
   vector<shared_ptr<Value> > params;
   params.push_back(firstParam);
   return _new(constructor, params);
 }
-std::shared_ptr<Object> _new (Reference constructor, std::vector<std::shared_ptr<Value> > params) {
+shared_ptr<Object> _new (Reference constructor, vector<shared_ptr<Value> > params) {
   shared_ptr<Value> val = GetValue(constructor);
   return _new(val, params);
 }
