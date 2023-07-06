@@ -1,3 +1,5 @@
+CXXFLAGS := -Werror=return-type $(CXXFLAGS)
+
 source_headers := $(shell find -s src -name "*.h")
 razuberi_headers := $(source_headers:src/%=out/include/%)
 
