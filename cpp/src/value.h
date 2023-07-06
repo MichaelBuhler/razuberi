@@ -22,15 +22,39 @@ enum HintValueType {
   NUMBER_HINT_VALUE_TYPE,
 };
 
-class Reference;
+// Forward declarations of class(es) in this file
+class Value;
+class String;
+class Object;
 
-class Value {
-  public: ValueType type;
-  public: Value ();
+// TODO: move this to "internal.h"?
+class Reference {
+  public: std::shared_ptr<Value> baseObject;
+  public: std::shared_ptr<String> propertyName;
+  public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
   public: std::shared_ptr<Value> call ();
   public: std::shared_ptr<Value> call (Reference firstParam);
   public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
   public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
+  public: Reference operator = (Reference rightHandSide);
+  public: Reference operator = (std::shared_ptr<Value> rightHandSide);
+  public: Reference operator ->* (std::string identifier);
+  // TODO: fun for later
+  // public: std::shared_ptr<Value> operator () ();
+  // public: std::shared_ptr<Value> operator () (Reference firstParam);
+  // public: std::shared_ptr<Value> operator () (std::shared_ptr<Value> firstParam);
+  // public: std::shared_ptr<Value> operator () (std::vector<std::shared_ptr<Value> > params);
+};
+
+class Value {
+  public: ValueType type;
+  public: Value ();
+  public: virtual std::shared_ptr<Object> construct (std::vector<std::shared_ptr<Value> > params);
+  public: virtual std::shared_ptr<Value> call ();
+  public: virtual std::shared_ptr<Value> call (Reference firstParam);
+  public: virtual std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
+  public: virtual std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
+  public: virtual std::shared_ptr<Value> call (std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
 };
 
 class Primitive : public Value {
@@ -78,15 +102,13 @@ class String : public Primitive {
 // };
 
 class Object : public Value {
-  public: typedef std::shared_ptr<Value> (*CallSignature)( std::shared_ptr<Scope> scope, std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
-  
-  public: class Property {
-    public: std::shared_ptr<Value> value;
-    public: bool ReadOnly;
-    public: bool DontEnum;
-    public: bool DontDelete;
-    // public: bool Internal; // TODO: not sure how this is used
-  };
+  // Typedefs
+  // Define the function interface for a call signature
+  public: typedef std::shared_ptr<Value> (*CallSignature)(std::shared_ptr<Scope> scope, std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
+
+  // Friends
+  // Allow the internal `_fn()` to access the private members of this class
+  friend std::shared_ptr<Object> _fn(std::shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__);
 
   // The original Object prototype object.
   public: static std::shared_ptr<Object> Object_prototype;
@@ -96,15 +118,27 @@ class Object : public Value {
   public: static std::shared_ptr<Object> String_prototype;
   // The original Boolean prototype object.
   public: static std::shared_ptr<Object> Boolean_prototype;
+
+  // Inner class to hold property attributes
+  // TODO: can be a simple struct?
+  public: class Property {
+    public: std::shared_ptr<Value> value;
+    public: bool ReadOnly;
+    public: bool DontEnum;
+    public: bool DontDelete;
+  };
   
   // TODO: map values can be Property instead of shared_ptr<Property>
   public: std::map<std::string, std::shared_ptr<Property> > properties;
-  // TODO: #8: `Object::closure` should be private
-  public: std::shared_ptr<Scope> closure;
 
+  // Additional special members used only by function objects.
+  private: std::shared_ptr<Scope> closure;
+
+  // Constructor for instantiating an Object in-line
   public: Object (std::shared_ptr<Object> __Prototype__ = Object_prototype);
 
-  public: std::shared_ptr<Object> __Prototype__;
+  // The "Internal" properties of objects.
+  private: std::shared_ptr<Object> __Prototype__;
   public: std::string __Class__;
   public: std::shared_ptr<Value> __Value__;
   public: std::shared_ptr<Value> __Get__ (std::string key);
@@ -113,25 +147,15 @@ class Object : public Value {
   public: CallSignature __Construct__;
   public: CallSignature __Call__;
 
-};
+  // Entry point for constructing an instance of this Object
+  public: std::shared_ptr<Object> construct (std::vector<std::shared_ptr<Value> > params);
 
-// TODO: move this to "internal.h"?
-class Reference {
-  public: std::shared_ptr<Value> baseObject;
-  public: std::shared_ptr<String> propertyName;
-  public: Reference (std::shared_ptr<Value> baseObject, std::shared_ptr<String> propertyName);
+  // Entry points for the invocation of this Object as a function
   public: std::shared_ptr<Value> call ();
   public: std::shared_ptr<Value> call (Reference firstParam);
   public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
   public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
-  public: Reference operator = (Reference rightHandSide);
-  public: Reference operator = (std::shared_ptr<Value> rightHandSide);
-  public: Reference operator ->* (std::string identifier);
-  // TODO: fun for later
-  // public: std::shared_ptr<Value> operator () ();
-  // public: std::shared_ptr<Value> operator () (Reference firstParam);
-  // public: std::shared_ptr<Value> operator () (std::shared_ptr<Value> firstParam);
-  // public: std::shared_ptr<Value> operator () (std::vector<std::shared_ptr<Value> > params);
+  public: std::shared_ptr<Value> call (std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

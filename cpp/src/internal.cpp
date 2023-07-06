@@ -88,31 +88,7 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, shared_ptr<Value> firstP
   return _new(constructor, params);
 }
 shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value> > params) {
-  if (constructor->type != OBJECT_VALUE_TYPE) {
-    throw TypeError("constructor is not an object");
-  }
-  shared_ptr<Object> obj = static_pointer_cast<Object>(constructor);
-  if (obj->__Construct__ == nullptr) {
-    throw TypeError("object is not a constructor");
-  }
-  shared_ptr<Object> prototype = nullptr;
-  if (obj->__HasProperty__("prototype")) {
-    shared_ptr<Value> maybeObj = obj->__Get__("prototype");
-    if (maybeObj->type == OBJECT_VALUE_TYPE) {
-      prototype = static_pointer_cast<Object>(maybeObj);
-    } else {
-      // TODO: should actually fall back to the _original_ Object prototype object?
-      prototype = static_pointer_cast<Object>(GetValue(globalScope->*"Object"->*"prototype"));
-    }
-  } else {
-    throw ImplementationException("constructor has no prototype");
-  }
-  shared_ptr<Object> newObject = make_shared<Object>(prototype);
-  shared_ptr<Value> result = obj->__Construct__(obj->closure, newObject, params);
-  if (result->type != OBJECT_VALUE_TYPE) {
-    throw TypeError("constructor returned a non-object");
-  }
-  return static_pointer_cast<Object>(result);
+  return constructor->construct(params);
 }
 
 shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint) {
@@ -129,7 +105,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(obj->closure, _this, vector<shared_ptr<Value> >());
+        shared_ptr<Value> result = obj->call(_this, vector<shared_ptr<Value> >());
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -138,7 +114,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(obj->closure, _this, vector<shared_ptr<Value> >());
+        shared_ptr<Value> result = obj->call(_this, vector<shared_ptr<Value> >());
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -150,7 +126,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
       if (valueOf->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(valueOf);
         // TODO: `valueOf` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(obj->closure, _this, vector<shared_ptr<Value> >());
+        shared_ptr<Value> result = obj->call(_this, vector<shared_ptr<Value> >());
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }
@@ -159,7 +135,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
       if (toString->type == OBJECT_VALUE_TYPE) {
         shared_ptr<Object> obj = static_pointer_cast<Object>(toString);
         // TODO: `toString` may not be callable. ES1 doesn't anticipate this problem.
-        shared_ptr<Value> result = obj->__Call__(obj->closure, _this, vector<shared_ptr<Value> >());
+        shared_ptr<Value> result = obj->call(_this, vector<shared_ptr<Value> >());
         if (result->type != OBJECT_VALUE_TYPE) {
           return result;
         }

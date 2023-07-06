@@ -8,31 +8,26 @@ using namespace std;
 
 Value::Value () {}
 
+shared_ptr<Object> Value::construct (vector<shared_ptr<Value> > params) {
+    throw TypeError("constructor is not an object");
+}
+
 shared_ptr<Value> Value::call () {
-  return this->call(vector<shared_ptr<Value> >());
+  throw TypeError("callee is not an object");
 }
 shared_ptr<Value> Value::call (Reference firstParam) {
-  vector<shared_ptr<Value> > params;
-  params.push_back(GetValue(firstParam));
-  return this->call(params);
+  throw TypeError("callee is not an object");
 }
 shared_ptr<Value> Value::call (shared_ptr<Value> firstParam) {
-  vector<shared_ptr<Value> > params;
-  params.push_back(firstParam);
-  return this->call(params);
+  throw TypeError("callee is not an object");
 }
 shared_ptr<Value> Value::call (vector<shared_ptr<Value> > params) {
-  if (this->type != OBJECT_VALUE_TYPE) {
-    throw TypeError("callee is not an object");
-  }
-  Object* obj = (Object*)this;
-  if (obj->__Call__ == nullptr) {
-    throw TypeError("object is not a function");
-  }
-  shared_ptr<Scope> scope = obj->closure;
-  shared_ptr<Value> _this = make_shared<Null>();
-  return obj->__Call__(scope, _this, params);
+  throw TypeError("callee is not an object");
 }
+shared_ptr<Value> Value::call (shared_ptr<Value> _this, vector<shared_ptr<Value> > params) {
+  throw TypeError("callee is not an object");
+}
+
 
 Primitive::Primitive () : Value() {}
 
@@ -164,6 +159,56 @@ bool Object::__HasProperty__ (string key) {
   }
 }
 
+shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
+  if (this->__Construct__ == nullptr) {
+    throw TypeError("object is not a constructor");
+  }
+  shared_ptr<Object> prototype;
+  if (this->__HasProperty__("prototype")) {
+    shared_ptr<Value> maybeObj = this->__Get__("prototype");
+    if (maybeObj->type == OBJECT_VALUE_TYPE) {
+      prototype = static_pointer_cast<Object>(maybeObj);
+    } else {
+      prototype = Object_prototype;
+    }
+  } else {
+    throw ImplementationException("constructor has no prototype");
+  }
+  shared_ptr<Object> newObject = make_shared<Object>(prototype);
+  shared_ptr<Value> result = this->__Construct__(this->closure, newObject, params);
+  if (result->type != OBJECT_VALUE_TYPE) {
+    // ES1: 11.2.2(6): If Type(result) is not Object, generate a runtime error.
+    // But I have observed in the Chrome JavaScript console that this is not an error.
+    throw TypeError("constructor returned a non-object");
+  }
+  return static_pointer_cast<Object>(result);
+}
+
+shared_ptr<Value> Object::call () {
+  return this->call(vector<shared_ptr<Value> >());
+}
+shared_ptr<Value> Object::call (Reference firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(GetValue(firstParam));
+  return this->call(params);
+}
+shared_ptr<Value> Object::call (shared_ptr<Value> firstParam) {
+  vector<shared_ptr<Value> > params;
+  params.push_back(firstParam);
+  return this->call(params);
+}
+shared_ptr<Value> Object::call (vector<shared_ptr<Value> > params) {
+  shared_ptr<Value> _this = make_shared<Null>();
+  return this->call(_this, params);
+}
+shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value> > params) {
+  if (this->__Call__ == nullptr) {
+    throw TypeError("object is not a function");
+  }
+  shared_ptr<Scope> scope = this->closure;
+  return this->__Call__(scope, _this, params);
+}
+
 Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {
   this->baseObject = baseObject;
   this->propertyName = propertyName;
@@ -183,17 +228,9 @@ shared_ptr<Value> Reference::call (shared_ptr<Value> firstParam) {
   return this->call(params);
 }
 shared_ptr<Value> Reference::call (vector<shared_ptr<Value> > params) {
-  shared_ptr<Value> val = GetValue(*this);
-  if (val->type != OBJECT_VALUE_TYPE) {
-    throw TypeError("callee is not an object");
-  }
-  shared_ptr<Object> obj = static_pointer_cast<Object>(val);
-  if (obj->__Call__ == nullptr) {
-    throw TypeError("object is not a function");
-  }
-  shared_ptr<Scope> scope = obj->closure;
-  shared_ptr<Value> _this = GetBase(*this);
-  return obj->__Call__(scope, _this, params);
+  shared_ptr<Value> value = GetValue(*this);
+  shared_ptr<Value> base = GetBase(*this);
+  return value->call(base, params);
 }
 
 Reference Reference::operator = (Reference rightHandSide) {
@@ -225,17 +262,9 @@ Reference Reference::operator ->* (string identifier) {
 //   return (*this)(params);
 // }
 // shared_ptr<Value> Reference::operator () (vector<shared_ptr<Value> > params) {
-//   shared_ptr<Value> val = GetValue(*this);
-//   if (val->type != OBJECT_VALUE_TYPE) {
-//     throw TypeError("callee is not an object");
-//   }
-//   shared_ptr<Object> obj = static_pointer_cast<Object>(val);
-//   if (obj->__Call__ == nullptr) {
-//     throw TypeError("object is not a function");
-//   }
-//   shared_ptr<Scope> scope = obj->closure;
-//   shared_ptr<Value> _this = make_shared<Null>();
-//   return obj->__Call__(scope, _this, params);
+//   shared_ptr<Value> value = GetValue(*this);
+//   shared_ptr<Value> base = GetBase(*this);
+//   return value->call(base, params);
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
