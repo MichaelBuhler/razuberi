@@ -44,8 +44,11 @@ shared_ptr<Object> _fn(shared_ptr<Scope> closure, Object::CallSignature __Call_a
   fn->__Call__ = __Call_and_Construct__;
   fn->__Construct__ = __Call_and_Construct__;
   // TODO: #6: each function should have formal params and a `length` property.
+  // ES1: 15.3.2.1.23:
   // TODO: ES1: 15.3.2.1.23: This property is given attributes { DontEnum }.
   fn->*"prototype" = make_shared<Object>();
+  // ES1: 15.3.2.1.24:
+  fn->*"prototype"->*"constructor" = fn;
   return fn;
 }
 
