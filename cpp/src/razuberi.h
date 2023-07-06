@@ -6,6 +6,7 @@
 // Transpiled programs should only need to include this one header.
 // 
 
+#include "main.h"
 #include "internal.h"
 #include "scope.h"
 #include "value.h"
