@@ -11,7 +11,7 @@ using namespace std;
 int main () {
   try {
     shared_ptr<Scope> globalScope = init_global_scope();
-    run(globalScope);
+    _run(globalScope);
     return 0;
   } catch (RazuberiException& e) {
     cout << e.toString() << endl;

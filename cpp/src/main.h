@@ -6,4 +6,4 @@
 
 int main();
 
-void run (std::shared_ptr<Scope> globalScope);
+void _run (std::shared_ptr<Scope> globalScope);
