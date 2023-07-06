@@ -174,14 +174,18 @@ shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   } else {
     throw ImplementationException("constructor has no prototype");
   }
-  shared_ptr<Object> newObject = make_shared<Object>(prototype);
-  shared_ptr<Value> result = this->__Construct__(this->closure, newObject, params);
-  if (result->type != OBJECT_VALUE_TYPE) {
-    // ES1: 11.2.2(6): If Type(result) is not Object, generate a runtime error.
-    // But I have observed in the Chrome JavaScript console that this is not an error.
-    throw TypeError("constructor returned a non-object");
+  shared_ptr<Scope> scope = this->closure;
+  shared_ptr<Object> _this = make_shared<Object>(prototype);
+  shared_ptr<Value> result = this->__Construct__(scope, _this, params);
+  if (result == nullptr) {
+    return _this;
   }
-  return static_pointer_cast<Object>(result);
+  if (result->type == OBJECT_VALUE_TYPE) {
+    return static_pointer_cast<Object>(result);
+  }
+  // ES1: 11.2.2(6): If Type(result) is not Object, generate a runtime error.
+  // But I have observed in the Chrome JavaScript console that this is not an error.
+  throw TypeError("constructor returned a non-object");
 }
 
 shared_ptr<Value> Object::call () {
@@ -206,7 +210,11 @@ shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value
     throw TypeError("object is not a function");
   }
   shared_ptr<Scope> scope = this->closure;
-  return this->__Call__(scope, _this, params);
+  shared_ptr<Value> result = this->__Call__(scope, _this, params);
+  if (result == nullptr) {
+    return make_shared<Undefined>();
+  }
+  return result;
 }
 
 Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {

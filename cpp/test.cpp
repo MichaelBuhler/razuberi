@@ -3,11 +3,13 @@
 #include <vector>
 
 #include "razuberi.h"
-#include "reference.h"
 
 using namespace std;
 
-void run (shared_ptr<Scope> scope) {
+shared_ptr<Value> MyConstructor (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);
+shared_ptr<Value> MyConstructor_prototype_toString (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);
+
+void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((
     make_shared<Undefined>(),
     make_shared<Null>(),
@@ -50,10 +52,20 @@ void run (shared_ptr<Scope> scope) {
     ));
   }
   (scope->*"console"->*"log").call((
-    scope->*"Boolean",
     make_shared<String>("Hello,"),
     scope->*"NaN" + (_new(scope->*"Object")->*"toString").call()
   ));
   scope->*"console"->*"hello" = make_shared<String>("world");
   (scope->*"console"->*"log").call(scope->*"console"->*"hello");
+  scope->*"MyConstructor" = _fn(scope, MyConstructor);
+  scope->*"MyConstructor"->*"prototype"->*"toString" = _fn(scope, MyConstructor_prototype_toString);
+  (scope->*"console"->*"log").call(_new(scope->*"MyConstructor"));
+}
+
+shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+  return nullptr;
+}
+
+shared_ptr<Value> MyConstructor_prototype_toString (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+  return make_shared<String>("this is a stringified instance of MyConstructor");
 }
