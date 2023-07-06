@@ -4,6 +4,8 @@ const { transpile: ts2js, ScriptTarget } = typescript
 
 const { parse: js2ast } = await import('@babel/parser')
 
+const { visit } = await import('./visit.js')
+
 const { generate: ast2cpp } = await import('./generate.js')
 
 export const transpile = (typescriptSource: string) : string => {
@@ -16,6 +18,8 @@ export const transpile = (typescriptSource: string) : string => {
     errorRecovery: true,
     sourceType: 'script',
   })
+
+  visit(ast)
 
   const cppCode = ast2cpp(ast)
 
