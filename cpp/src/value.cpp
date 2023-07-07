@@ -2,6 +2,7 @@
 
 #include "exception.h"
 #include "reference.h"
+#include "scope.h"
 #include "type_conversion.h"
 
 using namespace std;
@@ -210,7 +211,7 @@ shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value
   if (this->__Call__ == nullptr) {
     throw TypeError("object is not a function");
   }
-  shared_ptr<Scope> scope = this->closure;
+  shared_ptr<Scope> scope = make_shared<Scope>(this->closure);
   shared_ptr<Value> result = this->__Call__(scope, _this, params);
   if (result == nullptr) {
     return make_shared<Undefined>();
