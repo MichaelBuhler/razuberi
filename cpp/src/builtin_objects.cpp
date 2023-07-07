@@ -233,37 +233,31 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   init_builtin_prototypes(globalScope);
 
   // ES1: 15.2.2: The Object Constructor
-  globalScope->*"Object" = _fn(Object::Object_prototype, Object__Call__, Object__Construct__);
-  // ES1: 15.2.4.1: The initial value of Object.prototype.constructor is the built-in Object constructor.
-  globalScope->*"Object"->*"prototype"->*"constructor" = globalScope->*"Object";
+  globalScope->*"Object" = Object::makeFunction(Object__Call__, Object__Construct__, Object::Object_prototype);
   // ES1: 15.2.4.2
-  globalScope->*"Object"->*"prototype"->*"toString" = _fn(Object_prototype_toString);
+  globalScope->*"Object"->*"prototype"->*"toString" = Object::makeFunction(Object_prototype_toString);
   // ES1: 15.2.4.3
-  globalScope->*"Object"->*"prototype"->*"valueOf" = _fn(Object_prototype_valueOf);
+  globalScope->*"Object"->*"prototype"->*"valueOf" = Object::makeFunction(Object_prototype_valueOf);
 
   // ES1: 15.3.2: The Function Constructor
-  globalScope->*"Function" = _fn(Object::Function_prototype ,Function__Call__, Function__Construct__);
+  globalScope->*"Function" = Object::makeFunction(Function__Call__, Function__Construct__, Object::Function_prototype);
   // ES1: 15.3.3.2: The `length` property is `1`.
   globalScope->*"Function"->*"length" = make_shared<Number>(1);
-  // ES1: 15.3.4.1: The initial value of Function.prototype.constructor is the built-in Function constructor.
-  globalScope->*"Function"->*"prototype"->*"constructor" = globalScope->*"Function";
   // ES1: 15.3.4.2
-  globalScope->*"Function"->*"prototype"->*"toString" = _fn(Function_prototype_toString);
+  globalScope->*"Function"->*"prototype"->*"toString" = Object::makeFunction(Function_prototype_toString);
 
   // TODO: ES1: 15.4.2: The Array Constructor
 
   // ES1: 15.3.2: The String Constructor
-  globalScope->*"String" = _fn(Object::String_prototype, String__Call__, String__Construct__);
+  globalScope->*"String" = Object::makeFunction(String__Call__, String__Construct__, Object::String_prototype);
   // ES1: 15.5.3.2:
-  globalScope->*"String"->*"fromCharCode" = _fn(String_fromCharCode);
-  // ES1: 15.5.4.1: The initial value of String.prototype.constructor is the built-in String constructor.
-  globalScope->*"String"->*"prototype"->*"constructor" = globalScope->*"String";
+  globalScope->*"String"->*"fromCharCode" = Object::makeFunction(String_fromCharCode);
   // ES1: 15.5.4.2
-  globalScope->*"String"->*"prototype"->*"toString" = _fn(String_prototype_toString);
+  globalScope->*"String"->*"prototype"->*"toString" = Object::makeFunction(String_prototype_toString);
   // ES1: 15.5.4.3
-  globalScope->*"String"->*"prototype"->*"valueOf" = _fn(String_prototype_valueOf);
+  globalScope->*"String"->*"prototype"->*"valueOf" = Object::makeFunction(String_prototype_valueOf);
   // ES1: 15.5.4.4
-  globalScope->*"String"->*"prototype"->*"charAt" = _fn(String_prototype_charAt);
+  globalScope->*"String"->*"prototype"->*"charAt" = Object::makeFunction(String_prototype_charAt);
   // TODO: ES1: 15.5.4.5: String.prototype.charCodeAt(pos)
   // TODO: ES1: 15.5.4.6: String.prototype.indexOf(searchString, position)
   // TODO: ES1: 15.5.4.7: String.prototype.lastIndexOf(searchString, position)
@@ -274,11 +268,9 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   // TODO: ES1: 15.5.4.12: String.prototype.toUpperCase
 
   // ES1: 15.3.2: The Boolean Constructor
-  globalScope->*"Boolean" = _fn(Object::Boolean_prototype, Boolean__Call__, Boolean__Construct__);
-  // ES1: 15.6.4.1: The initial value of Object.prototype.constructor is the built-in Object constructor.
-  globalScope->*"Boolean"->*"prototype"->*"constructor" = globalScope->*"Boolean";
+  globalScope->*"Boolean" = Object::makeFunction(Boolean__Call__, Boolean__Construct__, Object::Boolean_prototype);
   // ES1: 15.6.4.2
-  globalScope->*"Boolean"->*"prototype"->*"toString" = _fn(Boolean_prototype_toString);
+  globalScope->*"Boolean"->*"prototype"->*"toString" = Object::makeFunction(Boolean_prototype_toString);
   // ES1: 15.6.4.3
-  globalScope->*"Boolean"->*"prototype"->*"valueOf" = _fn(Boolean_prototype_valueOf);
+  globalScope->*"Boolean"->*"prototype"->*"valueOf" = Object::makeFunction(Boolean_prototype_valueOf);
 }

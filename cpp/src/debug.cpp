@@ -17,6 +17,7 @@ static const string yellow = "\033[33m";
 static const string bold = "\033[1m";
 static const string reset = "\033[0m";
 
+void debug (string str);
 string indent (string str, int spaces = 2);
 string stringify (Scope& scope);
 string stringify (Reference ref);
@@ -24,9 +25,11 @@ string stringify (shared_ptr<Value> value);
 
 void debugEnable () {
   enabled = true;
+  debug("logging enabled");
 }
 void debugDisable () {
   enabled = false;
+  debug("logging disabled");
 }
 
 void debug (string str) {

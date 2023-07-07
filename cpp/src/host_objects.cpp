@@ -34,5 +34,5 @@ void init_host_objects (shared_ptr<Scope> globalScope) {
   shared_ptr<Object> console = make_shared<Object>();
   console->__Class__ = "Console";
   globalScope->*"console" = console;
-  globalScope->*"console"->*"log" = _fn(Console_log);
+  globalScope->*"console"->*"log" = Object::makeFunction(Console_log);
 }

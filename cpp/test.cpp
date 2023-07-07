@@ -10,6 +10,7 @@ shared_ptr<Value> MyConstructor (shared_ptr<Scope>, shared_ptr<Value>, vector<sh
 shared_ptr<Value> MyConstructor_prototype_toString (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);
 
 void _run (shared_ptr<Scope> scope) {
+  scope->*"MyConstructor" = _fn(scope, MyConstructor);
   (scope->*"console"->*"log").call((
     make_shared<Undefined>(),
     make_shared<Null>(),
@@ -57,7 +58,6 @@ void _run (shared_ptr<Scope> scope) {
   ));
   scope->*"console"->*"hello" = make_shared<String>("world");
   (scope->*"console"->*"log").call(scope->*"console"->*"hello");
-  scope->*"MyConstructor" = _fn(scope, MyConstructor);
   scope->*"MyConstructor"->*"prototype"->*"toString" = _fn(scope, MyConstructor_prototype_toString);
   (scope->*"console"->*"log").call(_new(scope->*"MyConstructor"));
 }

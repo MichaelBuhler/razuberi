@@ -121,6 +121,7 @@ Object::Object (shared_ptr<Object> __Prototype__) : Value() {
   this->__Class__ = "Object"; // TODO: enum this
   this->__Construct__ = nullptr;
   this->__Call__ = nullptr;
+  this->closure = nullptr;
 }
 
 std::shared_ptr<Object> Object::Object_prototype;
@@ -215,6 +216,45 @@ shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value
     return make_shared<Undefined>();
   }
   return result;
+}
+
+// TODO: #6: each function should have formal params and a `length` property.
+// TODO: each function should have a name.
+std::shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature __Construct__, shared_ptr<Object> prototype, shared_ptr<Scope> closure) {
+  // ES1: 15(5): Every built-in function and every built-in constructor has the Function prototype object,
+  //             which is the value of the expression `Function.prototype` (15.3.3.1), as the value of its
+  //             internal [[Prototype]] property, except the Function prototype object itself.
+  // ES1: 15.3.2.1.16: The [[Prototype]] property of _F_ is set to the original Function prototype
+  //                   object, the one that is the initial value of `Function.prototype` (15.3.3.1)
+  shared_ptr<Object> fn = make_shared<Object>(Function_prototype);
+  // ES1: 15.3.2.1.15: The [[Class]] property of _F_ is set to "Function".
+  fn->__Class__ = "Function"; // TODO: enum this
+  fn->__Construct__ = __Construct__;
+  fn->__Call__ = __Call__;
+  
+  if (__Construct__) {
+    if (!prototype) {
+      throw ImplementationException("Attempting to instantiate a Constructor without providing a prototype.");
+    }
+    // TODO: For user-defined script functions, at runtime:
+    // TODO: ES1: 15.3.2.1.23: This property is given attributes { DontEnum }.
+    // TODO: For built-in and host function objects:
+    // TODO: ES1: 15.2.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.3.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.4.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.5.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.6.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.7.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    // TODO: ES1: 15.9.4.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
+    fn->*"prototype" = prototype;
+    // ES1: 15.3.2.1.24: The constructor property ... is set to _F_.
+    // TODO: ES1: 15.3.2.1.24: This property is given attributes { DontEnum }.
+    fn->*"prototype"->*"constructor" = fn;
+  }
+
+  // Additional special members used only by function objects.
+  fn->closure = closure;
+  return fn;
 }
 
 Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {

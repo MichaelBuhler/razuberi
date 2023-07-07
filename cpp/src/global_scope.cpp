@@ -45,6 +45,7 @@ shared_ptr<Value> isFinite (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_
 }
 
 shared_ptr<Scope> init_global_scope () {
+  // ES1: 10.1.5: There is a unique global object which is created before control enters any execution context. 
   globalScope = make_shared<Scope>();
 
   // ES1: 15.1.1.1
@@ -52,15 +53,15 @@ shared_ptr<Scope> init_global_scope () {
   // ES1: 15.1.1.2
   globalScope->*"Infinity" = Number::makeInfinity();
   // ES1: 15.1.2.1
-  globalScope->*"eval" = _fn(eval);
+  globalScope->*"eval" = Object::makeFunction(eval);
   // TODO: ES1: 15.1.2.2: parseInt(string, radix)
   // TODO: ES1: 15.1.2.3: parseFloat(string)
   // TODO: ES1: 15.1.2.4: escape(string)
   // TODO: ES1: 15.1.2.5: unescape(string)
   // ES1: 15.1.2.6
-  globalScope->*"isNaN" = _fn(isNaN);
+  globalScope->*"isNaN" = Object::makeFunction(isNaN);
   // ES1: 15.1.2.7
-  globalScope->*"isFinite" = _fn(isFinite);
+  globalScope->*"isFinite" = Object::makeFunction(isFinite);
 
   init_builtin_objects(globalScope);
   init_host_objects(globalScope);

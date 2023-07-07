@@ -108,7 +108,7 @@ class Object : public Value {
 
   // Friends
   // Allow the internal `_fn()` to access the private members of this class
-  friend std::shared_ptr<Object> _fn(std::shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__);
+  friend void init_builtin_prototypes (std::shared_ptr<Scope> globalScope);
 
   // The original Object prototype object.
   public: static std::shared_ptr<Object> Object_prototype;
@@ -144,8 +144,8 @@ class Object : public Value {
   public: std::shared_ptr<Value> __Get__ (std::string key);
   public: void __Put__ (std::string key, std::shared_ptr<Value> value);
   public: bool __HasProperty__ (std::string key);
-  public: CallSignature __Construct__;
-  public: CallSignature __Call__;
+  private: CallSignature __Construct__;
+  private: CallSignature __Call__;
 
   // Entry point for constructing an instance of this Object
   public: std::shared_ptr<Object> construct (std::vector<std::shared_ptr<Value> > params);
@@ -156,6 +156,9 @@ class Object : public Value {
   public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
   public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
   public: std::shared_ptr<Value> call (std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
+
+  // Static factory functions
+  public: static std::shared_ptr<Object> makeFunction (CallSignature __Call__, CallSignature __Construct__ = nullptr, std::shared_ptr<Object> prototype = nullptr, std::shared_ptr<Scope> closure = nullptr);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

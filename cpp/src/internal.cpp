@@ -11,45 +11,17 @@
 
 using namespace std;
 
-shared_ptr<Object> _fn(Object::CallSignature __Call__, Object::CallSignature __Construct__) {
-  return _fn(make_shared<Object>(), __Call__, __Construct__);
-}
-
-shared_ptr<Object> _fn(shared_ptr<Object> prototype, Object::CallSignature __Call__, Object::CallSignature __Construct__) {
-  // ES1: 15(5): Every built-in function and every built-in constructor has the Function prototype object,
-  //             which is the value of the expression `Function.prototype` (15.3.3.1), as the value of its
-  //             internal [[Prototype]] property, except the Function prototype object itself.
-  shared_ptr<Object> fn = make_shared<Object>(Object::Function_prototype);
-  fn->__Class__ = "Function"; // TODO: enum this
-  fn->__Call__ = __Call__;
-  fn->__Construct__ = __Construct__;
-  // TODO: #6: each function should have formal params and a `length` property.
-  // TODO: ES1: 15.2.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.3.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.4.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.5.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.6.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.7.3.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  // TODO: ES1: 15.9.4.1(2): This property shall have the attributes { DontEnum, DontDelete, ReadOnly }.
-  fn->*"prototype" = prototype;
-  return fn;
-}
-
-shared_ptr<Object> _fn(shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__) {
-  // ES1: 15.3.2.1.16: The [[Prototype]] property of F is set to the original Function prototype
-  //                   object, the one that is the initial value of `Function.prototype` (15.3.3.1)
-  shared_ptr<Object> fn = make_shared<Object>(Object::Function_prototype);
-  fn->__Class__ = "Function"; // TODO: enum this
-  fn->closure = closure;
-  fn->__Call__ = __Call_and_Construct__;
-  fn->__Construct__ = __Call_and_Construct__;
-  // TODO: #6: each function should have formal params and a `length` property.
-  // ES1: 15.3.2.1.23:
-  // TODO: ES1: 15.3.2.1.23: This property is given attributes { DontEnum }.
-  fn->*"prototype" = make_shared<Object>();
-  // ES1: 15.3.2.1.24:
-  fn->*"prototype"->*"constructor" = fn;
-  return fn;
+shared_ptr<Object> _fn (shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__) {
+  return Object::makeFunction(
+    // User-defined script functions use the same function body whether called as functions or constructors.
+    __Call_and_Construct__,
+    // User-defined script functions use the same function body whether called as functions or constructors.
+    __Call_and_Construct__,
+    // ES1: 15.3.2.1.22: Create a new object as if by the expression `new Object()`.
+    // ES1: 15.3.2.1.23: The prototype property of _F_ is set to Result(22)
+    make_shared<Object>(),
+    closure
+  );
 }
 
 bool _if (Reference ref) {
