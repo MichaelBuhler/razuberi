@@ -10,7 +10,7 @@ shared_ptr<Value> MyConstructor (shared_ptr<Scope>, shared_ptr<Value>, vector<sh
 shared_ptr<Value> MyConstructor_prototype_toString (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);
 
 void _run (shared_ptr<Scope> scope) {
-  scope->*"MyConstructor" = _fn(scope, MyConstructor);
+  scope->declare("MyConstructor", _fn(scope, MyConstructor));
   (scope->*"console"->*"log").call((
     make_shared<Undefined>(),
     make_shared<Null>(),

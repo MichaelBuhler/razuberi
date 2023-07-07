@@ -11,5 +11,5 @@ export const FunctionDeclarationGenerator: Generator<FunctionDeclaration> = ({ a
     throw new Error("async FunctionDeclarations are not supported at this time")
   }
   const { name } = id;
-  return `scope->*"${name}" = _fn(scope, ${name});`
+  return `scope->declare("${name}", _fn(scope, ${name}));`
 }
