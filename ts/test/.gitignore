@@ -1,5 +1,6 @@
-/helloworld
-/helloworld.cpp
-/helloworld.cpp.BAK
-/helloworld.js
-/helloworld.o
+# ignore everthing
+/**
+
+# but don't ignore `.sh` and `.ts` files
+!/**/*.sh
+!/**/*.ts

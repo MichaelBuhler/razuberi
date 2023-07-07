@@ -1,2 +1,6 @@
 # editors
 /.idea
+
+# temporary folders
+/**/tmp/
+/**/temp/
