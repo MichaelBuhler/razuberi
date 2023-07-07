@@ -12,7 +12,6 @@ import { ConditionalExpressionGenerator } from './ConditionalExpression.js'
 import { EmptyStatementGenerator } from './EmptyStatement.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
 import { FileGenerator } from './File.js'
-import { FunctionDeclarationGenerator } from './FunctionDeclaration.js'
 import { FunctionExpressionGenerator } from './FunctionExpression.js'
 import { IdentifierGenerator } from './Identifier.js'
 import { IfStatementGenerator } from './IfStatement.js'
@@ -37,7 +36,6 @@ const generators: Partial<{
   EmptyStatement: EmptyStatementGenerator,
   ExpressionStatement: ExpressionStatementGenerator,
   File: FileGenerator,
-  FunctionDeclaration: FunctionDeclarationGenerator,
   FunctionExpression: FunctionExpressionGenerator,
   Identifier: IdentifierGenerator,
   IfStatement: IfStatementGenerator,

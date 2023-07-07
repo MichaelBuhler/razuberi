@@ -9,7 +9,6 @@
 })()
 
 function instantiate () {
-  (function (){})()
   return new Person()
 }
 

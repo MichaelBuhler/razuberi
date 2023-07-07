@@ -9,4 +9,19 @@ declare module '@babel/types' {
       functions: Array<FunctionDeclaration | FunctionExpression>
     }
   }
+  interface Program {
+    extra: {
+      functionDeclarations: Array<FunctionDeclaration>
+    }
+  }
+  interface FunctionDeclaration {
+    extra: {
+      functionDeclarations: Array<FunctionDeclaration>
+    }
+  }
+  interface FunctionExpression {
+    extra: {
+      functionDeclarations: Array<FunctionDeclaration>
+    }
+  }
 }
