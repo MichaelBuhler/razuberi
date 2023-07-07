@@ -14,18 +14,23 @@ export const FileGenerator: Generator<File> = ({ program, extra }) => {
   const cppFunctionDefinitions = extra.functions.map(fn => {
     const { id: { name }, body: { body }, extra } = fn
 
-    const functionDeclarations = extra.functionDeclarations.map(functionDeclaration => {
-      const { id: { name } } = functionDeclaration
-      return `scope->declare("${name}", _fn(scope, ${name}));`
+    // TODO: #11: move the function body generator to a util
+    const functionDeclarations = extra.declaredFunctions.map(fnName => {
+      return `scope->declare("${fnName}", _fn(scope, ${fnName}));`
+    }).join('\n')
+
+    const variableDeclarations = extra.declaredVariables.map(varName => {
+      return `scope->declare("${varName}");`
     }).join('\n')
 
     const statements = body.map(statement => generate(statement)).join('\n')
 
-    return `shared_ptr<Value> ${name} (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
-      ${functionDeclarations}
-
-      ${statements}
-    }`
+    let cppFunctionDefinition = `shared_ptr<Value> ${name} (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {`
+    if (functionDeclarations) cppFunctionDefinition += functionDeclarations
+    if (variableDeclarations) cppFunctionDefinition += variableDeclarations
+    if (functionDeclarations || variableDeclarations) cppFunctionDefinition += '\n'
+    cppFunctionDefinition += '\n' + statements + '\n}'
+    return cppFunctionDefinition
   }).join('\n\n')
 
   return `#include "razuberi.h"

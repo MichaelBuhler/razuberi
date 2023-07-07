@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",

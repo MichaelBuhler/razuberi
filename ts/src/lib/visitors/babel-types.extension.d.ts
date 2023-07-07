@@ -1,8 +1,6 @@
 
 import '@babel/types'
 
-import type { FunctionDeclaration, FunctionExpression } from '@babel/types'
-
 declare module '@babel/types' {
   interface File {
     extra: {
@@ -11,17 +9,20 @@ declare module '@babel/types' {
   }
   interface Program {
     extra: {
-      functionDeclarations: Array<FunctionDeclaration>
+      declaredFunctions: Array<string>
+      declaredVariables: Array<string>
     }
   }
   interface FunctionDeclaration {
     extra: {
-      functionDeclarations: Array<FunctionDeclaration>
+      declaredFunctions: Array<string>
+      declaredVariables: Array<string>
     }
   }
   interface FunctionExpression {
     extra: {
-      functionDeclarations: Array<FunctionDeclaration>
+      declaredFunctions: Array<string>
+      declaredVariables: Array<string>
     }
   }
 }

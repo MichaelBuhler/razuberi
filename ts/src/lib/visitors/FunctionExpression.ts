@@ -8,7 +8,8 @@ export const FunctionExpressionVisitor: VisitNodeObject<unknown, FunctionExpress
   enter (path) {
     // Define `extra` on this FunctionDeclaration node.
     path.node.extra = {
-      functionDeclarations: [],
+      declaredFunctions: [],
+      declaredVariables: [],
     }
 
     // Give anonymous functions a name, for C++ purposes

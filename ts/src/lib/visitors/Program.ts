@@ -11,7 +11,8 @@ export const ProgramVisitor: VisitNodeObject<unknown, Program> = {
     }
     // Define `extra` on this Program node.
     path.node.extra = {
-      functionDeclarations: [],
+      declaredFunctions: [],
+      declaredVariables: [],
     }
   }
 }

@@ -1,6 +1,6 @@
 (function () {
   configure()
-  john = instantiate()
+  var john = instantiate()
   print()
 
   function print () {
