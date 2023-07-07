@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
-bin/razuberi.js test/helloworld.ts -o test/helloworld.cpp
-cd test && indent helloworld.cpp && cd ..
-g++ -c -I ../cpp/out/include test/helloworld.cpp -o test/helloworld.o
-g++ -L ../cpp/out/lib -l razuberi test/helloworld.o -o test/helloworld
-test/helloworld
+cd "$(dirname "$0")"
+
+../bin/razuberi.js $1.ts -o $1.cpp
+indent $1.cpp
+g++ -c -I ../../cpp/out/include $1.cpp -o $1.o
+g++ -L ../../cpp/out/lib -l razuberi $1.o -o $1
+$1

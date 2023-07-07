@@ -39,7 +39,8 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "prepack": "npm run clean && npm run build && npm test",
-    "test": "test/helloworld.sh"
+    "test": "test/run.sh helloworld",
+    "test:harness": "test/run.sh harness"
   },
   "dependencies": {
     "@babel/parser": "^7.22.5",
