@@ -176,7 +176,7 @@ shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   } else {
     throw ImplementationException("constructor has no prototype");
   }
-  shared_ptr<Scope> scope = this->closure;
+  shared_ptr<Scope> scope = make_shared<Scope>(this->closure);
   shared_ptr<Object> _this = make_shared<Object>(prototype);
   shared_ptr<Value> result = this->__Construct__(scope, _this, params);
   if (result == nullptr) {
