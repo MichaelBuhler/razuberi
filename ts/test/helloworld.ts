@@ -9,15 +9,16 @@
 })()
 
 function instantiate () {
-  return new Person()
+  return new Person('John', 'Doe')
 }
 
 function configure () {
   Person.prototype.toString = function () {
-    return 'Person: ' + this.name
+    return 'Person: ' + this.firstName + ' ' + this.lastName
   }
 }
 
-function Person () {
-  this.name = "John Doe";
+function Person (firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
 }
