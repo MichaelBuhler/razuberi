@@ -9,7 +9,8 @@
 })()
 
 function instantiate () {
-  return new Person('John', 'Doe')
+  var p =  new Person('John', 'Doe')
+  return p
 }
 
 function configure () {
