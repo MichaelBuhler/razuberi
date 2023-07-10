@@ -8,15 +8,18 @@
 
 using namespace std;
 
+static const string red = "\033[31m";
+static const string reset = "\033[0m";
+
 int main () {
   try {
     shared_ptr<Scope> globalScope = init_global_scope();
     _run(globalScope);
     return 0;
   } catch (RazuberiException& e) {
-    cout << endl << e.toString() << endl;
+    cout << endl << red << e.toString() << reset << endl;
   } catch (EcmaScriptRuntimeError& e) {
-    cout << endl << "Uncaught " << e.toString() << endl;
+    cout << endl << red << "Uncaught " << e.toString() << reset << endl;
   }
   return 1;
 }

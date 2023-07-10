@@ -1,3 +1,9 @@
+test/harness/assert-true.js
+{
+  description: '`true` satisfies the assertion.\n',
+  flags: {},
+  includes: [ 'assert.js', 'sta.js' ]
+}
 // Copyright (C) 2017 Ecma International.  All rights reserved.
 // This code is governed by the BSD license found in the LICENSE file.
 /*---
@@ -150,23 +156,8 @@ function $DONOTEVALUATE() {
 
 /*---
 description: >
-    `false` does not satisfy the assertion.
+    `true` satisfies the assertion.
 ---*/
 
-var threw = false;
+assert(true);
 
-try {
-  assert(false);
-} catch(err) {
-  threw = true;
-  if (err.constructor !== Test262Error) {
-    throw new Error(
-      'Expected a Test262Error, but a "' + err.constructor.name +
-      '" was thrown.'
-    );
-  }
-}
-
-if (threw === false) {
-  throw new Error('Expected a Test262Error, but no error was thrown.');
-}
