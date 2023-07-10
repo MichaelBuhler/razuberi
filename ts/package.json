@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",
@@ -40,6 +40,7 @@
     "clean": "rimraf dist",
     "prepack": "npm run clean && npm run build && npm test",
     "test": "test/run.sh helloworld",
+    "test:fizzbuzz": "test/run.sh fizzbuzz",
     "test:harness": "test/run.sh harness"
   },
   "dependencies": {
