@@ -29,7 +29,6 @@ shared_ptr<Value> Value::call (shared_ptr<Value> _this, vector<shared_ptr<Value>
   throw TypeError("callee is not an object");
 }
 
-
 Primitive::Primitive () : Value() {}
 
 Undefined::Undefined () : Primitive() {
@@ -125,10 +124,10 @@ Object::Object (shared_ptr<Object> __Prototype__) : Value() {
   this->closure = nullptr;
 }
 
-std::shared_ptr<Object> Object::Object_prototype;
-std::shared_ptr<Object> Object::Function_prototype;
-std::shared_ptr<Object> Object::String_prototype;
-std::shared_ptr<Object> Object::Boolean_prototype;
+shared_ptr<Object> Object::Object_prototype;
+shared_ptr<Object> Object::Function_prototype;
+shared_ptr<Object> Object::String_prototype;
+shared_ptr<Object> Object::Boolean_prototype;
 
 shared_ptr<Value> Object::__Get__ (string key) {
   try {
@@ -221,7 +220,7 @@ shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value
 
 // TODO: #6: each function should have formal params and a `length` property.
 // TODO: each function should have a name.
-std::shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature __Construct__, shared_ptr<Object> prototype, shared_ptr<Scope> closure) {
+shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature __Construct__, shared_ptr<Object> prototype, shared_ptr<Scope> closure) {
   // ES1: 15(5): Every built-in function and every built-in constructor has the Function prototype object,
   //             which is the value of the expression `Function.prototype` (15.3.3.1), as the value of its
   //             internal [[Prototype]] property, except the Function prototype object itself.
@@ -611,7 +610,7 @@ shared_ptr<Value> operator + (shared_ptr<Boolean> b, shared_ptr<Primitive> p) {
   if (p->type == STRING_VALUE_TYPE) {
     return ToString(b) + static_pointer_cast<String>(p);
   } else {
-    return ToNumber(p) + ToNumber(b);
+    return ToNumber(b) + ToNumber(p);
   }
 }
 shared_ptr<Number> operator + (shared_ptr<Boolean> b, shared_ptr<Undefined> u) {

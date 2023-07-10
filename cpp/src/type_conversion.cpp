@@ -67,7 +67,7 @@ shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
       return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
   }
 }
-std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive> primitive) {
+shared_ptr<Number> ToNumber (shared_ptr<Primitive> primitive) {
   switch (primitive->type) {
     case UNDEFINED_VALUE_TYPE:
       return Number::makeNaN();
@@ -84,7 +84,7 @@ std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive> primitive) {
       throw ImplementationException("an object was passed into ToNumber(Primitive)");
   }
 }
-std::shared_ptr<Number> ToNumber (std::shared_ptr<Boolean> boolean) {
+shared_ptr<Number> ToNumber (shared_ptr<Boolean> boolean) {
   if (boolean->value) {
     return make_shared<Number>(1);
   } else {
@@ -105,7 +105,7 @@ shared_ptr<Number> ToInteger (shared_ptr<Value> value) {
   return make_shared<Number>(sign * magnitude);
 }
 
-std::shared_ptr<Number> ToInt32 (std::shared_ptr<Value> value) {
+shared_ptr<Number> ToInt32 (shared_ptr<Value> value) {
   shared_ptr<Number> num = ToNumber(value);
   if (num->isNaN || num->isInfinity || num->value == 0) {
     return make_shared<Number>(0, false);
@@ -119,7 +119,7 @@ std::shared_ptr<Number> ToInt32 (std::shared_ptr<Value> value) {
   return make_shared<Number>(x);
 }
 
-std::shared_ptr<Number> ToUint32 (std::shared_ptr<Value> value) {
+shared_ptr<Number> ToUint32 (shared_ptr<Value> value) {
   shared_ptr<Number> num = ToNumber(value);
   if (num->isNaN || num->isInfinity || num->value == 0) {
     return make_shared<Number>(0, false);
@@ -130,7 +130,7 @@ std::shared_ptr<Number> ToUint32 (std::shared_ptr<Value> value) {
   return make_shared<Number>(x);
 }
 
-std::shared_ptr<Number> ToUint16 (std::shared_ptr<Value> value) {
+shared_ptr<Number> ToUint16 (shared_ptr<Value> value) {
   shared_ptr<Number> num = ToNumber(value);
   if (num->isNaN || num->isInfinity || num->value == 0) {
     return make_shared<Number>(0, false);

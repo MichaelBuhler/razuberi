@@ -207,7 +207,6 @@ std::shared_ptr<Value>  operator + (Reference, std::shared_ptr<String>);
 
 ////////////////////////////////////////
 // Left operands of type `Value`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Value>, std::shared_ptr<Object>);
@@ -220,7 +219,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Value>, std::shared_ptr<Stri
 
 ////////////////////////////////////////
 // Left operands of type `Object`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Object>, std::shared_ptr<Object>);
@@ -233,7 +231,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Object>, std::shared_ptr<Str
 
 ////////////////////////////////////////
 // Left operands of type `Primitive`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Object>);
@@ -243,11 +240,9 @@ std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<
 std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Boolean>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Number>);
 std::shared_ptr<String> operator + (std::shared_ptr<Primitive>, std::shared_ptr<String>);
-std::shared_ptr<Value>  operator + (std::shared_ptr<Primitive>, std::shared_ptr<Object>);
 
 ////////////////////////////////////////
 // Left operands of type `Undefined`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Undefined>, std::shared_ptr<Object>);
@@ -260,7 +255,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Undefined>, std::shared_ptr<
 
 ////////////////////////////////////////
 // Left operands of type `Null`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Null>, std::shared_ptr<Object>);
@@ -273,7 +267,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Null>, std::shared_ptr<Strin
 
 ////////////////////////////////////////
 // Left operands of type `Boolean`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Boolean>, std::shared_ptr<Object>);
@@ -286,7 +279,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Boolean>, std::shared_ptr<St
 
 ////////////////////////////////////////
 // Left operands of type `Number`
-// std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Reference>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, Reference);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Value>);
 std::shared_ptr<Value>  operator + (std::shared_ptr<Number>, std::shared_ptr<Object>);
@@ -299,7 +291,6 @@ std::shared_ptr<String> operator + (std::shared_ptr<Number>, std::shared_ptr<Str
 
 ////////////////////////////////////////
 // Left operands of type `String`
-// std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Reference>);
 std::shared_ptr<String> operator + (std::shared_ptr<String>, Reference);
 std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Value>);
 std::shared_ptr<String> operator + (std::shared_ptr<String>, std::shared_ptr<Object>);
