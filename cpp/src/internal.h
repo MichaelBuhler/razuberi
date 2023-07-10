@@ -28,3 +28,9 @@ std::shared_ptr<Boolean> _strictEquals (Reference, Reference);
 std::shared_ptr<Boolean> _strictEquals (Reference, std::shared_ptr<Value>);
 std::shared_ptr<Boolean> _strictEquals (std::shared_ptr<Value>, Reference);
 std::shared_ptr<Boolean> _strictEquals (std::shared_ptr<Value>, std::shared_ptr<Value>);
+
+// TODO: could be implemented with 81 overloads
+std::shared_ptr<Boolean> _strictNotEquals (Reference, Reference);
+std::shared_ptr<Boolean> _strictNotEquals (Reference, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> _strictNotEquals (std::shared_ptr<Value>, Reference);
+std::shared_ptr<Boolean> _strictNotEquals (std::shared_ptr<Value>, std::shared_ptr<Value>);

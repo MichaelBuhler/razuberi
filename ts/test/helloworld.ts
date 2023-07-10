@@ -33,6 +33,7 @@ function configure () {
 function check (person: Person) {
   console.log('person.firstName == \\"Doe\\" =>', person.firstName == "Doe")
   console.log('person.fake === undefined =>', undefined === person.fake)
+  console.log('undefined !== null =>', undefined !== null)
 }
 
 function defenestrate () {

@@ -139,3 +139,17 @@ shared_ptr<Boolean> _strictEquals (shared_ptr<Value> a, shared_ptr<Value> b) {
     return a == b;
   }
 }
+
+shared_ptr<Boolean> _strictNotEquals (Reference a, Reference b) {
+  return _strictNotEquals(GetValue(a), GetValue(b));
+}
+shared_ptr<Boolean> _strictNotEquals (Reference r, shared_ptr<Value> v) {
+  return _strictNotEquals(GetValue(r), v);
+}
+shared_ptr<Boolean> _strictNotEquals (shared_ptr<Value> v, Reference r) {
+  return _strictNotEquals(v, GetValue(r));
+}
+shared_ptr<Boolean> _strictNotEquals (shared_ptr<Value> a, shared_ptr<Value> b) {
+  shared_ptr<Boolean> equal = _strictEquals(a, b);
+  return make_shared<Boolean>(!equal->value);
+}
