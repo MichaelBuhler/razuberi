@@ -24,7 +24,6 @@ class EcmaScriptRuntimeError {
   public: virtual std::string toString () = 0;
 };
 
-
 class TypeError : public EcmaScriptRuntimeError {
   public: TypeError (std::string message);
   public: std::string toString ();

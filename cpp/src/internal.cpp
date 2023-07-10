@@ -122,3 +122,20 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
   }
   throw TypeError("unable to convert object to primitive using [[DefaultValue]]");
 }
+
+shared_ptr<Boolean> _strictEquals (Reference a, Reference b) {
+  return _strictEquals(GetValue(a), GetValue(b));
+}
+shared_ptr<Boolean> _strictEquals (Reference r, shared_ptr<Value> v) {
+  return _strictEquals(GetValue(r), v);
+}
+shared_ptr<Boolean> _strictEquals (shared_ptr<Value> v, Reference r) {
+  return _strictEquals(v, GetValue(r));
+}
+shared_ptr<Boolean> _strictEquals (shared_ptr<Value> a, shared_ptr<Value> b) {
+  if (a->type != b->type) {
+    return make_shared<Boolean>(false);
+  } else {
+    return a == b;
+  }
+}

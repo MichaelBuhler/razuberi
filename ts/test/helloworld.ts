@@ -28,7 +28,8 @@ function configure () {
 }
 
 function check (person: Person) {
-  console.log('person.firstName == \\"Doe\\"', person.firstName == "Doe")
+  console.log('person.firstName == \\"Doe\\" =>', person.firstName == "Doe")
+  console.log('person.fake === undefined =>', undefined === person.fake)
 }
 
 function Person (this: Person, firstName: string, lastName: string) {

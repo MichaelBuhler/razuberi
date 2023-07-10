@@ -22,3 +22,9 @@ std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor, std::shared_pt
 std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor, std::vector<std::shared_ptr<Value> > params);
 
 std::shared_ptr<Value> __DefaultValue__ (std::shared_ptr<Object> _this, HintValueType);
+
+// TODO: could be implemented with 81 overloads
+std::shared_ptr<Boolean> _strictEquals (Reference, Reference);
+std::shared_ptr<Boolean> _strictEquals (Reference, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> _strictEquals (std::shared_ptr<Value>, Reference);
+std::shared_ptr<Boolean> _strictEquals (std::shared_ptr<Value>, std::shared_ptr<Value>);
