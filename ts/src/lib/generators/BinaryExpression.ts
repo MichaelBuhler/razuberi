@@ -8,6 +8,7 @@ import { generate } from '../generate.js'
 export const BinaryExpressionGenerator: Generator<BinaryExpression> = ({ left, operator, right }) => {
   switch (operator) {
     case '+':
+    case '==':
       return generate(left) + operator + generate(right)
     case '-':
     case '/':
@@ -20,7 +21,6 @@ export const BinaryExpressionGenerator: Generator<BinaryExpression> = ({ left, o
     case '>>>':
     case '<<':
     case '^':
-    case '==':
     case '===':
     case '!=':
     case '!==':

@@ -709,5 +709,662 @@ shared_ptr<Value> operator - (shared_ptr<Value> valueA, shared_ptr<Value> valueB
 // End subtraction operator overloads
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+// Double equals operator overloads for every combination of operands
+
+////////////////////////////////////////
+// Left operands of type `Reference`
+shared_ptr<Boolean> operator == (Reference a, Reference b) {
+  return GetValue(a) == b;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Value> v) {
+  return GetValue(r) == v;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Object> o) {
+  return GetValue(r) == o;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Primitive> p) {
+  return GetValue(r) == p;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Undefined> u) {
+  return GetValue(r) == u;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Null> n) {
+  return GetValue(r) == n;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Boolean> b) {
+  return GetValue(r) == b;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<Number> n) {
+  return GetValue(r) == n;
+}
+shared_ptr<Boolean> operator == (Reference r, shared_ptr<String> s) {
+  return GetValue(r) == s;
+}
+
+////////////////////////////////////////
+// Left operands of type `Value`
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, Reference r) {
+  return v == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> a, shared_ptr<Value> b) {
+  switch (a->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(a) == b;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(a) == b;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(a) == b;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(a) == b;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(a) == b;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(a) == b;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Object> o) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == o;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == o;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == o;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == o;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == o;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == o;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Primitive> p) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == p;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == p;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == p;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == p;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == p;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == p;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Undefined> u) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == u;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == u;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == u;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == u;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == u;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == u;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Null> n) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == n;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == n;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == n;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == n;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == n;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == n;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Boolean> b) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == b;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == b;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == b;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == b;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == b;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == b;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<Number> n) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == n;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == n;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == n;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == n;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == n;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == n;
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Value> v, shared_ptr<String> s) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(v) == s;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(v) == s;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(v) == s;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(v) == s;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(v) == s;
+    case OBJECT_VALUE_TYPE:
+      return static_pointer_cast<Object>(v) == s;
+  }
+}
+
+////////////////////////////////////////
+// Left operands of type `Object`
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, Reference r) {
+  return o == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return o == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return o == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return o == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return o == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return o == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return o == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> a, shared_ptr<Object> b) {
+  return make_shared<Boolean>(a.get() == b.get());
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return o == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return o == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return o == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return o == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return o == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Object, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Null> n) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Boolean> b) {
+  return o == ToNumber(b);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<Number> n) {
+  return ToPrimitive(o) == n;
+}
+shared_ptr<Boolean> operator == (shared_ptr<Object> o, shared_ptr<String> s) {
+  return ToPrimitive(o) == s;
+}
+
+////////////////////////////////////////
+// Left operands of type `Primitive`
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, Reference r)  {
+  return p == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Value> v) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == v;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == v;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == v;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == v;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == v;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Value)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Object> o) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == o;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == o;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == o;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == o;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == o;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Object)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> a, shared_ptr<Primitive> b) {
+  switch (a->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(a) == b;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(a) == b;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(a) == b;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(a) == b;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(a) == b;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Undefined> u) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == u;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == u;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == u;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == u;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == u;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Undefined)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Null> n) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == n;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == n;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == n;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == n;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == n;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Null)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Boolean> b) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == b;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == b;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == b;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == b;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == b;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Boolean)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<Number> n) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == n;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == n;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == n;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == n;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == n;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, Number)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Primitive> p, shared_ptr<String> s) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return static_pointer_cast<Undefined>(p) == s;
+    case NULL_VALUE_TYPE:
+      return static_pointer_cast<Null>(p) == s;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(p) == s;
+    case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(p) == s;
+    case STRING_VALUE_TYPE:
+      return static_pointer_cast<String>(p) == s;
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Primitive, String)");
+  }
+}
+
+////////////////////////////////////////
+// Left operands of type `Undefined`
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, Reference r) {
+  return u == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return u == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return u == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return u == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return u == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return u == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return u == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Object> o) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Primitive> p)  {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return u == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return u == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return u == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return u == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return u == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Undefined, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> a, shared_ptr<Undefined> b) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Null> n) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Boolean> b) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<Number> n) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Undefined> u, shared_ptr<String> s) {
+  return make_shared<Boolean>(false);
+}
+
+////////////////////////////////////////
+// Left operands of type `Null`
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, Reference r) {
+  return n == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return n == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return n == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return n == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return n == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return n == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return n == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Object> o) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return n == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return n == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return n == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return n == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return n == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Null, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> a, shared_ptr<Null> b) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Boolean> b) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<Number> x) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Null> n, shared_ptr<String> s) {
+  return make_shared<Boolean>(false);
+}
+
+////////////////////////////////////////
+// Left operands of type `Boolean`
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, Reference r) {
+  return b == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return b == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return b == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return b == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return b == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return b == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return b == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Object> o) {
+  return ToNumber(b) == o;
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return b == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return b == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return b == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return b == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return b == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Boolean, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Null> n) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> a, shared_ptr<Boolean> b) {
+  return make_shared<Boolean>(a->value == b->value);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<Number> n) {
+  return ToNumber(b) == n;
+}
+shared_ptr<Boolean> operator == (shared_ptr<Boolean> b, shared_ptr<String> s) {
+  return ToNumber(b) == s;
+}
+
+////////////////////////////////////////
+// Left operands of type `Number`
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, Reference r) {
+  return n == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return n == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return n == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return n == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return n == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return n == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return n == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Object> o) {
+  return n == ToPrimitive(o);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return n == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return n == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return n == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return n == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return n == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(Number, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Null> x) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<Boolean> b) {
+  return n == ToNumber(b);
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> a, shared_ptr<Number> b) {
+  if (a->isNaN) {
+    return make_shared<Boolean>(false);
+  }
+  if (b->isNaN) {
+    return make_shared<Boolean>(false);
+  }
+  if (a->isInfinity && b->isInfinity) {
+    if (a->isNegative == b->isNegative) {
+      return make_shared<Boolean>(true);
+    } else {
+      return make_shared<Boolean>(false);
+    }
+  }
+  if (a->value == b->value) {
+    return make_shared<Boolean>(true);
+  } else {
+    return make_shared<Boolean>(false);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<Number> n, shared_ptr<String> s) {
+  return n == ToNumber(s);
+};
+
+////////////////////////////////////////
+// Left operands of type `String`
+shared_ptr<Boolean> operator == (shared_ptr<String> s, Reference r) {
+  return s == GetValue(r);
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return s == static_pointer_cast<Undefined>(v);
+    case NULL_VALUE_TYPE:
+      return s == static_pointer_cast<Null>(v);
+    case BOOLEAN_VALUE_TYPE:
+      return s == static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return s == static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return s == static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return s == static_pointer_cast<Object>(v);
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Object> o) {
+  return s == ToPrimitive(o);
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return s == static_pointer_cast<Undefined>(p);
+    case NULL_VALUE_TYPE:
+      return s == static_pointer_cast<Null>(p);
+    case BOOLEAN_VALUE_TYPE:
+      return s == static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return s == static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return s == static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed to operator==(String, Primitive)");
+  }
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Null> n) {
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Boolean> b) {
+  return s == ToNumber(b);
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> s, shared_ptr<Number> n) {
+  return ToNumber(s) == n;
+}
+shared_ptr<Boolean> operator == (shared_ptr<String> a, shared_ptr<String> b) {
+  return make_shared<Boolean>(a->value == b->value);
+}
+
+// End double equals operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
 // End operator overloads
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

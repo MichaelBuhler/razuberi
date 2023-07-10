@@ -313,5 +313,119 @@ std::shared_ptr<Value> operator - (std::shared_ptr<Value>, std::shared_ptr<Value
 // End subtraction operator overloads
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+// Double equals operator overloads for every combination of operands
+
+////////////////////////////////////////
+// Left operands of type `Reference`
+std::shared_ptr<Boolean> operator == (Reference, Reference);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (Reference, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Value`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Value>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Object`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Object>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Primitive`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Primitive>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Undefined`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Undefined>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Null`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Null>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Boolean`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Boolean>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `Number`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<Number>, std::shared_ptr<String>);
+
+////////////////////////////////////////
+// Left operands of type `String`
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, Reference);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Object>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Null>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Boolean>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<Number>);
+std::shared_ptr<Boolean> operator == (std::shared_ptr<String>, std::shared_ptr<String>);
+
+// End double equals operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
 // End operator overloads
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

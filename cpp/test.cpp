@@ -60,6 +60,8 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call(scope->*"console"->*"hello");
   scope->*"MyConstructor"->*"prototype"->*"toString" = _fn(scope, MyConstructor_prototype_toString);
   (scope->*"console"->*"log").call(_new(scope->*"MyConstructor"));
+  (scope->*"console"->*"log").call(make_shared<Boolean>(true) == make_shared<Number>(1));
+  (scope->*"console"->*"log").call(scope->*"console"->*"log" == scope->*"MyConstructor"->*"prototype"->*"toString");
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
