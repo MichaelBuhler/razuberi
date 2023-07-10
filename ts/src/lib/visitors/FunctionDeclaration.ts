@@ -21,8 +21,10 @@ export const FunctionDeclarationVisitor: VisitNodeObject<unknown, FunctionDeclar
     const statements = path.node.body.body
     const lastStatement = statements[statements.length - 1]
     if (
-      statements.length === 0 ||
-      lastStatement.type !== 'ReturnStatement'
+      lastStatement === undefined || (
+        lastStatement.type !== 'ReturnStatement' &&
+        lastStatement.type !== 'ThrowStatement'
+      )
     ) {
       path.get('body').pushContainer('body', returnStatement())
     }

@@ -23,6 +23,7 @@ import { ProgramGenerator } from './Program.js'
 import { ReturnStatementGenerator } from './ReturnStatement.js'
 import { StringLiteralGenerator } from './StringLiteral.js'
 import { ThisExpressionGenerator } from './ThisExpression.js'
+import { ThrowStatementGenerator } from './ThrowStatement.js'
 
 const generators: Partial<{
   [nodeType in Node['type']]: Generator<Node>
@@ -47,6 +48,7 @@ const generators: Partial<{
   ReturnStatement: ReturnStatementGenerator,
   StringLiteral: StringLiteralGenerator,
   ThisExpression: ThisExpressionGenerator,
+  ThrowStatement: ThrowStatementGenerator,
 }
 
 export default generators

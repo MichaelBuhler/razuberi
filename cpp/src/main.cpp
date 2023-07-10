@@ -14,9 +14,9 @@ int main () {
     _run(globalScope);
     return 0;
   } catch (RazuberiException& e) {
-    cout << e.toString() << endl;
+    cout << endl << e.toString() << endl;
   } catch (EcmaScriptRuntimeError& e) {
-    cout << "Uncaught " << e.toString() << endl;
+    cout << endl << "Uncaught " << e.toString() << endl;
   }
   return 1;
 }

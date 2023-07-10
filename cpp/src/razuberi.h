@@ -8,5 +8,6 @@
 
 #include "main.h"
 #include "internal.h"
+#include "exception.h"
 #include "scope.h"
 #include "value.h"
