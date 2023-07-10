@@ -58,13 +58,17 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
 shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
+      return Number::makeNaN();
     case NULL_VALUE_TYPE:
+      return make_shared<Number>(0, false);
     case BOOLEAN_VALUE_TYPE:
+      return ToNumber(static_pointer_cast<Boolean>(value));
     case NUMBER_VALUE_TYPE:
+      return static_pointer_cast<Number>(value);
     case STRING_VALUE_TYPE:
-      return ToNumber(static_pointer_cast<Primitive>(value));
+      return ToNumber(static_pointer_cast<String>(value));
     case OBJECT_VALUE_TYPE:
-      return ToNumber(ToPrimitive(value, NUMBER_HINT_VALUE_TYPE));
+      return ToNumber(static_pointer_cast<Object>(value));
   }
 }
 shared_ptr<Number> ToNumber (shared_ptr<Primitive> primitive) {
@@ -78,11 +82,16 @@ shared_ptr<Number> ToNumber (shared_ptr<Primitive> primitive) {
     case NUMBER_VALUE_TYPE:
       return static_pointer_cast<Number>(primitive);
     case STRING_VALUE_TYPE:
-      // TODO: need to parse a floating point number from this string
-      throw NotImplementedException("cannot convert a string to a number");
+      return ToNumber(static_pointer_cast<String>(primitive));
     case OBJECT_VALUE_TYPE:
       throw ImplementationException("an object was passed into ToNumber(Primitive)");
   }
+}
+shared_ptr<Number> ToNumber (shared_ptr<Undefined>) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> ToNumber (shared_ptr<Null>) {
+  return make_shared<Number>(0, false);
 }
 shared_ptr<Number> ToNumber (shared_ptr<Boolean> boolean) {
   if (boolean->value) {
@@ -94,6 +103,9 @@ shared_ptr<Number> ToNumber (shared_ptr<Boolean> boolean) {
 shared_ptr<Number> ToNumber (shared_ptr<String> str) {
   // TODO: need to parse a floating point number from this string
   throw NotImplementedException("cannot convert a string to a number");
+}
+shared_ptr<Number> ToNumber (shared_ptr<Object> obj) {
+  return ToNumber(ToPrimitive(obj, NUMBER_HINT_VALUE_TYPE));
 }
 
 shared_ptr<Number> ToInteger (shared_ptr<Value> value) {
