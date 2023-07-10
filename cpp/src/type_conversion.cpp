@@ -91,6 +91,10 @@ shared_ptr<Number> ToNumber (shared_ptr<Boolean> boolean) {
     return make_shared<Number>(0, false);
   }
 }
+shared_ptr<Number> ToNumber (shared_ptr<String> str) {
+  // TODO: need to parse a floating point number from this string
+  throw NotImplementedException("cannot convert a string to a number");
+}
 
 shared_ptr<Number> ToInteger (shared_ptr<Value> value) {
   shared_ptr<Number> num = ToNumber(value);

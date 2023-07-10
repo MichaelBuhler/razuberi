@@ -12,6 +12,7 @@ std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Value> value);
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Value> value);
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive> primitive);
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Boolean> boolean);
+std::shared_ptr<Number> ToNumber (std::shared_ptr<String> str);
 
 std::shared_ptr<Number> ToInteger (std::shared_ptr<Value> value);
 
