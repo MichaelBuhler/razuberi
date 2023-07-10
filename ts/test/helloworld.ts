@@ -7,7 +7,9 @@ interface Person {
 
 (function () {
   configure()
+  john || console.log("john is not defined")
   var john = instantiate()
+  john && console.log("john is now defined")
   print()
   check(john)
   defenestrate()
