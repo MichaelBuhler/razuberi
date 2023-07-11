@@ -19,7 +19,7 @@ static const string reset = "\033[0m";
 
 void debug (string str);
 string indent (string str, int spaces = 2);
-string stringify (Scope& scope);
+string stringify (shared_ptr<Scope> scope);
 string stringify (Reference ref);
 string stringify (shared_ptr<Value> value);
 
@@ -38,10 +38,10 @@ void debug (string str) {
   }
 }
 
-void debug (Scope scope) {
+void debug (std::shared_ptr<Scope> scope) {
   debug(stringify(scope));
 }
-void debug (std::string str, Scope scope) {
+void debug (std::string str, std::shared_ptr<Scope> scope) {
   debug(str + ": " +stringify(scope));
 }
 
@@ -74,18 +74,18 @@ string indent (string str, int spaces) {
   return res;
 }
 
-string stringify (Scope& scope) {
+string stringify (std::shared_ptr<Scope> scope) {
   string str = "Scope {";
-  map<string, shared_ptr<Object::Property> > properties = scope.object->properties;
-  if (properties.size() > 0) {
-    for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
+  // map<string, shared_ptr<Object::Property> > properties = scope.object->properties;
+  if (scope->object->properties.size() > 0) {
+    for ( map<string, shared_ptr<Object::Property> >::iterator it = scope->object->properties.begin() ; it != scope->object->properties.end() ; it++ ) {
       str += "\n  " + it->first + ": " + indent(stringify(it->second->value));
     }
     str += "\n";
   }
   str += "}";
-  if (scope.parentScope) {
-    str += " parent " + stringify(*scope.parentScope);
+  if (scope->parentScope) {
+    str += " parent " + stringify(scope->parentScope);
   }
   return str;
 }

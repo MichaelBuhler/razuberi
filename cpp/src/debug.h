@@ -10,8 +10,8 @@ void debugDisable();
 
 void debug (std::string str = "");
 
-void debug (Scope scope);
-void debug (std::string str, Scope scope);
+void debug (std::shared_ptr<Scope> scope);
+void debug (std::string str, std::shared_ptr<Scope> scope);
 
 void debug (Reference ref);
 void debug (std::string str, Reference ref);
