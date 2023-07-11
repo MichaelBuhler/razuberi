@@ -8,7 +8,7 @@ ImplementationException::ImplementationException (string message) : RazuberiExce
   this->message = message;
 }
 
-string ImplementationException::toString () {
+string ImplementationException::toString () const {
   return "ImplementationException: " + this->message;
 }
 
@@ -16,7 +16,7 @@ NotImplementedException::NotImplementedException (string message) : RazuberiExce
   this->message = message;
 }
 
-string NotImplementedException::toString () {
+string NotImplementedException::toString () const {
   return "NotImplementedException: " + this->message;
 }
 
@@ -26,7 +26,7 @@ TypeError::TypeError (string message) : EcmaScriptRuntimeError() {
   this->message = message;
 }
 
-string TypeError::toString () {
+string TypeError::toString () const {
   return "TypeError: " + this->message;
 }
 
@@ -34,6 +34,6 @@ ReferenceError::ReferenceError (string message) : EcmaScriptRuntimeError() {
   this->message = message;
 }
 
-string ReferenceError::toString () {
+string ReferenceError::toString () const {
   return "ReferenceError: " + this->message;
 }
