@@ -10,6 +10,7 @@ export const UnaryExpressionGenerator: Generator<UnaryExpression> = ({ operator,
     case 'typeof':
       return `_typeof(${generate(argument)})`
     case 'void':
+      return `_void(${generate(argument)})`
     case 'throw':
     case 'delete':
     case '!':

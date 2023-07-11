@@ -37,6 +37,7 @@ function check (person: Person) {
   console.log('13413.345134 % 6786.786 =>', 13413.345134 % 6786.786)
   console.log('typeof person:', typeof person)
   console.log('typeof Person:', typeof Person)
+  console.log('void 0:', void 0)
 }
 
 function defenestrate () {

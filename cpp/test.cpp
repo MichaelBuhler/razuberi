@@ -66,6 +66,7 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((make_shared<Number>(99) % scope->*"Infinity", make_shared<Number>(-16) % make_shared<Number>(-3)));
   (scope->*"console"->*"log").call((make_shared<String>("typeof console.log:"), _typeof(scope->*"console"->*"log")));
   (scope->*"console"->*"log").call((make_shared<String>("typeof true:"), _typeof(make_shared<Boolean>(true))));
+  (scope->*"console"->*"log").call((make_shared<String>("void 0:"), _void(make_shared<Number>(0))));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {

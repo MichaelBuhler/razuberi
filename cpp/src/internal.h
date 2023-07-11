@@ -41,6 +41,10 @@ std::shared_ptr<Boolean> _strictNotEquals (std::shared_ptr<Value>, std::shared_p
 bool _if (Reference);
 bool _if (std::shared_ptr<Value>);
 
-// C++ does not have any sort of `typeof` operator to overload, so this is implemented functionally
-std::shared_ptr<String> _typeof(Reference);
-std::shared_ptr<String> _typeof(std::shared_ptr<Value>);
+// C++ does not have a `typeof` operator to overload, so this is implemented functionally
+std::shared_ptr<String> _typeof (Reference);
+std::shared_ptr<String> _typeof (std::shared_ptr<Value>);
+
+// C++ does not have a `void` operator to overload, and `void` is a keyword, so this is implemented functionally
+std::shared_ptr<Undefined> _void (Reference);
+std::shared_ptr<Undefined> _void (std::shared_ptr<Value>);

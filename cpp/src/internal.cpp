@@ -153,14 +153,14 @@ bool _if (shared_ptr<Value> val) {
   return ToBoolean(val)->value;
 }
 
-std::shared_ptr<String> _typeof(Reference ref) {
+shared_ptr<String> _typeof (Reference ref) {
   if (GetBase(ref)->type == NULL_VALUE_TYPE) {
     return make_shared<String>("undefined");
   } else {
     return _typeof(GetValue(ref));
   }
 }
-std::shared_ptr<String> _typeof(std::shared_ptr<Value> value) {
+shared_ptr<String> _typeof (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
       return make_shared<String>("undefined");
@@ -181,4 +181,12 @@ std::shared_ptr<String> _typeof(std::shared_ptr<Value> value) {
       }
     }  
   }
+}
+
+shared_ptr<Undefined> _void (Reference ref) {
+  GetValue(ref);
+  return make_shared<Undefined>();
+}
+shared_ptr<Undefined> _void (shared_ptr<Value>) {
+  return make_shared<Undefined>();
 }
