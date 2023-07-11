@@ -8,6 +8,7 @@ import { BinaryExpressionGenerator } from './BinaryExpression.js'
 import { BlockStatementGenerator } from './BlockStatement.js'
 import { BooleanLiteralGenerator } from './BooleanLiteral.js'
 import { CallExpressionGenerator } from './CallExpression.js'
+import { CatchClauseGenerator } from './CatchClause.js'
 import { ConditionalExpressionGenerator } from './ConditionalExpression.js'
 import { EmptyStatementGenerator } from './EmptyStatement.js'
 import { ExpressionStatementGenerator } from './ExpressionStatement.js'
@@ -25,6 +26,7 @@ import { ReturnStatementGenerator } from './ReturnStatement.js'
 import { StringLiteralGenerator } from './StringLiteral.js'
 import { ThisExpressionGenerator } from './ThisExpression.js'
 import { ThrowStatementGenerator } from './ThrowStatement.js'
+import { TryStatementGenerator } from './TryStatement.js'
 import { UnaryExpressionGenerator } from './UnaryExpression.js'
 
 const generators: Partial<{
@@ -35,6 +37,7 @@ const generators: Partial<{
   BlockStatement: BlockStatementGenerator,
   BooleanLiteral:BooleanLiteralGenerator,
   CallExpression: CallExpressionGenerator,
+  CatchClause: CatchClauseGenerator,
   ConditionalExpression: ConditionalExpressionGenerator,
   EmptyStatement: EmptyStatementGenerator,
   ExpressionStatement: ExpressionStatementGenerator,
@@ -52,6 +55,7 @@ const generators: Partial<{
   StringLiteral: StringLiteralGenerator,
   ThisExpression: ThisExpressionGenerator,
   ThrowStatement: ThrowStatementGenerator,
+  TryStatement: TryStatementGenerator,
   UnaryExpression: UnaryExpressionGenerator,
 }
 

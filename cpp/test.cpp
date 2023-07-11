@@ -67,6 +67,14 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((make_shared<String>("typeof console.log:"), _typeof(scope->*"console"->*"log")));
   (scope->*"console"->*"log").call((make_shared<String>("typeof true:"), _typeof(make_shared<Boolean>(true))));
   (scope->*"console"->*"log").call((make_shared<String>("void 0:"), _void(make_shared<Number>(0))));
+  try {
+    throw static_pointer_cast<Value>(make_shared<Boolean>(true));
+  } catch (shared_ptr<Value> value) {
+    shared_ptr<Scope> outerScope = scope;
+    shared_ptr<Scope> scope = make_shared<Scope>(outerScope);
+    scope->declare("e", value);
+    (scope->*"console"->*"log").call((make_shared<String>("Successfully caught this:"), scope->*"e"));
+  }
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {

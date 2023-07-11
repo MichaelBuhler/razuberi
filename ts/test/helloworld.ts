@@ -12,7 +12,11 @@ interface Person {
   john && console.log("john is now defined")
   print()
   check(john)
-  defenestrate()
+  try {
+    defenestrate()
+  } catch (e) {
+    console.log('Caught this:', e)
+  }
 
   function print () {
     console.log(john)
@@ -41,7 +45,7 @@ function check (person: Person) {
 }
 
 function defenestrate () {
-  throw new Person("Alice", "Bob")
+  throw new Person("Jane", "Doe")
 }
 
 function Person (this: Person, firstName: string, lastName: string) {
