@@ -8,7 +8,7 @@
 
 using namespace std;
 
-shared_ptr<Scope> globalScope;
+static shared_ptr<Scope> globalScope;
 
 // ES1: 15.1.2.1
 shared_ptr<Value> eval (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >) {
@@ -45,8 +45,10 @@ shared_ptr<Value> isFinite (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_
 }
 
 shared_ptr<Scope> init_global_scope () {
-  // ES1: 10.1.5: There is a unique global object which is created before control enters any execution context. 
+  // ES1: 10.1.5: There is a unique global object which is created before control enters any execution context.
   globalScope = make_shared<Scope>();
+
+  init_builtin_objects(globalScope);
 
   // ES1: 15.1.1.1
   globalScope->*"NaN" = Number::makeNaN();
@@ -63,7 +65,11 @@ shared_ptr<Scope> init_global_scope () {
   // ES1: 15.1.2.7
   globalScope->*"isFinite" = Object::makeFunction(isFinite);
 
-  init_builtin_objects(globalScope);
   init_host_objects(globalScope);
+  
+  return globalScope;
+}
+
+shared_ptr<Scope> get_global_scope () {
   return globalScope;
 }

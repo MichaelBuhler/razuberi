@@ -31,7 +31,7 @@ shared_ptr<Value> GetValue (Reference ref) {
 void PutValue (Reference ref, shared_ptr<Value> value) {
   shared_ptr<Value> base = GetBase(ref);
   if (base->type == NULL_VALUE_TYPE) {
-    globalScope->object->__Put__(ref.propertyName->value, value);
+    get_global_scope()->object->__Put__(ref.propertyName->value, value);
     return;
   }
   if (base->type == OBJECT_VALUE_TYPE) {
