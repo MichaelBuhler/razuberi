@@ -259,6 +259,14 @@ shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature _
   return fn;
 }
 
+bool Object::isFunction () {
+  if (this->__Call__ == nullptr) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 Reference::Reference (shared_ptr<Value> baseObject, shared_ptr<String> propertyName) {
   this->baseObject = baseObject;
   this->propertyName = propertyName;

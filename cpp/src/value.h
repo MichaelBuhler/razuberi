@@ -107,7 +107,7 @@ class Object : public Value {
   public: typedef std::shared_ptr<Value> (*CallSignature)(std::shared_ptr<Scope> scope, std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
 
   // Friends
-  // Allow the internal `_fn()` to access the private members of this class
+  // Allow the Razuberi internal `init_builtin_prototypes` to access the private members of this class
   friend void init_builtin_prototypes (std::shared_ptr<Scope> globalScope);
 
   // The original Object prototype object.
@@ -159,6 +159,9 @@ class Object : public Value {
 
   // Static factory functions
   public: static std::shared_ptr<Object> makeFunction (CallSignature __Call__, CallSignature __Construct__ = nullptr, std::shared_ptr<Object> prototype = nullptr, std::shared_ptr<Scope> closure = nullptr);
+
+  // Razuberi internal helpers
+  public: bool isFunction ();
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

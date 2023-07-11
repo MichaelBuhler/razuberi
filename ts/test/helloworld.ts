@@ -35,6 +35,8 @@ function check (person: Person) {
   console.log('person.fake === undefined =>', undefined === person.fake)
   console.log('undefined !== null =>', undefined !== null)
   console.log('13413.345134 % 6786.786 =>', 13413.345134 % 6786.786)
+  console.log('typeof person:', typeof person)
+  console.log('typeof Person:', typeof Person)
 }
 
 function defenestrate () {

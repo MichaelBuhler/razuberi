@@ -24,14 +24,6 @@ shared_ptr<Object> _fn (shared_ptr<Scope> closure, Object::CallSignature __Call_
   );
 }
 
-bool _if (Reference ref) {
-  return ToBoolean(GetValue(ref))->value;
-}
-
-bool _if (shared_ptr<Value> val) {
-  return ToBoolean(val)->value;
-}
-
 shared_ptr<Object> _new (Reference constructor) {
   return _new(constructor, vector<shared_ptr<Value> >());
 }
@@ -152,4 +144,41 @@ shared_ptr<Boolean> _strictNotEquals (shared_ptr<Value> v, Reference r) {
 shared_ptr<Boolean> _strictNotEquals (shared_ptr<Value> a, shared_ptr<Value> b) {
   shared_ptr<Boolean> equal = _strictEquals(a, b);
   return make_shared<Boolean>(!equal->value);
+}
+
+bool _if (Reference ref) {
+  return ToBoolean(GetValue(ref))->value;
+}
+bool _if (shared_ptr<Value> val) {
+  return ToBoolean(val)->value;
+}
+
+std::shared_ptr<String> _typeof(Reference ref) {
+  if (GetBase(ref)->type == NULL_VALUE_TYPE) {
+    return make_shared<String>("undefined");
+  } else {
+    return _typeof(GetValue(ref));
+  }
+}
+std::shared_ptr<String> _typeof(std::shared_ptr<Value> value) {
+  switch (value->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return make_shared<String>("undefined");
+    case NULL_VALUE_TYPE:
+      return make_shared<String>("null");
+    case BOOLEAN_VALUE_TYPE:
+      return make_shared<String>("boolean");
+    case NUMBER_VALUE_TYPE:
+      return make_shared<String>("number");
+    case STRING_VALUE_TYPE:
+      return make_shared<String>("string");
+    case OBJECT_VALUE_TYPE: {
+      shared_ptr<Object> obj = static_pointer_cast<Object>(value);
+      if (obj->isFunction()) {
+        return make_shared<String>("function");
+      } else {
+        return make_shared<String>("object");
+      }
+    }  
+  }
 }
