@@ -5,11 +5,14 @@
 using namespace std;
 
 Scope::Scope (shared_ptr<Scope> parentScope) {
-  this->object = make_shared<Object>();
+  // this scope object must have no prototype, no prototype chain
+  // it is the scopes that are chained, not the scope->object
+  this->object = make_shared<Object>(nullptr);
   this->parentScope = parentScope;
 }
 
 void Scope::declare (string identifier, shared_ptr<Value> value) {
+  // __HasProperty__ will not recurse, because this->object has no prototype
   if (!this->object->__HasProperty__(identifier)) {
     this->object->__Put__(identifier, value);
   }
