@@ -12,14 +12,22 @@ static const string red = "\033[31m";
 static const string reset = "\033[0m";
 
 int main () {
+  shared_ptr<Scope> globalScope = init_global_scope();
+  
   try {
-    shared_ptr<Scope> globalScope = init_global_scope();
     _run(globalScope);
-    return 0;
+  } catch (shared_ptr<Value> value) {
+    cout << endl << red << "Uncaught ";
+    (globalScope->*"console"->*"log").call(value);
+    cout << reset;
+    return 1;
   } catch (const RazuberiException& e) {
     cout << endl << red << e.toString() << reset << endl;
+    return 2;
   } catch (const EcmaScriptRuntimeError& e) {
     cout << endl << red << "Uncaught " << e.toString() << reset << endl;
+    return 3;
   }
-  return 1;
+
+  return 0;
 }

@@ -41,7 +41,7 @@ function check (person: Person) {
 }
 
 function defenestrate () {
-  // throw new Person("Alice", "Bob")
+  throw new Person("Alice", "Bob")
 }
 
 function Person (this: Person, firstName: string, lastName: string) {
