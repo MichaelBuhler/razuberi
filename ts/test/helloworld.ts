@@ -7,6 +7,7 @@ interface Person {
 
 (function () {
   configure()
+  // @ts-expect-error
   john || console.log("john is not defined")
   var john = instantiate()
   john && console.log("john is now defined")
@@ -36,6 +37,7 @@ function configure () {
 
 function check (person: Person) {
   console.log('person.firstName == \\"Doe\\" =>', person.firstName == "Doe")
+  // @ts-expect-error
   console.log('person.fake === undefined =>', undefined === person.fake)
   console.log('undefined !== null =>', undefined !== null)
   console.log('13413.345134 % 6786.786 =>', 13413.345134 % 6786.786)
@@ -43,6 +45,7 @@ function check (person: Person) {
   console.log('typeof Person:', typeof Person)
   console.log('void 0:', void 0)
   console.log('!false:', !false)
+  console.log('1 / 0 === Infinity:', 1 / 0 === Infinity)
 }
 
 function defenestrate () {

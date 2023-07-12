@@ -76,6 +76,7 @@ void _run (shared_ptr<Scope> scope) {
     (scope->*"console"->*"log").call((make_shared<String>("Successfully caught this:"), scope->*"e"));
   }
   (scope->*"console"->*"log").call((make_shared<String>("!false:"), !make_shared<Boolean>(false)));
+  (scope->*"console"->*"log").call((make_shared<Number>(99) / scope->*"Infinity", make_shared<Number>(-16) / make_shared<Number>(-3)));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {

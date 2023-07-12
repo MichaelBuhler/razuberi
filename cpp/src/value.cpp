@@ -1384,6 +1384,329 @@ shared_ptr<Boolean> operator == (shared_ptr<String> a, shared_ptr<String> b) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
+// Division operator overloads for every combination of operands
+
+////////////////////////////////////////
+// Left operands of type `Reference`
+shared_ptr<Number> operator / (Reference a, Reference b) {
+  return ToNumber(GetValue(a)) / ToNumber(GetValue(b));
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Value> v) {
+  return ToNumber(GetValue(r)) / ToNumber(v);
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Object> o) {
+  return ToNumber(GetValue(r)) / ToNumber(o);
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Primitive> p) {
+  return ToNumber(GetValue(r)) / ToNumber(p);
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Undefined> u) {
+  GetValue(r);
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Null> n) {
+  GetValue(r);
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Boolean> b) {
+  return ToNumber(GetValue(r)) / ToNumber(b);
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<Number> n) {
+  return ToNumber(GetValue(r)) / n;
+}
+shared_ptr<Number> operator / (Reference r, shared_ptr<String> s) {
+  return ToNumber(GetValue(r)) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Value`
+shared_ptr<Number> operator / (shared_ptr<Value> v, Reference r) {
+  return ToNumber(v) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Value> a, shared_ptr<Value> b) {
+  return ToNumber(a) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Object> o) {
+  return ToNumber(v) / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Primitive> p) {
+  return ToNumber(v) / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Boolean> b) {
+  return ToNumber(v) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<Number> n) {
+  return ToNumber(v) / n;
+}
+shared_ptr<Number> operator / (shared_ptr<Value> v, shared_ptr<String> s) {
+  return ToNumber(v) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Object`
+shared_ptr<Number> operator / (shared_ptr<Object> o, Reference r) {
+  return ToNumber(o) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Value> v) {
+  return ToNumber(o) / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<Object> a, shared_ptr<Object> b) {
+  return ToNumber(a) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Primitive> p) {
+  return ToNumber(o) / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Boolean> b) {
+  return ToNumber(o) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<Number> n) {
+  return ToNumber(o) / n;
+}
+shared_ptr<Number> operator / (shared_ptr<Object> o, shared_ptr<String> s) {
+  return ToNumber(o) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Primitive`
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, Reference r) {
+  return ToNumber(p) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Value> v) {
+  return ToNumber(p) / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Object> o) {
+  return ToNumber(p) / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> a, shared_ptr<Primitive> b) {
+  return ToNumber(a) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Boolean> b) {
+  return ToNumber(p) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<Number> n) {
+  return ToNumber(p) / n;
+}
+shared_ptr<Number> operator / (shared_ptr<Primitive> p, shared_ptr<String> s) {
+  return ToNumber(p) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Undefined`
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, Reference r) {
+  GetValue(r);
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Value> v) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Object> o) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Primitive> p) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> a, shared_ptr<Undefined> b) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Boolean> b) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<Number> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Undefined> u, shared_ptr<String> s) {
+  return Number::makeNaN();
+}
+
+////////////////////////////////////////
+// Left operands of type `Null`
+shared_ptr<Number> operator / (shared_ptr<Null> n, Reference r) {
+  return make_shared<Number>(0, false) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Value> v) {
+  return make_shared<Number>(0, false) / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Object> o) {
+  return make_shared<Number>(0, false) / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Primitive> p) {
+  return make_shared<Number>(0, false) / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Null> a, shared_ptr<Null> b) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Boolean> b) {
+  return make_shared<Number>(0, false) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<Number> x) {
+  return make_shared<Number>(0, false) / x;
+}
+shared_ptr<Number> operator / (shared_ptr<Null> n, shared_ptr<String> s) {
+  return make_shared<Number>(0, false) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Boolean`
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, Reference r) {
+  return ToNumber(b) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Value> v) {
+  return ToNumber(b) / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Object> o) {
+  return ToNumber(b) / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Primitive> p) {
+  return ToNumber(b) / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> a, shared_ptr<Boolean> b) {
+  return b->value ? make_shared<Number>(0, false) : Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<Number> n) {
+  return ToNumber(b) / n;
+}
+shared_ptr<Number> operator / (shared_ptr<Boolean> b, shared_ptr<String> s) {
+  return ToNumber(b) / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `Number`
+shared_ptr<Number> operator / (shared_ptr<Number> n, Reference r) {
+  return n / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Value> v) {
+  return n / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Object> o) {
+  return n / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Primitive> p) {
+  return n / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Null> x) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<Boolean> b) {
+  return n / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<Number> dividend, shared_ptr<Number> divisor) {
+  if (dividend->isNaN || divisor->isNaN) {
+    return Number::makeNaN();
+  }
+  if (dividend->isInfinity) {
+    if (divisor->isInfinity) {
+      return Number::makeNaN();
+    }
+    if (divisor->value == 0) {
+      if (dividend->isNegative == divisor->isNegative) {
+        return Number::makeInfinity(false);
+      } else {
+        return Number::makeInfinity(true);
+      }
+    }
+    if (dividend->isNegative == (divisor->value < 0)) {
+      return Number::makeInfinity(false);
+    } else {
+      return Number::makeInfinity(true);
+    }
+  }
+  if (divisor->isInfinity) {
+    if ((dividend->value < 0) == divisor->isNegative) {
+      return make_shared<Number>(0, false);
+    } else {
+      return make_shared<Number>(0, true);
+    }
+  }
+  if (dividend->value == 0) {
+    if (divisor->value == 0) {
+      return Number::makeNaN();
+    }
+    if (dividend->isNegative == (divisor->value < 0)) {
+      return make_shared<Number>(0, false);
+    } else {
+      return make_shared<Number>(0, true);
+    }
+  }
+  if (divisor->value == 0) {
+    if ((dividend->value < 0) == divisor->isNegative) {
+      return Number::makeInfinity(false);
+    } else {
+      return Number::makeInfinity(true);
+    }
+  }
+  return make_shared<Number>(dividend->value / divisor->value);
+}
+shared_ptr<Number> operator / (shared_ptr<Number> n, shared_ptr<String> s) {
+  return n / ToNumber(s);
+}
+
+////////////////////////////////////////
+// Left operands of type `String`
+shared_ptr<Number> operator / (shared_ptr<String> s, Reference r) {
+  return ToNumber(s) / ToNumber(GetValue(r));
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Value> v) {
+  return ToNumber(s) / ToNumber(v);
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Object> o) {
+  return ToNumber(s) / ToNumber(o);
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Primitive> p) {
+  return ToNumber(s) / ToNumber(p);
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Null> n) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Boolean> b) {
+  return ToNumber(s) / ToNumber(b);
+}
+shared_ptr<Number> operator / (shared_ptr<String> s, shared_ptr<Number> n) {
+  return ToNumber(s) / n;
+}
+shared_ptr<Number> operator / (shared_ptr<String> a, shared_ptr<String> b) {
+  return ToNumber(a) / ToNumber(b);
+}
+
+// End modulus operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
 // Modulus operator overloads for every combination of operands
 
 ////////////////////////////////////////
