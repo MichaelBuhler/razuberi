@@ -160,16 +160,19 @@ shared_ptr<Number> ToUint16 (shared_ptr<Value> value) {
 shared_ptr<String> ToString (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
+      return make_shared<String>("undefined");
     case NULL_VALUE_TYPE:
+      return make_shared<String>("null");
     case BOOLEAN_VALUE_TYPE:
+      return ToString(static_pointer_cast<Boolean>(value));
     case NUMBER_VALUE_TYPE:
+      return ToString(static_pointer_cast<Number>(value));
     case STRING_VALUE_TYPE:
-      return ToString(static_pointer_cast<Primitive>(value));
+      return static_pointer_cast<String>(value);
     case OBJECT_VALUE_TYPE:
-      return ToString(ToPrimitive(value, STRING_HINT_VALUE_TYPE));
+      return ToString(static_pointer_cast<Object>(value));
   }
 }
-
 shared_ptr<String> ToString (shared_ptr<Primitive> primitive) {
   switch (primitive->type) {
     case UNDEFINED_VALUE_TYPE:
@@ -185,6 +188,12 @@ shared_ptr<String> ToString (shared_ptr<Primitive> primitive) {
     case OBJECT_VALUE_TYPE:
       throw ImplementationException("an object was passed into ToString(Primitive)");
   }
+}
+std::shared_ptr<String> ToString (std::shared_ptr<Undefined>) {
+  return make_shared<String>("undefined");
+}
+std::shared_ptr<String> ToString (std::shared_ptr<Null>) {
+  return make_shared<String>("null");
 }
 shared_ptr<String> ToString (shared_ptr<Boolean> boolean) {
   if (boolean->value) {
@@ -209,6 +218,9 @@ shared_ptr<String> ToString (shared_ptr<Number> num) {
   }
   // TODO: needs to be much more robust here, including scientific notation
   return make_shared<String>(to_string(num->value));
+}
+std::shared_ptr<String> ToString (std::shared_ptr<Object> obj) {
+  return ToString(ToPrimitive(obj, STRING_HINT_VALUE_TYPE));
 }
 
 shared_ptr<Object> ToObject (shared_ptr<Value> value) {

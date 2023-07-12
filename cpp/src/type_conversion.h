@@ -27,7 +27,10 @@ std::shared_ptr<Number> ToUint16 (std::shared_ptr<Value>);
 
 std::shared_ptr<String> ToString (std::shared_ptr<Value>);
 std::shared_ptr<String> ToString (std::shared_ptr<Primitive>);
+std::shared_ptr<String> ToString (std::shared_ptr<Undefined>);
+std::shared_ptr<String> ToString (std::shared_ptr<Null>);
 std::shared_ptr<String> ToString (std::shared_ptr<Boolean>);
 std::shared_ptr<String> ToString (std::shared_ptr<Number>);
+std::shared_ptr<String> ToString (std::shared_ptr<Object>);
 
 std::shared_ptr<Object> ToObject (std::shared_ptr<Value>);
