@@ -46,7 +46,8 @@ shared_ptr<Value> isFinite (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_
 
 shared_ptr<Scope> init_global_scope () {
   // ES1: 10.1.5: There is a unique global object which is created before control enters any execution context.
-  globalScope = make_shared<Scope>();
+  // The global scope is the last object in the scope chain; it has no parent scope.
+  globalScope = make_shared<Scope>(nullptr);
 
   init_builtin_objects(globalScope);
 
