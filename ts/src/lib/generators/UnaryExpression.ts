@@ -11,9 +11,11 @@ export const UnaryExpressionGenerator: Generator<UnaryExpression> = ({ operator,
       return `_typeof(${generate(argument)})`
     case 'void':
       return `_void(${generate(argument)})`
-    case 'throw':
-    case 'delete':
     case '!':
+      return `!${generate(argument)}`
+    case 'throw':
+      throw new Error(`Throw expressions are not supported at this time`)
+    case 'delete':
     case '+':
     case '-':
     case '~':

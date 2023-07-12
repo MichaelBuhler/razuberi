@@ -42,6 +42,7 @@ function check (person: Person) {
   console.log('typeof person:', typeof person)
   console.log('typeof Person:', typeof Person)
   console.log('void 0:', void 0)
+  console.log('!false:', !false)
 }
 
 function defenestrate () {

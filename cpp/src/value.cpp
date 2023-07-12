@@ -1677,5 +1677,72 @@ shared_ptr<Number> operator % (shared_ptr<String> a, shared_ptr<String> b) {
 // End modulus operator overloads
 ////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+// Logical NOT operator overloads for every possible operand
+
+shared_ptr<Boolean> operator ! (Reference r) {
+  return !GetValue(r);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return make_shared<Boolean>(true);
+    case NULL_VALUE_TYPE:
+      return make_shared<Boolean>(true);
+    case BOOLEAN_VALUE_TYPE:
+      return make_shared<Boolean>(!static_pointer_cast<Boolean>(v)->value);
+    case NUMBER_VALUE_TYPE:
+      return !static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return !static_pointer_cast<String>(v);
+    case OBJECT_VALUE_TYPE:
+      return make_shared<Boolean>(false);
+  }
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Object> o) {
+   return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return make_shared<Boolean>(true);
+    case NULL_VALUE_TYPE:
+      return make_shared<Boolean>(true);
+    case BOOLEAN_VALUE_TYPE:
+      return make_shared<Boolean>(!static_pointer_cast<Boolean>(p)->value);
+    case NUMBER_VALUE_TYPE:
+      return !static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return !static_pointer_cast<String>(p);
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("on Object was passed to operator!(Primitive)");
+  }
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Undefined> u) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Null> n) {
+  return make_shared<Boolean>(true);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Boolean> b) {
+  return make_shared<Boolean>(!b->value);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<Number> n) {
+  if (n->isNaN)      return make_shared<Boolean>(true);
+  if (n->isInfinity) return make_shared<Boolean>(false);
+  if (n->value == 0) return make_shared<Boolean>(true);
+  return make_shared<Boolean>(false);
+}
+shared_ptr<Boolean> operator ! (shared_ptr<String> s) {
+  if (s->value == "") {
+    return make_shared<Boolean>(true);
+  } else {
+    return make_shared<Boolean>(false);
+  }
+}
+
+// End logical NOT operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
 // End operator overloads
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
