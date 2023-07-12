@@ -12,8 +12,15 @@ static const string red = "\033[31m";
 static const string reset = "\033[0m";
 
 int main () {
-  shared_ptr<Scope> globalScope = init_global_scope();
+  shared_ptr<Scope> globalScope = nullptr;
   
+  try {
+    globalScope = init_global_scope();
+  } catch (const RazuberiException& e) {
+    cout << endl << red << e.toString() << reset << endl;
+    return 2;
+  }
+
   try {
     _run(globalScope);
   } catch (shared_ptr<Value> value) {

@@ -76,7 +76,6 @@ string indent (string str, int spaces) {
 
 string stringify (std::shared_ptr<Scope> scope) {
   string str = "Scope {";
-  // map<string, shared_ptr<Object::Property> > properties = scope.object->properties;
   if (scope->object->properties.size() > 0) {
     for ( map<string, shared_ptr<Object::Property> >::iterator it = scope->object->properties.begin() ; it != scope->object->properties.end() ; it++ ) {
       str += "\n  " + it->first + ": " + indent(stringify(it->second->value));
