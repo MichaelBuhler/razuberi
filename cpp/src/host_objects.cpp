@@ -21,7 +21,7 @@ shared_ptr<Value> Console_log (shared_ptr<Scope>, shared_ptr<Value>, vector<shar
         str = ToString((obj->*"toString").call());
       }
     }
-    if (str == nullptr) {
+    if (str.get() == nullptr) {
       str = ToString(arg);
     }
     cout << str->value;

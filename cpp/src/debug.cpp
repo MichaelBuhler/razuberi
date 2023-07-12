@@ -101,7 +101,7 @@ string stringify (Reference ref) {
 }
 
 string stringify (shared_ptr<Value> val) {
-  if (val == nullptr) {
+  if (val.get() == nullptr) {
     return "nullptr";
   }
   switch (val->type) {

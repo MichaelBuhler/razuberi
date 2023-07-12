@@ -135,7 +135,7 @@ shared_ptr<Value> Object::__Get__ (string key) {
   try {
     return this->properties.at(key)->value;
   } catch (out_of_range e) {
-    if (this->__Prototype__ == nullptr) {
+    if (this->__Prototype__.get() == nullptr) {
       return make_shared<Undefined>();
     } else {
       return this->__Prototype__->__Get__(key);
@@ -154,7 +154,7 @@ bool Object::__HasProperty__ (string key) {
     shared_ptr<Property> p = this->properties.at(key);
     return true;
   } catch (out_of_range e) {
-    if (this->__Prototype__ == nullptr) {
+    if (this->__Prototype__.get() == nullptr) {
       return false;
     } else {
       return this->__Prototype__->__HasProperty__(key);
@@ -180,7 +180,7 @@ shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   shared_ptr<Scope> scope = make_shared<Scope>(this->closure);
   shared_ptr<Object> _this = make_shared<Object>(prototype);
   shared_ptr<Value> result = this->__Construct__(scope, _this, params);
-  if (result == nullptr) {
+  if (result.get() == nullptr) {
     return _this;
   }
   if (result->type == OBJECT_VALUE_TYPE) {
@@ -209,12 +209,12 @@ shared_ptr<Value> Object::call (vector<shared_ptr<Value> > params) {
   return this->call(_this, params);
 }
 shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value> > params) {
-  if (this->__Call__ == nullptr) {
+  if (!this->isFunction()) {
     throw TypeError("object is not a function");
   }
   shared_ptr<Scope> scope = make_shared<Scope>(this->closure);
   shared_ptr<Value> result = this->__Call__(scope, _this, params);
-  if (result == nullptr) {
+  if (result.get() == nullptr) {
     return make_shared<Undefined>();
   }
   return result;
@@ -234,8 +234,8 @@ shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature _
   fn->__Construct__ = __Construct__;
   fn->__Call__ = __Call__;
   
-  if (__Construct__) {
-    if (!prototype) {
+  if (__Construct__ != nullptr) {
+    if (prototype.get() == nullptr) {
       throw ImplementationException("Attempting to instantiate a Constructor without providing a prototype.");
     }
     // TODO: For user-defined script functions, at runtime:
