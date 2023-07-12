@@ -163,7 +163,7 @@ bool Object::__HasProperty__ (string key) {
 }
 
 shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
-  if (this->__Construct__ == nullptr) {
+  if (!this->isConstructor()) {
     throw TypeError("object is not a constructor");
   }
   shared_ptr<Object> prototype;
@@ -259,6 +259,13 @@ shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature _
   return fn;
 }
 
+bool Object::isConstructor () {
+  if (this->__Construct__ == nullptr) {
+    return false;
+  } else {
+    return true;
+  }
+}
 bool Object::isFunction () {
   if (this->__Call__ == nullptr) {
     return false;

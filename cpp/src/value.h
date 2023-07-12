@@ -161,6 +161,7 @@ class Object : public Value {
   public: static std::shared_ptr<Object> makeFunction (CallSignature __Call__, CallSignature __Construct__ = nullptr, std::shared_ptr<Object> prototype = nullptr, std::shared_ptr<Scope> closure = nullptr);
 
   // Razuberi internal helpers
+  public: bool isConstructor ();
   public: bool isFunction ();
 };
 
