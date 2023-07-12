@@ -6,50 +6,53 @@ import type { Generator } from './types.js'
 import { generate } from '../generate.js'
 
 export const FileGenerator: Generator<File> = ({ program, extra }) => {
-  const cppFunctionDeclarations = extra.functions.map(fn => {
-    const { id: { name } } = fn
-    return `shared_ptr<Value> ${name} (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);`
-  }).join('\n')
+  const cppFunctionDeclarations = []
+  const cppFunctionDefinitions = [];
 
-  const cppFunctionDefinitions = extra.functions.map(fn => {
-    const { id: { name }, params, body: { body }, extra } = fn
+  extra.functions.forEach(fn => {
+    const { params, body: { body }, extra } = fn
+    const { cppFunctionName, declaredFunctions, declaredVariables } = extra;
+
+    cppFunctionDeclarations.push(`shared_ptr<Value> ${cppFunctionName} (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> >);`)
 
     // TODO: #11: move the function body generator to a util
-    const functionDeclarations = extra.declaredFunctions.map(fnName => {
-      return `scope->declare("${fnName}", _fn(scope, ${fnName}));`
+    const functionDeclarations = declaredFunctions.map(fn => {
+      const { id: { name }, extra: { cppFunctionName } } = fn
+      return `scope->declare("${name}", _fn(scope, ${cppFunctionName}));`
     }).join('\n')
 
     const formalParameters = params.map((param, i) => {
       if (param.type !== 'Identifier') {
-        throw new Error('Only Indentifier formal parameters are supported at this time')
+        throw new Error('Only Identifier formal parameters are supported at this time')
       }
       return `scope->declare("${param.name}", arguments.size() > ${i} ? arguments[${i}] : make_shared<Undefined>());`
     }).reverse().join('\n')
 
-    const variableDeclarations = extra.declaredVariables.map(varName => {
-      return `scope->declare("${varName}");`
+    const variableDeclarations = declaredVariables.map(variableName => {
+      return `scope->declare("${variableName}");`
     }).join('\n')
 
     const statements = body.map(statement => generate(statement)).join('\n')
 
-    let cppFunctionDefinition = `shared_ptr<Value> ${name} (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {`
+    let cppFunctionDefinition = `shared_ptr<Value> ${cppFunctionName} (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {`
     if (functionDeclarations) cppFunctionDefinition += '\n' + functionDeclarations
     if (formalParameters)     cppFunctionDefinition += '\n' + formalParameters
     if (variableDeclarations) cppFunctionDefinition += '\n' + variableDeclarations
     if (functionDeclarations || formalParameters || variableDeclarations) cppFunctionDefinition += '\n'
     cppFunctionDefinition += '\n' + statements + '\n}'
-    return cppFunctionDefinition
-  }).join('\n\n')
+    cppFunctionDefinitions.push(cppFunctionDefinition)
+  })
 
   return `#include "razuberi.h"
+    #undef assert
     using namespace std;
     
-    ${cppFunctionDeclarations}
+    ${cppFunctionDeclarations.join('\n')}
 
     void _run (shared_ptr<Scope> scope) {
       ${generate(program)}
     }
 
-    ${cppFunctionDefinitions}
+    ${cppFunctionDefinitions.join('\n\n')}
   `
 }

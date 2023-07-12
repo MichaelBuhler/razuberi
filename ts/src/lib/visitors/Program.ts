@@ -2,7 +2,9 @@
 import type { VisitNodeObject } from '@babel/traverse'
 import type { File, Program } from '@babel/types'
 
-export const ProgramVisitor: VisitNodeObject<unknown, Program> = {
+import type { RazuberiTraversalState } from './state.js'
+
+export const ProgramVisitor: VisitNodeObject<RazuberiTraversalState, Program> = {
   enter (path) {
     // Define `extra` on the root File node.
     const file = path.parent as File

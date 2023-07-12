@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.0.16",
+  "version": "0.1.0",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",
@@ -39,9 +39,10 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "prepack": "npm run clean && npm run build && npm test",
-    "test": "test/run.sh helloworld",
+    "test": "npm run test:helloworld && npm run test:harness",
     "test:fizzbuzz": "test/run.sh fizzbuzz",
-    "test:harness": "test/run.sh harness"
+    "test:harness": "test/run.sh harness",
+    "test:helloworld": "test/run.sh helloworld"
   },
   "dependencies": {
     "@babel/parser": "^7.22.5",
@@ -56,7 +57,7 @@
     "@types/node": "^20.3.2",
     "rimraf": "^5.0.1"
   },
-  "packageManager": "pnpm@8.6.6",
+  "packageManager": "pnpm@8.6.7",
   "type": "module",
   "exports": "./dist/index.js"
 }

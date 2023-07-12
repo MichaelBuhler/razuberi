@@ -2,7 +2,9 @@
 import type { VisitNodeObject } from '@babel/traverse'
 import type { VariableDeclarator, Program } from '@babel/types'
 
-export const VariableDeclaratorVisitor: VisitNodeObject<unknown, VariableDeclarator> = {
+import type { RazuberiTraversalState } from './state.js'
+
+export const VariableDeclaratorVisitor: VisitNodeObject<RazuberiTraversalState, VariableDeclarator> = {
   enter (path) {
     const idPath = path.get("id")
     if (!idPath.isIdentifier()) {

@@ -4,7 +4,9 @@ import type { VariableDeclaration } from '@babel/types'
 
 import { assignmentExpression, expressionStatement } from '@babel/types'
 
-export const VariableDeclarationVisitor: VisitNodeObject<unknown, VariableDeclaration> = {
+import type { RazuberiTraversalState } from './state.js'
+
+export const VariableDeclarationVisitor: VisitNodeObject<RazuberiTraversalState, VariableDeclaration> = {
   enter (path) {
     if (path.node.kind !== 'var') {
       throw new Error('Only VariableDeclarations of the kind \'var\' are supported at this time')

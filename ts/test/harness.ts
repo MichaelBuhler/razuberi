@@ -1,9 +1,3 @@
-test/harness/assert-true.js
-{
-  description: '`true` satisfies the assertion.\n',
-  flags: {},
-  includes: [ 'assert.js', 'sta.js' ]
-}
 // Copyright (C) 2017 Ecma International.  All rights reserved.
 // This code is governed by the BSD license found in the LICENSE file.
 /*---

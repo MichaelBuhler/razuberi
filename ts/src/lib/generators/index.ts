@@ -29,7 +29,7 @@ import { ThrowStatementGenerator } from './ThrowStatement.js'
 import { TryStatementGenerator } from './TryStatement.js'
 import { UnaryExpressionGenerator } from './UnaryExpression.js'
 
-const generators: Partial<{
+export const generators: Partial<{
   [nodeType in Node['type']]: Generator<Node>
 }> = {
   AssignmentExpression: AssignmentExpressionGenerator,
@@ -58,5 +58,3 @@ const generators: Partial<{
   TryStatement: TryStatementGenerator,
   UnaryExpression: UnaryExpressionGenerator,
 }
-
-export default generators
