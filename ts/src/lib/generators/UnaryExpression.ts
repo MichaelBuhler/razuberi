@@ -4,6 +4,7 @@ import type { UnaryExpression } from '@babel/types'
 import type { Generator } from './types.js'
 
 import { generate } from '../generate.js'
+import { producesReference } from './utils.js'
 
 export const UnaryExpressionGenerator: Generator<UnaryExpression> = ({ operator, argument }) => {
   switch (operator) {
@@ -12,12 +13,17 @@ export const UnaryExpressionGenerator: Generator<UnaryExpression> = ({ operator,
     case 'void':
       return `_void(${generate(argument)})`
     case '!':
-      return `!${generate(argument)}`
+      return '!' + generate(argument)
+    case '-':
+      if (producesReference(argument)) {
+        return `-(${generate(argument)})`
+      } else {
+        return '-' + generate(argument)
+      }
     case 'throw':
       throw new Error(`Throw expressions are not supported at this time`)
     case 'delete':
     case '+':
-    case '-':
     case '~':
       throw new Error(`UnaryExpression operator '${operator}' is not supported at this time`)
   }

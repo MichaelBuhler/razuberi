@@ -45,7 +45,7 @@ function check (person: Person) {
   console.log('typeof Person:', typeof Person)
   console.log('void 0:', void 0)
   console.log('!false:', !false)
-  console.log('1 / 0 === Infinity:', 1 / 0 === Infinity)
+  console.log('1 / -0 === -Infinity:', 1 / -0 === -Infinity)
 }
 
 function defenestrate () {

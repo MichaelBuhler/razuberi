@@ -2001,6 +2001,79 @@ shared_ptr<Number> operator % (shared_ptr<String> a, shared_ptr<String> b) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
+// Unary `-` operator overloads for every possible operand
+
+shared_ptr<Number> operator - (Reference r) {
+  return -GetValue(r);
+}
+shared_ptr<Number> operator - (shared_ptr<Value> v) {
+  switch (v->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return Number::makeNaN();
+    case NULL_VALUE_TYPE:
+      return make_shared<Number>(0, true);
+    case BOOLEAN_VALUE_TYPE:
+      return -static_pointer_cast<Boolean>(v);
+    case NUMBER_VALUE_TYPE:
+      return -static_pointer_cast<Number>(v);
+    case STRING_VALUE_TYPE:
+      return -ToNumber(static_pointer_cast<String>(v));
+    case OBJECT_VALUE_TYPE:
+      return -ToNumber(static_pointer_cast<Object>(v));
+  }
+}
+shared_ptr<Number> operator - (shared_ptr<Object> o) {
+  return -ToNumber(o);
+}
+shared_ptr<Number> operator - (shared_ptr<Primitive> p) {
+  switch (p->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return Number::makeNaN();
+    case NULL_VALUE_TYPE:
+      return make_shared<Number>(0, true);
+    case BOOLEAN_VALUE_TYPE:
+      return -static_pointer_cast<Boolean>(p);
+    case NUMBER_VALUE_TYPE:
+      return -static_pointer_cast<Number>(p);
+    case STRING_VALUE_TYPE:
+      return -ToNumber(static_pointer_cast<String>(p));
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an Object was passed to operator-(Primitive)");
+  }
+}
+shared_ptr<Number> operator - (shared_ptr<Undefined> u) {
+  return Number::makeNaN();
+}
+shared_ptr<Number> operator - (shared_ptr<Null> n) {
+  return make_shared<Number>(0, true);
+}
+shared_ptr<Number> operator - (shared_ptr<Boolean> b) {
+  if (b->value) {
+    return make_shared<Number>(1, true);
+  } else {
+    return make_shared<Number>(0, true);
+  }
+}
+shared_ptr<Number> operator - (shared_ptr<Number> n) {
+  if (n->isNaN) {
+    return Number::makeNaN();
+  }
+  if (n->isInfinity) {
+    return Number::makeInfinity(!n->isNegative);
+  }
+  if (n->value == 0) {
+    return make_shared<Number>(0, !n->isNegative);
+  }
+  return make_shared<Number>(-n->value);
+}
+shared_ptr<Number> operator - (shared_ptr<String> s) {
+  return -ToNumber(s);
+}
+
+// End unary `-` operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
 // Logical NOT operator overloads for every possible operand
 
 shared_ptr<Boolean> operator ! (Reference r) {
@@ -2038,7 +2111,7 @@ shared_ptr<Boolean> operator ! (shared_ptr<Primitive> p) {
     case STRING_VALUE_TYPE:
       return !static_pointer_cast<String>(p);
     case OBJECT_VALUE_TYPE:
-      throw ImplementationException("on Object was passed to operator!(Primitive)");
+      throw ImplementationException("an Object was passed to operator!(Primitive)");
   }
 }
 shared_ptr<Boolean> operator ! (shared_ptr<Undefined> u) {

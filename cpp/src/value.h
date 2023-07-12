@@ -660,6 +660,22 @@ std::shared_ptr<Number> operator % (std::shared_ptr<String>, std::shared_ptr<Str
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
+// Unary `-` operator overloads for every possible operand
+
+std::shared_ptr<Number> operator - (Reference);
+std::shared_ptr<Number> operator - (std::shared_ptr<Value>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Object>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Primitive>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Undefined>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Null>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Boolean>);
+std::shared_ptr<Number> operator - (std::shared_ptr<Number>);
+std::shared_ptr<Number> operator - (std::shared_ptr<String>);
+
+// End unary `-` operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
 // Logical NOT operator overloads for every possible operand
 
 std::shared_ptr<Boolean> operator ! (Reference);

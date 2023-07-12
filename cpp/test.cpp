@@ -76,7 +76,10 @@ void _run (shared_ptr<Scope> scope) {
     (scope->*"console"->*"log").call((make_shared<String>("Successfully caught this:"), scope->*"e"));
   }
   (scope->*"console"->*"log").call((make_shared<String>("!false:"), !make_shared<Boolean>(false)));
-  (scope->*"console"->*"log").call((make_shared<Number>(99) / scope->*"Infinity", make_shared<Number>(-16) / make_shared<Number>(-3)));
+  (scope->*"console"->*"log").call((make_shared<String>("-Infinity:"), -(scope->*"Infinity")));
+  (scope->*"console"->*"log").call((make_shared<String>("1 / -Infinity:"), make_shared<Number>(1) / -(scope->*"Infinity")));
+  (scope->*"console"->*"log").call((make_shared<String>("1 / -0:"), make_shared<Number>(1) / -make_shared<Number>(0)));
+  (scope->*"console"->*"log").call((make_shared<String>("1 / -0 === -Infinity:"), _strictEquals(make_shared<Number>(1) / -make_shared<Number>(0), -(scope->*"Infinity"))));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
