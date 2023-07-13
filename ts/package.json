@@ -1,6 +1,6 @@
 {
   "name": "@razuberi/transpiler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A JavaScript/TypeScript -> C++ transpiler",
   "keywords": [
     "razuberi",
@@ -28,7 +28,7 @@
   ],
   "main": "dist/index.js",
   "bin": {
-    "razuberi": "./bin/razuberi.js"
+    "razuberi": "./bin/razuberi"
   },
   "repository": {
     "type": "git",

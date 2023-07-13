@@ -1,0 +1,5 @@
+#!/bin/sh
+
+script="$(dirname "$0")"/../dist/cli/razuberi.js
+
+node $script "$@"
