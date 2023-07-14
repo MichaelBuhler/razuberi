@@ -1,6 +1,10 @@
 # editors
-/.idea
+/**/.idea
 
 # temporary folders
 /**/tmp/
 /**/temp/
+
+# MacOS files
+/**/.DS_Store
+
