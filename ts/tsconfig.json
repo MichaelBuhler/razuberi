@@ -1,11 +1,12 @@
 {
   "include": [
-    "src"
+    "src",
   ],
   "compilerOptions": {
+    "declaration": true,
     "module": "Node16",
     "moduleResolution": "Node16",
     "outDir": "dist",
-    "target": "ES2017"
+    "target": "ES2017",
   }
 }

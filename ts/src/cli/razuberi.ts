@@ -4,8 +4,8 @@ import * as path from 'node:path'
 import { ArgumentParser } from 'argparse'
 
 const usage = `razuberi [-h | --help]
-       razuberi --stdin [[-o | --out] <outputFile>]
-       razuberi <inputFile> [[-o | --out] <outputFile>]`
+       razuberi <inputFile> [[-o | --out] <outputFile>]
+       razuberi --stdin [[-o | --out] <outputFile>]`
 
 const argParser = new ArgumentParser({
   description: 'Razuberi: a JavaScript -> TypeScript transpiler.',
