@@ -17,22 +17,22 @@ int main () {
   try {
     globalScope = init_global_scope();
   } catch (const RazuberiException& e) {
-    cout << endl << red << e.toString() << reset << endl;
+    cerr << endl << red << e.toString() << reset << endl;
     return 2;
   }
 
   try {
     _run(globalScope);
   } catch (shared_ptr<Value> value) {
-    cout << endl << red << "Uncaught ";
+    cerr << endl << red << "Uncaught ";
     (globalScope->*"console"->*"log").call(value);
-    cout << reset;
+    cerr << reset;
     return 1;
   } catch (const RazuberiException& e) {
-    cout << endl << red << e.toString() << reset << endl;
+    cerr << endl << red << e.toString() << reset << endl;
     return 2;
   } catch (const EcmaScriptRuntimeError& e) {
-    cout << endl << red << "Uncaught " << e.toString() << reset << endl;
+    cerr << endl << red << "Uncaught " << e.toString() << reset << endl;
     return 3;
   }
 
