@@ -6,6 +6,7 @@
 #include <string>
 
 #include "reference.h"
+#include "tty.h"
 #include "type_conversion.h"
 #include "value.h"
 
@@ -34,7 +35,12 @@ void debugDisable () {
 
 void debug (string str) {
   if (enabled) {
-    cout << reset<<yellow<<bold << "[debug] " << reset<<yellow << str << reset << endl;
+    if (isTTY) cout << reset<<yellow<<bold;
+    cout << "[debug] ";
+    if (isTTY) cout << reset<<yellow;
+    cout << str;
+    if (isTTY) cout << reset;
+    cout << endl;
   }
 }
 
