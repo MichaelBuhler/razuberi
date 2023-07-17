@@ -1,0 +1,14 @@
+{
+  "description": "This package.json was put here to trick AVA into thinking that this is the `projectDir`",
+  "ava": {},
+  "scripts": {
+    "all": "npm run clean:build && npm run tests:full --",
+    "build": "tsc && node generate.js",
+    "clean": "rimraf build --glob {generate,loader,missingSnapshots,runner,snapshot}.js --glob {annexB,built-ins,harness,intl402,language,staging}",
+    "clean:build": "npm run clean && npm run build",
+    "tests:full": "ava",
+    "tests:harness": "ava harness/index.js",
+    "tests:withMissingSnapshots": "ava $(node missingSnapshots.js)"
+  },
+  "type": "module"
+}

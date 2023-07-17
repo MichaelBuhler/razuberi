@@ -1,0 +1,13 @@
+{
+  "include": [
+    "generate.ts",
+    "loader.ts",
+    "missingSnapshots.ts",
+    "runner.ts",
+    "snapshot.ts",
+  ],
+  "compilerOptions": {
+    "module": "Node16",
+    "noImplicitAny": true,
+  }
+}

@@ -1,6 +1,6 @@
 # ignore everthing
-/**
+/*
 
 # but don't ignore `.sh` and `.ts` files
-!/**/*.sh
-!/**/*.ts
+!/*.sh
+!/*.ts

@@ -1,0 +1,17 @@
+# ignore the generated tests in these folders
+/annexB
+/built-ins
+/harness
+/intl402
+/language
+/staging
+
+# ignore the temporary files that the tests build
+/build
+
+# ignore the .js files compiled from .ts files
+/generate.js
+/loader.js
+/missingSnapshots.js
+/runner.js
+/snapshot.js
