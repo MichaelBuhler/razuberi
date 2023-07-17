@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "exception.h"
+#include "global_scope.h"
 #include "internal.h"
 
 using namespace std;
@@ -230,8 +231,7 @@ shared_ptr<Object> ToObject (shared_ptr<Value> value) {
     case NULL_VALUE_TYPE:
       throw TypeError("cannot convert null to object");
     case BOOLEAN_VALUE_TYPE:
-      // TODO: implement this after the `Boolean` type
-      throw NotImplementedException("cannot convert a boolean to an object");
+      return _new(get_global_scope()->*"Boolean", value);
     case NUMBER_VALUE_TYPE:
       // TODO: implement this after the `Number` type
       throw NotImplementedException("cannot convert a number to an object");
