@@ -12,6 +12,6 @@
 # ignore the .js files compiled from .ts files
 /generate.js
 /loader.js
-/missingSnapshots.js
 /runner.js
 /snapshot.js
+/withMissingSnapshots.js

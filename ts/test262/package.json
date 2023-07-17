@@ -4,11 +4,12 @@
   "scripts": {
     "all": "npm run clean:build && npm run tests:full --",
     "build": "tsc && node generate.js",
-    "clean": "rimraf build --glob {generate,loader,missingSnapshots,runner,snapshot}.js --glob {annexB,built-ins,harness,intl402,language,staging}",
+    "clean": "rimraf build --glob {generate,loader,withMissingSnapshots,runner,snapshot}.js --glob {annexB,built-ins,harness,intl402,language,staging}",
     "clean:build": "npm run clean && npm run build",
     "tests:full": "ava",
     "tests:harness": "ava harness/index.js",
-    "tests:withMissingSnapshots": "ava $(node missingSnapshots.js)"
+    "tests:withErrorMessage": "echo $(./withErrorMessage \"$1\")",
+    "tests:withMissingSnapshots": "ava $(node withMissingSnapshots.js)"
   },
   "type": "module"
 }
