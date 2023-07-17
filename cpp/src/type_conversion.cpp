@@ -233,11 +233,10 @@ shared_ptr<Object> ToObject (shared_ptr<Value> value) {
     case BOOLEAN_VALUE_TYPE:
       return _new(get_global_scope()->*"Boolean", value);
     case NUMBER_VALUE_TYPE:
-      // TODO: implement this after the `Number` type
+      // TODO: implement this after the `Number` built-in object
       throw NotImplementedException("cannot convert a number to an object");
     case STRING_VALUE_TYPE:
-      // TODO: implement this after the `String` type
-      throw NotImplementedException("cannot convert a string to an object");
+      return _new(get_global_scope()->*"String", value);
     case OBJECT_VALUE_TYPE:
       return static_pointer_cast<Object>(value);
   }
