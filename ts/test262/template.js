@@ -20,8 +20,8 @@ const expectedTestResults = loadTestResults(testFolder)
 
 for (const testFile of testFiles) {
   if (expectedTestResults[testFile] === TestResult.FAIL) {
-    test.failing(runner, testFile)
+    test.serial.failing(runner, testFile)
   } else {
-    test(runner, testFile)
+    test.serial(runner, testFile)
   }
 }
