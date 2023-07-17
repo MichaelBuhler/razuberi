@@ -8,7 +8,7 @@ import { generate } from '../generate.js'
 export const CatchClauseGenerator: Generator<CatchClause> = ({ param, body}) => {
   if (param) {
     if (param.type !== 'Identifier') {
-      throw new Error(`Only Identifier catch parameters are supported at this this (got '${param.type}')`)
+      throw new Error(`Catch parameters of type \`${param.type}'\` are not supported at this time`)
     }
 
     return `catch (shared_ptr<Value> value) {

@@ -33,6 +33,6 @@ export const BinaryExpressionGenerator: Generator<BinaryExpression> = ({ left, o
     case '>=':
     case '<=':
     case '|>':
-      throw new Error(`BinaryExpression operator '${operator}' is not supported at this time`)
+      throw new Error(`BinaryExpressions with operator \`${operator}\` are not supported at this time`)
   }
 }

@@ -9,7 +9,7 @@ export const TryStatementGenerator: Generator<TryStatement> = ({ block, handler,
   let code = 'try ' + generate(block)
   if (handler) code += ' ' + generate(handler)
   if (finalizer) {
-    throw new Error("'finally' blocks are not supported at this time")
+    throw new Error('`finally` blocks are not supported at this time')
   }
   return code
 }

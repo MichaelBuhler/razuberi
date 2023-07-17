@@ -46,6 +46,10 @@ function check (person: Person) {
   console.log('void 0:', void 0)
   console.log('!false:', !false)
   console.log('1 / -0 === -Infinity:', 1 / -0 === -Infinity)
+  const temp = { 0: true, a: 123, 'str': 'c', person}
+  console.log(temp.a)
+  console.log(temp.str)
+  console.log(temp.person)
 }
 
 function defenestrate () {

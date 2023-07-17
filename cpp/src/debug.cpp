@@ -131,14 +131,14 @@ string stringify (shared_ptr<Value> val) {
       }
       str += "] {\n  properties: {";
       map<string, shared_ptr<Object::Property> > properties = obj->properties;
-      if (properties.size() > 0) {
+      if (obj->properties.size() > 0) {
         // TODO: this version is seg faulting?
-        // for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
+        // for ( map<string, shared_ptr<Object::Property> >::iterator it = obj->properties.begin() ; it != obj->properties.end() ; it++ ) {
         //   debug(it->second.get());
         //   str += "\n  " + it->first + ": " + stringify(it->second->value);
         // }
         // str += "\n";
-        for ( map<string, shared_ptr<Object::Property> >::iterator it = properties.begin() ; it != properties.end() ; it++ ) {
+        for ( map<string, shared_ptr<Object::Property> >::iterator it = obj->properties.begin() ; it != obj->properties.end() ; it++ ) {
           str += " " + it->first + ",";
         }
         str = str.substr(0, str.length()-1);

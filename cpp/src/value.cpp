@@ -339,11 +339,11 @@ Reference Reference::operator ->* (string identifier) {
 // Pointer-to-member operator overloads for member expressions
 
 // Accessing a property by `Identifier`
-Reference operator ->* (shared_ptr<Value> val, string indentifier) {
-  return ToObject(val)->*indentifier;
+Reference operator ->* (shared_ptr<Value> val, string identifier) {
+  return ToObject(val)->*identifier;
 }
-Reference operator ->* (shared_ptr<Object> obj, string indentifier) {
-  return Reference(obj, make_shared<String>(indentifier));
+Reference operator ->* (shared_ptr<Object> obj, string identifier) {
+  return Reference(obj, make_shared<String>(identifier));
 }
 
 // End pointer-to-member operator overloads
@@ -379,16 +379,40 @@ vector<shared_ptr<Value> > operator , (shared_ptr<Value> a, shared_ptr<Value> b)
 }
 
 // append another argument onto a `vector`/`List`
-vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, Reference ref) {
-  v.push_back(GetValue(ref));
+vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, Reference r) {
+  v.push_back(GetValue(r));
   return v;
 }
-vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, shared_ptr<Value> val) {
-  v.push_back(val);
+vector<shared_ptr<Value> > operator , (vector<shared_ptr<Value> > v, shared_ptr<Value> x) {
+  v.push_back(x);
   return v;
 }
 
 // End comma operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Bitwise operator overloads for object literals/initializers/expressions
+
+// create an object from a propery name and a value
+shared_ptr<Object> operator & (string propertyName, Reference ref) {
+  return propertyName&GetValue(ref);
+}
+shared_ptr<Object> operator & (string propertyName, shared_ptr<Value> val) {
+  shared_ptr<Object> obj = make_shared<Object>();
+  obj->__Put__(propertyName, val);
+  return obj;
+}
+
+// merge right object into left one
+shared_ptr<Object> operator | (shared_ptr<Object> a, shared_ptr<Object> b) {
+  for ( map<string, shared_ptr<Object::Property> >::iterator it = b->properties.begin() ; it != b->properties.end() ; it++ ) {
+    a->__Put__(it->first, it->second->value);
+  }
+  return a;
+}
+
+// End bitwise operator overloads
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////

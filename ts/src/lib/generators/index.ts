@@ -21,6 +21,7 @@ import { MemberExpressionGenerator } from './MemberExpression.js'
 import { NewExpressionGenerator } from './NewExpression.js'
 import { NullLiteralGenerator } from './NullLiteral.js'
 import { NumericLiteralGenerator } from './NumericLiteral.js'
+import { ObjectExpressionGenerator } from './ObjectExpression.js'
 import { ProgramGenerator } from './Program.js'
 import { ReturnStatementGenerator } from './ReturnStatement.js'
 import { StringLiteralGenerator } from './StringLiteral.js'
@@ -50,6 +51,7 @@ export const generators: Partial<{
   NewExpression: NewExpressionGenerator,
   NullLiteral: NullLiteralGenerator,
   NumericLiteral: NumericLiteralGenerator,
+  ObjectExpression: ObjectExpressionGenerator,
   Program: ProgramGenerator,
   ReturnStatement: ReturnStatementGenerator,
   StringLiteral: StringLiteralGenerator,

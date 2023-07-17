@@ -21,10 +21,10 @@ export const UnaryExpressionGenerator: Generator<UnaryExpression> = ({ operator,
         return '-' + generate(argument)
       }
     case 'throw':
-      throw new Error(`Throw expressions are not supported at this time`)
+      throw new Error('`throw` expressions are not supported at this time')
     case 'delete':
     case '+':
     case '~':
-      throw new Error(`UnaryExpression operator '${operator}' is not supported at this time`)
+      throw new Error(`UnaryExpressions with operator \`${operator}\` are not supported at this time`)
   }
 }

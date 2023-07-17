@@ -195,6 +195,19 @@ std::vector<std::shared_ptr<Value> > operator , (std::vector<std::shared_ptr<Val
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
+// Bitwise operator overloads for object literals/initializers/expressions
+
+// create an object from a propery name and a value
+std::shared_ptr<Object> operator & (std::string, Reference);
+std::shared_ptr<Object> operator & (std::string, std::shared_ptr<Value>);
+
+// merge right object into left one
+std::shared_ptr<Object> operator | (std::shared_ptr<Object>, std::shared_ptr<Object>);
+
+// End bitwise operator overloads
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
 // Addition operator overloads for every combination of addition operands
 
 ////////////////////////////////////////

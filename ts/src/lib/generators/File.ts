@@ -23,7 +23,7 @@ export const FileGenerator: Generator<File> = ({ program, extra }) => {
 
     const formalParameters = params.map((param, i) => {
       if (param.type !== 'Identifier') {
-        throw new Error('Only Identifier formal parameters are supported at this time')
+        throw new Error(`Function parameters of type \`${param.type}\` are not supported at this time`)
       }
       return `scope->declare("${param.name}", arguments.size() > ${i} ? arguments[${i}] : make_shared<Undefined>());`
     }).reverse().join('\n')
