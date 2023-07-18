@@ -7,5 +7,5 @@ import { generate } from '../generate.js'
 import { GetValue } from './utils.js'
 
 export const ConditionalExpressionGenerator: Generator<ConditionalExpression> = ({ test, consequent, alternate }) => {
-  return `_if(${generate(test)}) ? ${GetValue(consequent)} : ${GetValue(alternate)}`
+  return `_test(${generate(test)}) ? ${GetValue(consequent)} : ${GetValue(alternate)}`
 }

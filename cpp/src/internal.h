@@ -38,8 +38,14 @@ std::shared_ptr<Boolean> _strictNotEquals (std::shared_ptr<Value>, std::shared_p
 
 // a common sub-algorithm of control statement evaluation is coersion to a boolean
 // by further converting the value to a C++ bool, we can re-use C++ control statements
-bool _if (Reference);
-bool _if (std::shared_ptr<Value>);
+bool _test (Reference);
+bool _test (std::shared_ptr<Value>);
+bool _test (std::shared_ptr<Undefined>);
+bool _test (std::shared_ptr<Null>);
+bool _test (std::shared_ptr<Boolean>);
+bool _test (std::shared_ptr<Number>);
+bool _test (std::shared_ptr<String>);
+bool _test (std::shared_ptr<Object>);
 
 // C++ does not have a `typeof` operator to overload, so this is implemented functionally
 std::shared_ptr<String> _typeof (Reference);

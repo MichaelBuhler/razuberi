@@ -146,11 +146,42 @@ shared_ptr<Boolean> _strictNotEquals (shared_ptr<Value> a, shared_ptr<Value> b) 
   return make_shared<Boolean>(!equal->value);
 }
 
-bool _if (Reference ref) {
-  return ToBoolean(GetValue(ref))->value;
+bool _test (Reference ref) {
+  return _test(GetValue(ref));
 }
-bool _if (shared_ptr<Value> val) {
-  return ToBoolean(val)->value;
+bool _test (shared_ptr<Value> value) {
+  switch (value->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return false;
+    case NULL_VALUE_TYPE:
+      return false;
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(value)->value;
+    case NUMBER_VALUE_TYPE:
+      return ToBoolean(static_pointer_cast<Number>(value))->value;
+    case STRING_VALUE_TYPE:
+      return ToBoolean(static_pointer_cast<String>(value))->value;
+    case OBJECT_VALUE_TYPE:
+      return true;
+  }
+}
+bool _test (shared_ptr<Undefined>) {
+  return false;
+}
+bool _test (shared_ptr<Null>) {
+  return false;
+}
+bool _test (shared_ptr<Boolean> boolean) {
+  return boolean->value;
+}
+bool _test (shared_ptr<Number> num) {
+  return ToBoolean(num)->value;
+}
+bool _test (shared_ptr<String> str) {
+  return ToBoolean(str)->value;
+}
+bool _test (shared_ptr<Object>) {
+  return true;
 }
 
 shared_ptr<String> _typeof (Reference ref) {
