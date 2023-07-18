@@ -29,6 +29,7 @@ import { ThisExpressionGenerator } from './ThisExpression.js'
 import { ThrowStatementGenerator } from './ThrowStatement.js'
 import { TryStatementGenerator } from './TryStatement.js'
 import { UnaryExpressionGenerator } from './UnaryExpression.js'
+import { WhileStatementGenerator } from './WhileStatement.js'
 
 export const generators: Partial<{
   [nodeType in Node['type']]: Generator<Node>
@@ -59,4 +60,5 @@ export const generators: Partial<{
   ThrowStatement: ThrowStatementGenerator,
   TryStatement: TryStatementGenerator,
   UnaryExpression: UnaryExpressionGenerator,
+  WhileStatement: WhileStatementGenerator,
 }
