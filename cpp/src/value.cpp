@@ -31,6 +31,10 @@ shared_ptr<Value> Value::call (shared_ptr<Value> _this, vector<shared_ptr<Value>
   throw TypeError("callee is not an object");
 }
 
+bool Value::isFunction () {
+  return false;
+}
+
 Primitive::Primitive () : Value() {}
 
 Undefined::Undefined () : Primitive() {
@@ -294,6 +298,9 @@ shared_ptr<Value> Reference::call (shared_ptr<Value> firstParam) {
 }
 shared_ptr<Value> Reference::call (vector<shared_ptr<Value> > params) {
   shared_ptr<Value> value = GetValue(*this);
+  if (!value->isFunction()) {
+    throw TypeError(this->propertyName->value + " is not a function");
+  }
   shared_ptr<Value> base = GetBase(*this);
   return value->call(base, params);
 }

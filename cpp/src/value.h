@@ -49,12 +49,19 @@ class Reference {
 class Value {
   public: ValueType type;
   public: Value ();
+
+  // Entry point for constructing an instance of this Value
   public: virtual std::shared_ptr<Object> construct (std::vector<std::shared_ptr<Value> > params);
+
+  // Entry points for the invocation of this Value as a function
   public: virtual std::shared_ptr<Value> call ();
   public: virtual std::shared_ptr<Value> call (Reference firstParam);
   public: virtual std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
   public: virtual std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
   public: virtual std::shared_ptr<Value> call (std::shared_ptr<Value> _this, std::vector<std::shared_ptr<Value> > params);
+
+  // Razuberi internal helpers
+  public: virtual bool isFunction ();
 };
 
 class Primitive : public Value {
