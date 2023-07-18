@@ -8,6 +8,12 @@ std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Value>, HintValueType = 
 std::shared_ptr<Primitive> ToPrimitive (std::shared_ptr<Object>, HintValueType = NONE_HINT_VALUE_TYPE);
 
 std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Value>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Primitive>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Undefined>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Null>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Number>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<String>);
+std::shared_ptr<Boolean> ToBoolean (std::shared_ptr<Object>);
 
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Value>);
 std::shared_ptr<Number> ToNumber (std::shared_ptr<Primitive>);

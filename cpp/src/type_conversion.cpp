@@ -38,22 +38,57 @@ shared_ptr<Boolean> ToBoolean (shared_ptr<Value> value) {
       return make_shared<Boolean>(false);
     case BOOLEAN_VALUE_TYPE:
       return static_pointer_cast<Boolean>(value);
-    case NUMBER_VALUE_TYPE: {
-      shared_ptr<Number> num = static_pointer_cast<Number>(value);
-      if (num->isNaN) return make_shared<Boolean>(false);
-      if (num->isInfinity) return make_shared<Boolean>(true);
-      if (num->value == 0) return make_shared<Boolean>(false);
-      return make_shared<Boolean>(true);
-    }
+    case NUMBER_VALUE_TYPE:
+      return ToBoolean(static_pointer_cast<Number>(value));
     case STRING_VALUE_TYPE:
-      if (static_pointer_cast<String>(value)->value == "") {
-        return make_shared<Boolean>(false);
-      } else {
-        return make_shared<Boolean>(true);
-      }
+      return ToBoolean(static_pointer_cast<String>(value));
     case OBJECT_VALUE_TYPE:
       return make_shared<Boolean>(true); 
   }
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<Primitive> primitive) {
+  switch (primitive->type) {
+    case UNDEFINED_VALUE_TYPE:
+      return make_shared<Boolean>(false);
+    case NULL_VALUE_TYPE:
+      return make_shared<Boolean>(false);
+    case BOOLEAN_VALUE_TYPE:
+      return static_pointer_cast<Boolean>(primitive);
+    case NUMBER_VALUE_TYPE:
+      return ToBoolean(static_pointer_cast<Number>(primitive));
+    case STRING_VALUE_TYPE:
+      return ToBoolean(static_pointer_cast<String>(primitive));
+    case OBJECT_VALUE_TYPE:
+      throw ImplementationException("an object was passed into ToBoolean(Primitive)");
+  }
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<Undefined>) {
+  return make_shared<Boolean>(false);
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<Null>) {
+  return make_shared<Boolean>(false);
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<Number> num) {
+  if (num->isNaN) return make_shared<Boolean>(false);
+  if (num->isInfinity) return make_shared<Boolean>(true);
+  if (num->value == 0) return make_shared<Boolean>(false);
+  return make_shared<Boolean>(true);
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<String> str) {
+  if (str->value == "") {
+    return make_shared<Boolean>(false);
+  } else {
+    return make_shared<Boolean>(true);
+  }
+}
+
+shared_ptr<Boolean> ToBoolean (shared_ptr<Object> obj) {
+  return make_shared<Boolean>(true);
 }
 
 shared_ptr<Number> ToNumber (shared_ptr<Value> value) {
