@@ -80,6 +80,9 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((make_shared<String>("1 / -Infinity:"), make_shared<Number>(1) / -(scope->*"Infinity")));
   (scope->*"console"->*"log").call((make_shared<String>("1 / -0:"), make_shared<Number>(1) / -make_shared<Number>(0)));
   (scope->*"console"->*"log").call((make_shared<String>("1 / -0 === -Infinity:"), _strictEquals(make_shared<Number>(1) / -make_shared<Number>(0), -(scope->*"Infinity"))));
+  (scope->*"console"->*"log").call((make_shared<String>("\"abc-0xyz\".indexOf(\"-0\"):"), (make_shared<String>("abc-0xyz")->*"indexOf").call(make_shared<String>("-0"))));
+  (scope->*"console"->*"log").call((make_shared<String>("\"hello undefined\".indexOf():"), (make_shared<String>("hello undefined")->*"indexOf").call()));
+  (scope->*"console"->*"log").call((make_shared<String>("\"abcd\".indexOf(\"abcdab\", 0):"), (make_shared<String>("abcd")->*"indexOf").call((make_shared<String>("abcdab"), make_shared<Number>(0)))));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {

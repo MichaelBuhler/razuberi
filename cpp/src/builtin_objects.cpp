@@ -155,6 +155,40 @@ shared_ptr<Value> String_prototype_charAt (shared_ptr<Scope>, shared_ptr<Value> 
   return make_shared<String>(str->value.substr(index, 1));
 }
 
+// ES1: 15.5.4.6
+shared_ptr<Value> String_prototype_indexOf (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+  shared_ptr<String> __this = ToString(_this);
+  shared_ptr<String> searchString = arguments.size() > 0 ? ToString(arguments[0]) : make_shared<String>("undefined");
+  size_t position;
+  if (arguments.size() > 1 && arguments[1]->type != UNDEFINED_VALUE_TYPE) {
+    position = ToNumber(arguments[1])->value;
+    if (position < 0) {
+      position = 0;
+    }
+  } else {
+    position = 0;
+  }
+  size_t thisLength = __this->value.length();
+  size_t searchLength = searchString->value.length();
+  if (searchLength > thisLength) {
+    return make_shared<Number>(-1);
+  }
+  size_t maxPosition = thisLength - searchLength;
+  for ( size_t k = position ; k < maxPosition ; k++ ) {
+    bool match = true;
+    for ( size_t j = 0 ; j < searchLength ; j++ ) {
+      if ( __this->value[k+j] != searchString->value[j] ) {
+        match = false;
+        break;
+      }
+    }
+    if (match) {
+      return make_shared<Number>(k);
+    }
+  }
+  return make_shared<Number>(-1);
+}
+
 // ES1: 15.6.1
 shared_ptr<Value> Boolean__Call__ (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> > arguments) {
   if (arguments.size() == 0) return make_shared<Boolean>(false);
@@ -259,7 +293,8 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   // ES1: 15.5.4.4
   globalScope->*"String"->*"prototype"->*"charAt" = Object::makeFunction(String_prototype_charAt);
   // TODO: ES1: 15.5.4.5: String.prototype.charCodeAt(pos)
-  // TODO: ES1: 15.5.4.6: String.prototype.indexOf(searchString, position)
+  // ES1: 15.5.4.6
+  globalScope->*"String"->*"prototype"->*"indexOf" = Object::makeFunction(String_prototype_indexOf);
   // TODO: ES1: 15.5.4.7: String.prototype.lastIndexOf(searchString, position)
   // TODO: ES1: 15.5.4.8: String.prototype.split(separator)
   // TODO: ES1: 15.5.4.9: String.prototype.substring(start)
