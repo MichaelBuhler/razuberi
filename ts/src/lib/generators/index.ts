@@ -7,6 +7,7 @@ import { AssignmentExpressionGenerator } from './AssignmentExpression.js'
 import { BinaryExpressionGenerator } from './BinaryExpression.js'
 import { BlockStatementGenerator } from './BlockStatement.js'
 import { BooleanLiteralGenerator } from './BooleanLiteral.js'
+import { BreakStatementGenerator } from './BreakStatement.js'
 import { CallExpressionGenerator } from './CallExpression.js'
 import { CatchClauseGenerator } from './CatchClause.js'
 import { ConditionalExpressionGenerator } from './ConditionalExpression.js'
@@ -38,6 +39,7 @@ export const generators: Partial<{
   BinaryExpression: BinaryExpressionGenerator,
   BlockStatement: BlockStatementGenerator,
   BooleanLiteral:BooleanLiteralGenerator,
+  BreakStatement: BreakStatementGenerator,
   CallExpression: CallExpressionGenerator,
   CatchClause: CatchClauseGenerator,
   ConditionalExpression: ConditionalExpressionGenerator,
