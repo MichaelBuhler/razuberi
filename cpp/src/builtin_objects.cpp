@@ -129,7 +129,7 @@ shared_ptr<Value> String_prototype_toString (shared_ptr<Scope>, shared_ptr<Value
       return obj->__Value__;
     }
   }
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.toString requires that 'this' be a String"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.toString requires that 'this' be a String"));
 }
 
 // ES1: 15.5.4.3
@@ -140,7 +140,7 @@ shared_ptr<Value> String_prototype_valueOf (shared_ptr<Scope>, shared_ptr<Value>
       return obj->__Value__;
     }
   }
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.valueOf requires that 'this' be a String"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.valueOf requires that 'this' be a String"));
 }
 
 // ES1: 15.5.4.4
@@ -221,7 +221,7 @@ shared_ptr<Value> Boolean_prototype_toString (shared_ptr<Scope>, shared_ptr<Valu
       }
     }
   }
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.toString requires that 'this' be a Boolean"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.toString requires that 'this' be a Boolean"));
 }
 
 // ES1: 15.6.4.3
@@ -232,7 +232,7 @@ shared_ptr<Value> Boolean_prototype_valueOf (shared_ptr<Scope>, shared_ptr<Value
       return obj->__Value__;
     }
   }
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.valueOf requires that 'this' be a Boolean"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.valueOf requires that 'this' be a Boolean"));
 }
 
 // ES3: 15.11.1
@@ -259,7 +259,7 @@ shared_ptr<Value> Error__Construct__ (shared_ptr<Scope>, shared_ptr<Value> _this
 // ES3: 15.11.4.4
 shared_ptr<Value> Error_prototype_toString (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> >) {
   if (_this->type != OBJECT_VALUE_TYPE) {
-    throw _new(get_global_scope()->*"TypeError", make_shared<String>("Error.prototype.toString requires that 'this' be an object"));
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Error.prototype.toString requires that 'this' be an object"));
   }
   shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
   shared_ptr<Value> name = obj->__Get__("name");

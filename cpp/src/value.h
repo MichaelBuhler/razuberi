@@ -36,7 +36,9 @@ class Reference {
   public: std::shared_ptr<Value> call (Reference firstParam);
   public: std::shared_ptr<Value> call (std::shared_ptr<Value> firstParam);
   public: std::shared_ptr<Value> call (std::vector<std::shared_ptr<Value> > params);
+  // TODO: #18: AssignmentExpressions should return the right hand `Value`, not the left hand `Reference`
   public: Reference operator = (Reference rightHandSide);
+  // TODO: #18: AssignmentExpressions should return the right hand `Value`, not the left hand `Reference`
   public: Reference operator = (std::shared_ptr<Value> rightHandSide);
   public: Reference operator ->* (std::string identifier);
   // TODO: fun for later

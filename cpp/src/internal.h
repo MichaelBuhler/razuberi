@@ -9,7 +9,7 @@
 // Used for constructing user-defined script functions, at runtime.
 std::shared_ptr<Object> _fn (std::shared_ptr<Scope> closure, Object::CallSignature __Call_and_Construct__);
 
-// Used for constructing other, regular sorts of Objects.
+// Used for constructing other, regular, sorts of Objects.
 std::shared_ptr<Object> _new (Reference constructor);
 std::shared_ptr<Object> _new (Reference constructor, Reference firstParam);
 std::shared_ptr<Object> _new (Reference constructor, std::shared_ptr<Value> firstParam);
@@ -18,6 +18,16 @@ std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor);
 std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor, Reference firstParam);
 std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor, std::shared_ptr<Value> firstParam);
 std::shared_ptr<Object> _new (std::shared_ptr<Value> constructor, std::vector<std::shared_ptr<Value> > params);
+
+// Same as above, but static cast it to a `Value` so you can throw it
+std::shared_ptr<Value> _newThrowable (Reference constructor);
+std::shared_ptr<Value> _newThrowable (Reference constructor, Reference firstParam);
+std::shared_ptr<Value> _newThrowable (Reference constructor, std::shared_ptr<Value> firstParam);
+std::shared_ptr<Value> _newThrowable (Reference constructor, std::vector<std::shared_ptr<Value> > params);
+std::shared_ptr<Value> _newThrowable (std::shared_ptr<Value> constructor);
+std::shared_ptr<Value> _newThrowable (std::shared_ptr<Value> constructor, Reference firstParam);
+std::shared_ptr<Value> _newThrowable (std::shared_ptr<Value> constructor, std::shared_ptr<Value> firstParam);
+std::shared_ptr<Value> _newThrowable (std::shared_ptr<Value> constructor, std::vector<std::shared_ptr<Value> > params);
 
 // TODO: due to limitations workgin with `std::shared_ptr` this Object method has been implemented functionally
 std::shared_ptr<Value> __DefaultValue__ (std::shared_ptr<Object> _this, HintValueType);

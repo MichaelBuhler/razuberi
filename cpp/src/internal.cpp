@@ -58,6 +58,31 @@ shared_ptr<Object> _new (shared_ptr<Value> constructor, vector<shared_ptr<Value>
   return constructor->construct(params);
 }
 
+shared_ptr<Value> _newThrowable (Reference constructor) {
+  return static_pointer_cast<Value>(_new(constructor));
+}
+shared_ptr<Value> _newThrowable (Reference constructor, Reference firstParam) {
+  return static_pointer_cast<Value>(_new(constructor, firstParam));
+}
+shared_ptr<Value> _newThrowable (Reference constructor, shared_ptr<Value> firstParam) {
+  return static_pointer_cast<Value>(_new(constructor, firstParam));
+}
+shared_ptr<Value> _newThrowable (Reference constructor, vector<shared_ptr<Value> > params) {
+  return static_pointer_cast<Value>(_new(constructor, params));
+}
+shared_ptr<Value> _newThrowable (shared_ptr<Value> constructor) {
+  return static_pointer_cast<Value>(_new(constructor));
+}
+shared_ptr<Value> _newThrowable (shared_ptr<Value> constructor, Reference firstParam) {
+  return static_pointer_cast<Value>(_new(constructor, firstParam));
+}
+shared_ptr<Value> _newThrowable (shared_ptr<Value> constructor, shared_ptr<Value> firstParam) {
+  return static_pointer_cast<Value>(_new(constructor, firstParam));
+}
+shared_ptr<Value> _newThrowable (shared_ptr<Value> constructor, vector<shared_ptr<Value> > params) {
+  return static_pointer_cast<Value>(_new(constructor, params));
+}
+
 shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint) {
   if (hint == NONE_HINT_VALUE_TYPE) {
     if (_this->__Class__ == "Date") { // TODO: enum this
@@ -112,7 +137,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
     case NONE_HINT_VALUE_TYPE:
       throw ImplementationException("hint should never be None here");
   }
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("unable to convert object to primitive using [[DefaultValue]]"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("unable to convert object to primitive using [[DefaultValue]]"));
 }
 
 shared_ptr<Boolean> _strictEquals (Reference a, Reference b) {

@@ -20,7 +20,7 @@ shared_ptr<String> GetPropertyName (Reference ref) {
 shared_ptr<Value> GetValue (Reference ref) {
   shared_ptr<Value> base = GetBase(ref);
   if (base->type == NULL_VALUE_TYPE) {
-    throw _new(get_global_scope()->*"ReferenceError", make_shared<String>("\"" + ref.propertyName->value + "\" is not defined"));
+    throw _newThrowable(get_global_scope()->*"ReferenceError", make_shared<String>("\"" + ref.propertyName->value + "\" is not defined"));
   }
   if (base->type != OBJECT_VALUE_TYPE) {
     throw ImplementationException("baseObject of Reference is neither Null nor an Object");

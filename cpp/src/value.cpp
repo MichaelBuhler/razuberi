@@ -14,23 +14,23 @@ using namespace std;
 Value::Value () {}
 
 shared_ptr<Object> Value::construct (vector<shared_ptr<Value> > params) {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("constructor is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("constructor is not an object"));
 }
 
 shared_ptr<Value> Value::call () {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
 }
 shared_ptr<Value> Value::call (Reference firstParam) {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
 }
 shared_ptr<Value> Value::call (shared_ptr<Value> firstParam) {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
 }
 shared_ptr<Value> Value::call (vector<shared_ptr<Value> > params) {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
 }
 shared_ptr<Value> Value::call (shared_ptr<Value> _this, vector<shared_ptr<Value> > params) {
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("callee is not an object"));
 }
 
 bool Value::isFunction () {
@@ -171,7 +171,7 @@ bool Object::__HasProperty__ (string key) {
 
 shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   if (!this->isConstructor()) {
-    throw _new(get_global_scope()->*"TypeError", make_shared<String>("object is not a constructor"));
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("object is not a constructor"));
   }
   shared_ptr<Object> prototype;
   if (this->__HasProperty__("prototype")) {
@@ -195,7 +195,7 @@ shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   }
   // ES1: 11.2.2(6): If Type(result) is not Object, generate a runtime error.
   // But I have observed in the Chrome JavaScript console that this is not an error.
-  throw _new(get_global_scope()->*"TypeError", make_shared<String>("constructor returned a non-object"));
+  throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("constructor returned a non-object"));
 }
 
 shared_ptr<Value> Object::call () {
@@ -217,7 +217,7 @@ shared_ptr<Value> Object::call (vector<shared_ptr<Value> > params) {
 }
 shared_ptr<Value> Object::call (shared_ptr<Value> _this, vector<shared_ptr<Value> > params) {
   if (!this->isFunction()) {
-    throw _new(get_global_scope()->*"TypeError", make_shared<String>("object is not a function"));
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("object is not a function"));
   }
   shared_ptr<Scope> scope = make_shared<Scope>(this->closure);
   shared_ptr<Value> result = this->__Call__(scope, _this, params);
@@ -243,7 +243,7 @@ shared_ptr<Object> Object::makeFunction (CallSignature __Call__, CallSignature _
   
   if (__Construct__ != nullptr) {
     if (prototype.get() == nullptr) {
-      throw ImplementationException("Attempting to instantiate a Constructor without providing a prototype.");
+      throw ImplementationException("attempted to instantiate a Constructor without providing a prototype");
     }
     // TODO: For user-defined script functions, at runtime:
     // TODO: ES1: 15.3.2.1.23: This property is given attributes { DontEnum }.
@@ -302,7 +302,7 @@ shared_ptr<Value> Reference::call (shared_ptr<Value> firstParam) {
 shared_ptr<Value> Reference::call (vector<shared_ptr<Value> > params) {
   shared_ptr<Value> value = GetValue(*this);
   if (!value->isFunction()) {
-    throw _new(get_global_scope()->*"TypeError", make_shared<String>(this->propertyName->value + " is not a function"));
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>(this->propertyName->value + " is not a function"));
   }
   shared_ptr<Value> base = GetBase(*this);
   return value->call(base, params);
@@ -2072,7 +2072,7 @@ shared_ptr<Number> operator - (shared_ptr<Primitive> p) {
     case STRING_VALUE_TYPE:
       return -ToNumber(static_pointer_cast<String>(p));
     case OBJECT_VALUE_TYPE:
-      throw ImplementationException("an Object was passed to operator-(Primitive)");
+      throw ImplementationException("an object was passed to operator-(Primitive)");
   }
 }
 shared_ptr<Number> operator - (shared_ptr<Undefined> u) {
@@ -2145,7 +2145,7 @@ shared_ptr<Boolean> operator ! (shared_ptr<Primitive> p) {
     case STRING_VALUE_TYPE:
       return !static_pointer_cast<String>(p);
     case OBJECT_VALUE_TYPE:
-      throw ImplementationException("an Object was passed to operator!(Primitive)");
+      throw ImplementationException("an object was passed to operator!(Primitive)");
   }
 }
 shared_ptr<Boolean> operator ! (shared_ptr<Undefined> u) {
