@@ -5,12 +5,13 @@ import type { Generator } from './types.js'
 
 import { generate } from '../generate.js'
 
-export const NewExpressionGenerator: Generator<NewExpression> = ({ callee, arguments: args }) => {
+export const NewExpressionGenerator: Generator<NewExpression> = ({ callee, arguments: args, extra }) => {
+  const fn = extra?.parentNodeIsThrowStatement ? '_newThrowable' : '_new'
   if (args.length === 0) {
-    return `_new(${generate(callee)})`
+    return `${fn}(${generate(callee)})`
   } else if (args.length === 1) {
-    return `_new(${generate(callee)}, ${generate(args[0])})`
+    return `${fn}(${generate(callee)}, ${generate(args[0])})`
   } else {
-    return `_new(${generate(callee)}, (${args.map(generate).join(', ')}))`
+    return `${fn}(${generate(callee)}, (${args.map(generate).join(', ')}))`
   }
 }

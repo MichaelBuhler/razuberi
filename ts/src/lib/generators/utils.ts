@@ -103,6 +103,9 @@ export const libRazuberiTypeof = (expression: Expression) : LibRazuberiType => {
     case 'MemberExpression':
       return LibRazuberiType.Reference
     case 'NewExpression':
+      if (expression.extra?.parentNodeIsThrowStatement) {
+        return LibRazuberiType.Value
+      }
       return LibRazuberiType.Object
     case 'NullLiteral':
       return LibRazuberiType.Null

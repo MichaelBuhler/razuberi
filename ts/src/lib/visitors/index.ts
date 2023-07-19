@@ -7,6 +7,7 @@ import type { RazuberiTraversalState } from './state.js'
 import { FunctionDeclarationVisitor } from './FunctionDeclaration.js'
 import { FunctionExpressionVisitor } from './FunctionExpression.js'
 import { LogicalExpressionVisitor } from './LogicalExpression.js'
+import { NewExpressionVisitor } from './NewExpression.js'
 import { ProgramVisitor } from './Program.js'
 import { VariableDeclarationVisitor } from './VariableDeclaration.js'
 import { VariableDeclaratorVisitor } from './VariableDeclarator.js'
@@ -17,6 +18,7 @@ export const visitors: Partial<{
   FunctionDeclaration: FunctionDeclarationVisitor,
   FunctionExpression: FunctionExpressionVisitor,
   LogicalExpression: LogicalExpressionVisitor,
+  NewExpression: NewExpressionVisitor,
   Program: ProgramVisitor,
   VariableDeclaration: VariableDeclarationVisitor,
   VariableDeclarator: VariableDeclaratorVisitor,

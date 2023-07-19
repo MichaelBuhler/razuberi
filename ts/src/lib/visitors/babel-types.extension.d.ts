@@ -28,4 +28,9 @@ declare module '@babel/types' {
       declaredVariables?: Array<string>
     }
   }
+  interface NewExpression {
+    extra?: {
+      parentNodeIsThrowStatement: boolean
+    }
+  }
 }
