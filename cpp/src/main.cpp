@@ -16,6 +16,7 @@
 #include "exception.h"
 #include "global_scope.h"
 #include "tty.h"
+#include "type_conversion.h"
 
 using namespace std;
 
@@ -44,8 +45,7 @@ int main () {
   } catch (shared_ptr<Value> value) {
     cerr << endl;
     if (isTTY) cerr << reset<<red;
-    cerr << "Uncaught ";
-    (globalScope->*"console"->*"log").call(value);
+    cerr << "Uncaught " << ToString(value)->value;
     if (isTTY) cerr << reset;
     cerr << endl;
     return 1;

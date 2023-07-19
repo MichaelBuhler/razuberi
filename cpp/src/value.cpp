@@ -134,6 +134,7 @@ shared_ptr<Object> Object::Object_prototype;
 shared_ptr<Object> Object::Function_prototype;
 shared_ptr<Object> Object::String_prototype;
 shared_ptr<Object> Object::Boolean_prototype;
+shared_ptr<Object> Object::Error_prototype;
 
 shared_ptr<Value> Object::__Get__ (string key) {
   try {

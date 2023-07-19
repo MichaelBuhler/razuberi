@@ -1,6 +1,7 @@
 #include "builtin_objects.h"
 
 #include "exception.h"
+#include "global_scope.h"
 #include "internal.h"
 #include "value.h"
 #include "type_conversion.h"
@@ -208,7 +209,7 @@ shared_ptr<Value> Boolean__Construct__ (shared_ptr<Scope>,  shared_ptr<Value> _t
 }
 
 // ES1: 15.6.4.2
-shared_ptr<Value> Boolean_prototype_toString (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> Boolean_prototype_toString (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "Boolean") { // TODO: enum this
@@ -224,7 +225,7 @@ shared_ptr<Value> Boolean_prototype_toString (shared_ptr<Scope> scope, shared_pt
 }
 
 // ES1: 15.6.4.3
-shared_ptr<Value> Boolean_prototype_valueOf (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+shared_ptr<Value> Boolean_prototype_valueOf (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
   if (_this->type == OBJECT_VALUE_TYPE) {
     shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
     if (obj->__Class__ == "Boolean") { // TODO: enum this
@@ -232,6 +233,48 @@ shared_ptr<Value> Boolean_prototype_valueOf (shared_ptr<Scope> scope, shared_ptr
     }
   }
   throw TypeError("Boolean.prototype.valueOf requires that 'this' be a Boolean");
+}
+
+// ES3: 15.11.1
+shared_ptr<Value> Error__Call__ (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> > arguments) {
+  // ES3: 15.11.1: When Error is called as a function rather than as a constructor, it creates and initialises a new
+  //               Error object. Thus the function call Error(...) is equivalent to the object creation expression new
+  //               Error(...) with the same arguments.
+  return _new(get_global_scope()->*"Error", arguments);
+}
+
+// ES3: 15.11.2
+shared_ptr<Value> Error__Construct__ (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
+  shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+  obj->__Class__ = "Error"; // TODO: enum this
+  shared_ptr<Value> message = arguments.size() > 0 ? arguments[0] : make_shared<Undefined>() ;
+  if (message->type != UNDEFINED_VALUE_TYPE) {
+    // ES3: 15.11.2.1(3): If the argument `message` is not undefined, the `message` property of the newly constructed
+    //                    object is set to `ToString(message)`.
+    obj->__Put__("message", ToString(message));
+  }
+  return _this;
+}
+
+// ES3: 15.11.4.4
+shared_ptr<Value> Error_prototype_toString (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> >) {
+  if (_this->type == OBJECT_VALUE_TYPE) {
+    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+    shared_ptr<Value> message = obj->__Get__("message");
+    if (message->type == UNDEFINED_VALUE_TYPE) {
+      return make_shared<String>(obj->__Class__);
+    } else if (message->type == STRING_VALUE_TYPE) {
+      shared_ptr<String> str = static_pointer_cast<String>(message);
+      if (str->value.length() == 0) {
+        return make_shared<String>(obj->__Class__);
+      } else {
+        return make_shared<String>(obj->__Class__ + ": " + str->value);
+      }
+    } else {
+      return make_shared<String>(obj->__Class__ + ": " + ToString(message)->value);
+    }
+  }
+  throw TypeError("Error.prototype.toString requires that 'this' be an object");
 }
 
 void init_builtin_prototypes (shared_ptr<Scope> globalScope) {
@@ -261,6 +304,12 @@ void init_builtin_prototypes (shared_ptr<Scope> globalScope) {
   //                 is "Boolean") whose value is false.
   Object::Boolean_prototype->__Class__ = "Boolean"; // TODO: enum this
   Object::Boolean_prototype->__Value__ = make_shared<Boolean>(false);
+
+  // ES3: 15.11.4(2): The value of the internal [[Prototype]] property of the Error prototype object is
+  //                  the Object prototype object (15.2.3.1).
+  Object::Error_prototype = make_shared<Object>(Object::Object_prototype);
+  // ES3: 15.11.4(1): The Error prototype object is itself an Error object (its [[Class]] is "Error").
+  Object::Error_prototype->__Class__ = "Error"; // TODO: enum this
 }
 
 void init_builtin_objects (shared_ptr<Scope> globalScope) {
@@ -302,10 +351,23 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   // TODO: ES1: 15.5.4.11: String.prototype.toLowerCase
   // TODO: ES1: 15.5.4.12: String.prototype.toUpperCase
 
-  // ES1: 15.3.2: The Boolean Constructor
+  // ES1: 15.6.4: The Boolean Constructor
   globalScope->*"Boolean" = Object::makeFunction(Boolean__Call__, Boolean__Construct__, Object::Boolean_prototype);
   // ES1: 15.6.4.2
   globalScope->*"Boolean"->*"prototype"->*"toString" = Object::makeFunction(Boolean_prototype_toString);
   // ES1: 15.6.4.3
   globalScope->*"Boolean"->*"prototype"->*"valueOf" = Object::makeFunction(Boolean_prototype_valueOf);
+
+  // ES3: 15.11.2: The Error Constructor
+  globalScope->*"Error" = Object::makeFunction(Error__Call__, Error__Construct__, Object::Error_prototype);
+  // ES3: 15.11.4.2
+  globalScope->*"Error"->*"prototype"->*"name" = make_shared<String>("Error");
+  // ES3: 15.11.4.3
+  globalScope->*"Error"->*"prototype"->*"message" = make_shared<String>("");
+  // ES3: 15.11.4.4
+  globalScope->*"Error"->*"prototype"->*"toString" = Object::makeFunction(Error_prototype_toString);
+
+  // TODO: ES3: 15.11.6.2: RangeError
+  // TODO: ES3: 15.11.6.3: ReferenceError
+  // TODO: ES3: 15.11.6.5: TypeError
 }

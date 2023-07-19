@@ -125,6 +125,8 @@ class Object : public Value {
   public: static std::shared_ptr<Object> String_prototype;
   // The original Boolean prototype object.
   public: static std::shared_ptr<Object> Boolean_prototype;
+  // The original Error prototype object.
+  public: static std::shared_ptr<Object> Error_prototype;
 
   // Inner class to hold property attributes
   // TODO: can be a simple struct?
