@@ -43,7 +43,8 @@
     "test262:full": "cd test262 && npm run tests:full --",
     "test262:harness": "cd test262 && npm run tests:harness --",
     "test:fizzbuzz": "test/run.sh fizzbuzz",
-    "test:helloworld": "test/run.sh helloworld"
+    "test:helloworld": "test/run.sh helloworld",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "@babel/parser": "^7.22.5",
