@@ -112,7 +112,7 @@ shared_ptr<Value> __DefaultValue__ (shared_ptr<Object> _this, HintValueType hint
     case NONE_HINT_VALUE_TYPE:
       throw ImplementationException("hint should never be None here");
   }
-  throw TypeError("unable to convert object to primitive using [[DefaultValue]]");
+  throw _new(get_global_scope()->*"TypeError", make_shared<String>("unable to convert object to primitive using [[DefaultValue]]"));
 }
 
 shared_ptr<Boolean> _strictEquals (Reference a, Reference b) {

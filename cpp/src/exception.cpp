@@ -21,11 +21,3 @@ string NotImplementedException::toString () const {
 }
 
 EcmaScriptRuntimeError::EcmaScriptRuntimeError () {}
-
-TypeError::TypeError (string message) : EcmaScriptRuntimeError() {
-  this->message = message;
-}
-
-string TypeError::toString () const {
-  return "TypeError: " + this->message;
-}

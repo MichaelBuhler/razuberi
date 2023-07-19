@@ -23,9 +23,8 @@ shared_ptr<Primitive> ToPrimitive (shared_ptr<Value> value, HintValueType hint) 
 
 shared_ptr<Primitive> ToPrimitive (shared_ptr<Object> obj, HintValueType hint) {
   shared_ptr<Value> result = __DefaultValue__(obj, hint);
-  // TODO: result may be a Reference value type?
   if (result->type == OBJECT_VALUE_TYPE) {
-    throw TypeError("[[DefaultValue]] returned an object");
+    throw _new(get_global_scope()->*"TypeError", make_shared<String>("[[DefaultValue]] returned an object"));
   }
   return static_pointer_cast<Primitive>(result);
 }
@@ -262,9 +261,9 @@ std::shared_ptr<String> ToString (std::shared_ptr<Object> obj) {
 shared_ptr<Object> ToObject (shared_ptr<Value> value) {
   switch (value->type) {
     case UNDEFINED_VALUE_TYPE:
-      throw TypeError("cannot convert undefined to object");
+      throw _new(get_global_scope()->*"TypeError", make_shared<String>("cannot convert undefined to object"));
     case NULL_VALUE_TYPE:
-      throw TypeError("cannot convert null to object");
+      throw _new(get_global_scope()->*"TypeError", make_shared<String>("cannot convert null to object"));
     case BOOLEAN_VALUE_TYPE:
       return _new(get_global_scope()->*"Boolean", value);
     case NUMBER_VALUE_TYPE:

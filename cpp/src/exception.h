@@ -23,8 +23,3 @@ class EcmaScriptRuntimeError {
   public: EcmaScriptRuntimeError ();
   public: virtual std::string toString () const = 0;
 };
-
-class TypeError : public EcmaScriptRuntimeError {
-  public: TypeError (std::string message);
-  public: std::string toString () const;
-};

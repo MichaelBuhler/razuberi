@@ -129,7 +129,7 @@ shared_ptr<Value> String_prototype_toString (shared_ptr<Scope>, shared_ptr<Value
       return obj->__Value__;
     }
   }
-  throw TypeError("String.prototype.toString requires that 'this' be a String");
+  throw _new(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.toString requires that 'this' be a String"));
 }
 
 // ES1: 15.5.4.3
@@ -140,7 +140,7 @@ shared_ptr<Value> String_prototype_valueOf (shared_ptr<Scope>, shared_ptr<Value>
       return obj->__Value__;
     }
   }
-  throw TypeError("String.prototype.valueOf requires that 'this' be a String");
+  throw _new(get_global_scope()->*"TypeError", make_shared<String>("String.prototype.valueOf requires that 'this' be a String"));
 }
 
 // ES1: 15.5.4.4
@@ -221,7 +221,7 @@ shared_ptr<Value> Boolean_prototype_toString (shared_ptr<Scope>, shared_ptr<Valu
       }
     }
   }
-  throw TypeError("Boolean.prototype.toString requires that 'this' be a Boolean");
+  throw _new(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.toString requires that 'this' be a Boolean"));
 }
 
 // ES1: 15.6.4.3
@@ -232,7 +232,7 @@ shared_ptr<Value> Boolean_prototype_valueOf (shared_ptr<Scope>, shared_ptr<Value
       return obj->__Value__;
     }
   }
-  throw TypeError("Boolean.prototype.valueOf requires that 'this' be a Boolean");
+  throw _new(get_global_scope()->*"TypeError", make_shared<String>("Boolean.prototype.valueOf requires that 'this' be a Boolean"));
 }
 
 // ES3: 15.11.1
@@ -259,7 +259,7 @@ shared_ptr<Value> Error__Construct__ (shared_ptr<Scope>, shared_ptr<Value> _this
 // ES3: 15.11.4.4
 shared_ptr<Value> Error_prototype_toString (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> >) {
   if (_this->type != OBJECT_VALUE_TYPE) {
-    throw TypeError("Error.prototype.toString requires that 'this' be an object");
+    throw _new(get_global_scope()->*"TypeError", make_shared<String>("Error.prototype.toString requires that 'this' be an object"));
   }
   shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
   shared_ptr<Value> name = obj->__Get__("name");
@@ -290,6 +290,14 @@ shared_ptr<Value> ReferenceError__Call__ (shared_ptr<Scope>, shared_ptr<Value>, 
   //                 creates and initialises a new object. A call of the object as a function is equivalent to
   //                 calling it as a constructor with the same arguments.
   return _new(get_global_scope()->*"ReferenceError", arguments);
+}
+
+// ES3: 15.11.6.5
+shared_ptr<Value> TypeError__Call__ (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> > arguments) {
+  // ES3: 15.11.7.1: When a NativeError constructor is called as a function rather than as a constructor, it
+  //                 creates and initialises a new object. A call of the object as a function is equivalent to
+  //                 calling it as a constructor with the same arguments.
+  return _new(get_global_scope()->*"TypeError", arguments);
 }
 
 void init_builtin_prototypes (shared_ptr<Scope> globalScope) {
@@ -391,4 +399,8 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   globalScope->*"ReferenceError"->*"prototype"->*"name" = make_shared<String>("ReferenceError");
 
   // TODO: ES3: 15.11.6.5: TypeError
+  // `Error__Construct__` is generic enough to be reused
+  globalScope->*"TypeError" = Object::makeFunction(TypeError__Call__, Error__Construct__, _new(globalScope->*"Error"));
+  // ES3: 15.11.7.9
+  globalScope->*"TypeError"->*"prototype"->*"name" = make_shared<String>("TypeError");
 }
