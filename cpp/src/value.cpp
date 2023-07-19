@@ -169,6 +169,29 @@ bool Object::__HasProperty__ (string key) {
   }
 }
 
+shared_ptr<Boolean> Object::__HasInstance__ (shared_ptr<Value> value) {
+  if (!this->isFunction()) {
+    throw ImplementationException("attempted to invoke [[HasInstance]] on a non-object");
+  }
+  if (value->type != OBJECT_VALUE_TYPE) {
+    return make_shared<Boolean>(false);
+  }
+  shared_ptr<Value> prototype = this->__Get__("prototype");
+  if (prototype->type != OBJECT_VALUE_TYPE) {
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Function has non-object prototype '" + ToString(prototype)->value + "' in instanceof check"));
+  }
+  shared_ptr<Object> obj = static_pointer_cast<Object>(value);
+  while (true) {
+    obj = obj->__Prototype__;
+    if (obj.get() == nullptr) {
+      return make_shared<Boolean>(false);
+    }
+    if ((obj == prototype)->value) {
+      return make_shared<Boolean>(true);
+    }
+  }
+}
+
 shared_ptr<Object> Object::construct (vector<shared_ptr<Value> > params) {
   if (!this->isConstructor()) {
     throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("object is not a constructor"));

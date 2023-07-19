@@ -246,3 +246,23 @@ shared_ptr<Undefined> _void (Reference ref) {
 shared_ptr<Undefined> _void (shared_ptr<Value>) {
   return make_shared<Undefined>();
 }
+
+shared_ptr<Boolean> _instanceOf (Reference a, Reference b) {
+  return _instanceOf(GetValue(a), GetValue(b));
+}
+shared_ptr<Boolean> _instanceOf (Reference ref, shared_ptr<Value> val) {
+  return _instanceOf(GetValue(ref), val);
+}
+shared_ptr<Boolean> _instanceOf (shared_ptr<Value> val, Reference ref) {
+  return _instanceOf(val, GetValue(ref));
+}
+shared_ptr<Boolean> _instanceOf (shared_ptr<Value> left, shared_ptr<Value> right) {
+  if (right->type != OBJECT_VALUE_TYPE) {
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Right-hand side of 'instanceof' is not an object"));
+  }
+  shared_ptr<Object> rightObj = static_pointer_cast<Object>(right);
+  if (!rightObj->isFunction()) {
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Right-hand side of 'instanceof' is not callable"));
+  }
+  return rightObj->__HasInstance__(left);
+}

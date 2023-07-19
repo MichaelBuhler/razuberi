@@ -83,6 +83,9 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((make_shared<String>("\"abc-0xyz\".indexOf(\"-0\"):"), (make_shared<String>("abc-0xyz")->*"indexOf").call(make_shared<String>("-0"))));
   (scope->*"console"->*"log").call((make_shared<String>("\"hello undefined\".indexOf():"), (make_shared<String>("hello undefined")->*"indexOf").call()));
   (scope->*"console"->*"log").call((make_shared<String>("\"abcd\".indexOf(\"abcdab\", 0):"), (make_shared<String>("abcd")->*"indexOf").call((make_shared<String>("abcdab"), make_shared<Number>(0)))));
+  (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof Boolean:"), _instanceOf(_new(scope->*"Boolean"), scope->*"Boolean")));
+  (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof String:"), _instanceOf(_new(scope->*"Boolean"), scope->*"String")));
+  (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof Object:"), _instanceOf(_new(scope->*"Boolean"), scope->*"Object")));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {

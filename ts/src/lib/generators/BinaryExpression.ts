@@ -16,6 +16,8 @@ export const BinaryExpressionGenerator: Generator<BinaryExpression> = ({ left, o
       return `_strictEquals(${generate(left)}, ${generate(right)})`
     case '!==':
       return `_strictNotEquals(${generate(left)}, ${generate(right)})`
+    case 'instanceof':
+      return `_instanceOf(${generate(left)}, ${generate(right)})`
     case '-':
     case '*':
     case '**':
@@ -27,7 +29,6 @@ export const BinaryExpressionGenerator: Generator<BinaryExpression> = ({ left, o
     case '^':
     case '!=':
     case 'in':
-    case 'instanceof':
     case '>':
     case '<':
     case '>=':

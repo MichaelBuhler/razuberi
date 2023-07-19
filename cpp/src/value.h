@@ -157,6 +157,7 @@ class Object : public Value {
   public: bool __HasProperty__ (std::string key);
   private: CallSignature __Construct__;
   private: CallSignature __Call__;
+  public: std::shared_ptr<Boolean> __HasInstance__ (std::shared_ptr<Value> value);
 
   // Entry point for constructing an instance of this Object
   public: std::shared_ptr<Object> construct (std::vector<std::shared_ptr<Value> > params);

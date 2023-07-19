@@ -64,3 +64,9 @@ std::shared_ptr<String> _typeof (std::shared_ptr<Value>);
 // C++ does not have a `void` operator to overload, and `void` is a keyword, so this is implemented functionally
 std::shared_ptr<Undefined> _void (Reference);
 std::shared_ptr<Undefined> _void (std::shared_ptr<Value>);
+
+// C++ does not have an `instanceof` operator to overload, so this is implemented functionally
+std::shared_ptr<Boolean> _instanceOf (Reference, Reference);
+std::shared_ptr<Boolean> _instanceOf (Reference, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> _instanceOf (std::shared_ptr<Value>, Reference);
+std::shared_ptr<Boolean> _instanceOf (std::shared_ptr<Value>, std::shared_ptr<Value>);
