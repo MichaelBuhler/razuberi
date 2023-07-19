@@ -44,6 +44,27 @@ void debug (string str) {
   }
 }
 
+void debug (void* ptr) {
+  if (enabled) {
+    if (isTTY) cout << reset<<yellow<<bold;
+    cout << "[debug] ";
+    if (isTTY) cout << reset<<yellow;
+    cout << ptr;
+    if (isTTY) cout << reset;
+    cout << endl;
+  }
+}
+void debug (string str, void* ptr) {
+  if (enabled) {
+    if (isTTY) cout << reset<<yellow<<bold;
+    cout << "[debug] ";
+    if (isTTY) cout << reset<<yellow;
+    cout << str << ": " << ptr;
+    if (isTTY) cout << reset;
+    cout << endl;
+  }
+}
+
 void debug (std::shared_ptr<Scope> scope) {
   debug(stringify(scope));
 }
