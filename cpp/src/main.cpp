@@ -56,12 +56,5 @@ int main () {
     if (isTTY) cerr << reset;
     cerr << endl;
     return 2;
-  } catch (const EcmaScriptRuntimeError& e) {
-    cerr << endl;
-    if (isTTY) cerr << reset<<red;
-    cerr << "Uncaught " << e.toString();
-    if (isTTY) cerr << reset;
-    cerr << endl;
-    return 3;
   }
 }

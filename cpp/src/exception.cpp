@@ -19,5 +19,3 @@ NotImplementedException::NotImplementedException (string message) : RazuberiExce
 string NotImplementedException::toString () const {
   return "NotImplementedException: " + this->message;
 }
-
-EcmaScriptRuntimeError::EcmaScriptRuntimeError () {}
