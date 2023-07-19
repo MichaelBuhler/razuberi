@@ -258,23 +258,30 @@ shared_ptr<Value> Error__Construct__ (shared_ptr<Scope>, shared_ptr<Value> _this
 
 // ES3: 15.11.4.4
 shared_ptr<Value> Error_prototype_toString (shared_ptr<Scope>, shared_ptr<Value> _this, vector<shared_ptr<Value> >) {
-  if (_this->type == OBJECT_VALUE_TYPE) {
-    shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
-    shared_ptr<Value> message = obj->__Get__("message");
-    if (message->type == UNDEFINED_VALUE_TYPE) {
-      return make_shared<String>(obj->__Class__);
-    } else if (message->type == STRING_VALUE_TYPE) {
-      shared_ptr<String> str = static_pointer_cast<String>(message);
-      if (str->value.length() == 0) {
-        return make_shared<String>(obj->__Class__);
-      } else {
-        return make_shared<String>(obj->__Class__ + ": " + str->value);
-      }
-    } else {
-      return make_shared<String>(obj->__Class__ + ": " + ToString(message)->value);
-    }
+  if (_this->type != OBJECT_VALUE_TYPE) {
+    throw TypeError("Error.prototype.toString requires that 'this' be an object");
   }
-  throw TypeError("Error.prototype.toString requires that 'this' be an object");
+  shared_ptr<Object> obj = static_pointer_cast<Object>(_this);
+  shared_ptr<Value> name = obj->__Get__("name");
+  if (name->type == UNDEFINED_VALUE_TYPE) {
+    name = make_shared<String>("Error");
+  }
+  shared_ptr<String> stringName = ToString(name);
+  shared_ptr<Value> message = obj->__Get__("message");
+  if (message->type == UNDEFINED_VALUE_TYPE) {
+    return make_shared<String>(stringName->value);
+  }
+  shared_ptr<String> stringMessage;
+  if (message->type == STRING_VALUE_TYPE) {
+    stringMessage = static_pointer_cast<String>(message);
+  } else {
+    stringMessage = ToString(message);
+  }
+  if (stringMessage->value.length() == 0) {
+    return make_shared<String>(stringName->value);
+  } else {
+    return make_shared<String>(stringName->value + ": " + stringMessage->value);
+  }
 }
 
 void init_builtin_prototypes (shared_ptr<Scope> globalScope) {
