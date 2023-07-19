@@ -98,11 +98,13 @@ string stringify (std::shared_ptr<Scope> scope) {
 string stringify (Reference ref) {
   string str = "Reference {\n  baseObject: " + indent(stringify(ref.baseObject));
   str += "\n  propertyName: " + stringify(ref.propertyName);
-  if (ref.baseObject->type == NULL_VALUE_TYPE) {
-    str += "\n  currentValue: ReferenceError\n}";
-  } else {
-    str += "\n  currentValue: " + indent(stringify(GetValue(ref))) + "\n}";
+  str += "\n  currentValue: ";
+  try {
+    str += indent(stringify(GetValue(ref)));
+  } catch (shared_ptr<Value> referenceError) {
+    str += ToString(referenceError)->value;
   }
+  str += "\n}";
   return str;
 }
 

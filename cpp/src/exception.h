@@ -28,8 +28,3 @@ class TypeError : public EcmaScriptRuntimeError {
   public: TypeError (std::string message);
   public: std::string toString () const;
 };
-
-class ReferenceError : public EcmaScriptRuntimeError {
-  public: ReferenceError (std::string message);
-  public: std::string toString () const;
-};

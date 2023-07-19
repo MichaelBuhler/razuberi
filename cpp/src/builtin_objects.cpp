@@ -284,6 +284,14 @@ shared_ptr<Value> Error_prototype_toString (shared_ptr<Scope>, shared_ptr<Value>
   }
 }
 
+// ES3: 15.11.6.3
+shared_ptr<Value> ReferenceError__Call__ (shared_ptr<Scope>, shared_ptr<Value>, vector<shared_ptr<Value> > arguments) {
+  // ES3: 15.11.7.1: When a NativeError constructor is called as a function rather than as a constructor, it
+  //                 creates and initialises a new object. A call of the object as a function is equivalent to
+  //                 calling it as a constructor with the same arguments.
+  return _new(get_global_scope()->*"ReferenceError", arguments);
+}
+
 void init_builtin_prototypes (shared_ptr<Scope> globalScope) {
   // ES1: 15.2.4: The value of the internal [[Prototype]] property of the Object prototype object is null.
   Object::Object_prototype = make_shared<Object>(nullptr);
@@ -375,6 +383,12 @@ void init_builtin_objects (shared_ptr<Scope> globalScope) {
   globalScope->*"Error"->*"prototype"->*"toString" = Object::makeFunction(Error_prototype_toString);
 
   // TODO: ES3: 15.11.6.2: RangeError
-  // TODO: ES3: 15.11.6.3: ReferenceError
+  
+  // ES3: 15.11.6.3: ReferenceError
+  // `Error__Construct__` is generic enough to be reused
+  globalScope->*"ReferenceError" = Object::makeFunction(ReferenceError__Call__, Error__Construct__, _new(globalScope->*"Error"));
+  // ES3: 15.11.7.9
+  globalScope->*"ReferenceError"->*"prototype"->*"name" = make_shared<String>("ReferenceError");
+
   // TODO: ES3: 15.11.6.5: TypeError
 }

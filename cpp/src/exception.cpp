@@ -29,11 +29,3 @@ TypeError::TypeError (string message) : EcmaScriptRuntimeError() {
 string TypeError::toString () const {
   return "TypeError: " + this->message;
 }
-
-ReferenceError::ReferenceError (string message) : EcmaScriptRuntimeError() {
-  this->message = message;
-}
-
-string ReferenceError::toString () const {
-  return "ReferenceError: " + this->message;
-}
