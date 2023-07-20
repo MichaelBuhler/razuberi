@@ -139,7 +139,7 @@ export const libRazuberiTypeof = (expression: Expression) : LibRazuberiType => {
       }
       break
   }
-  throw new Error(`No handler for \`${expression.type}\` in 'typeofExpression()' utility`)
+  throw new Error(`No handler for \`${expression.type}\` in \`libRazuberiTypeof()\` utility`)
 }
 
 export const producesReference = (expression: Expression) : boolean => {
