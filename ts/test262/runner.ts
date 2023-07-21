@@ -6,6 +6,7 @@ const path = await import('node:path')
 import test from 'ava'
 import { mkdirp } from 'fs-extra'
 
+import { NO_ERROR } from './config.js'
 import { load } from './loader.js'
 import { transpile } from '../dist/index.js'
 
@@ -122,7 +123,7 @@ export const runner = test.macro({
         })
       })
 
-      t.snapshot('No error', snapshotMessage.trim())
+      t.snapshot(NO_ERROR, snapshotMessage.trim())
     } catch (e) {
       t.snapshot(e, snapshotMessage.trim())
       t.fail()

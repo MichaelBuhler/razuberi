@@ -1,9 +1,11 @@
 {
   "include": [
+    "config.ts",
     "generate.ts",
     "loader.ts",
     "runner.ts",
     "snapshot.ts",
+    "summary.ts",
     "withMissingSnapshots.ts",
   ],
   "compilerOptions": {

@@ -10,8 +10,10 @@
 /build
 
 # ignore the .js files compiled from .ts files
+/config.js
 /generate.js
 /loader.js
 /runner.js
 /snapshot.js
+/summary.js
 /withMissingSnapshots.js
