@@ -266,3 +266,22 @@ shared_ptr<Boolean> _instanceOf (shared_ptr<Value> left, shared_ptr<Value> right
   }
   return rightObj->__HasInstance__(left);
 }
+
+shared_ptr<Boolean> _in (Reference a, Reference b) {
+  return _in(GetValue(a), GetValue(b));
+}
+shared_ptr<Boolean> _in (Reference ref, shared_ptr<Value> val) {
+  return _in(GetValue(ref), val);
+}
+shared_ptr<Boolean> _in (shared_ptr<Value> val, Reference ref) {
+  return _in(val, GetValue(ref));
+}
+shared_ptr<Boolean> _in (shared_ptr<Value> left, shared_ptr<Value> right) {
+  if (right->type != OBJECT_VALUE_TYPE) {
+    throw _newThrowable(get_global_scope()->*"TypeError", make_shared<String>("Right-hand side of 'in' is not an object"));
+  }
+  shared_ptr<Object> rightObj = static_pointer_cast<Object>(right);
+  shared_ptr<String> propertyName = ToString(left);
+  bool hasProperty = rightObj->__HasProperty__(propertyName->value);
+  return make_shared<Boolean>(hasProperty);
+}

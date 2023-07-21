@@ -70,3 +70,9 @@ std::shared_ptr<Boolean> _instanceOf (Reference, Reference);
 std::shared_ptr<Boolean> _instanceOf (Reference, std::shared_ptr<Value>);
 std::shared_ptr<Boolean> _instanceOf (std::shared_ptr<Value>, Reference);
 std::shared_ptr<Boolean> _instanceOf (std::shared_ptr<Value>, std::shared_ptr<Value>);
+
+// C++ does not have an `in` operator to overload, so this is implemented functionally
+std::shared_ptr<Boolean> _in (Reference, Reference);
+std::shared_ptr<Boolean> _in (Reference, std::shared_ptr<Value>);
+std::shared_ptr<Boolean> _in (std::shared_ptr<Value>, Reference);
+std::shared_ptr<Boolean> _in (std::shared_ptr<Value>, std::shared_ptr<Value>);

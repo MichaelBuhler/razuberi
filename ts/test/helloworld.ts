@@ -50,6 +50,7 @@ function check (person: Person) {
   console.log(temp.a)
   console.log(temp.str)
   console.log(temp.person)
+  console.log('"log" in console:', "log" in console)
 }
 
 function defenestrate () {

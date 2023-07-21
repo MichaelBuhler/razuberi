@@ -86,6 +86,7 @@ void _run (shared_ptr<Scope> scope) {
   (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof Boolean:"), _instanceOf(_new(scope->*"Boolean"), scope->*"Boolean")));
   (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof String:"), _instanceOf(_new(scope->*"Boolean"), scope->*"String")));
   (scope->*"console"->*"log").call((make_shared<String>("new Boolean() instanceof Object:"), _instanceOf(_new(scope->*"Boolean"), scope->*"Object")));
+  (scope->*"console"->*"log").call((make_shared<String>("'log' in console:"), _in(make_shared<String>("log"), scope->*"console")));
 }
 
 shared_ptr<Value> MyConstructor (shared_ptr<Scope> scope, shared_ptr<Value> _this, vector<shared_ptr<Value> > arguments) {
